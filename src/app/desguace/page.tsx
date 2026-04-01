@@ -921,15 +921,6 @@ function DocCarta() {
       }} />
 
       <div style={{ fontSize: 18, color: "#2a2a4a", lineHeight: 2.2 }}>
-        <div>Wallet :</div>
-        <div style={{
-          fontFamily: "monospace", fontSize: 14, color: "#1a1a3a", marginTop: 4, marginBottom: 14,
-          background: "rgba(0,0,0,0.03)", padding: "4px 8px", borderRadius: 2,
-          letterSpacing: 0.5, wordBreak: "break-all",
-        }}>
-          itssmiikey.vercel.app/wallet
-        </div>
-
         <div>User :</div>
         <div style={{
           fontFamily: "monospace", fontSize: 15, color: "#1a1a3a", marginTop: 4, marginBottom: 14,
