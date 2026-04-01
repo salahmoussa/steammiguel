@@ -33,7 +33,7 @@ export function Navbar() {
             isForo ? "text-[#800000]" : "text-accent"
           }`}
         >
-          SteamMiguel
+          ItssMiikey
         </Link>
         <div className="flex gap-4 text-sm">
           {links.map((link) => {

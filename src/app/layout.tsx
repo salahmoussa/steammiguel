@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SteamMiguel",
+  title: "ItssMiikey",
   description: "Lore tracker para servidor de RolePlay",
 };
 

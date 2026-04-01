@@ -927,7 +927,7 @@ function DocCarta() {
           background: "rgba(0,0,0,0.03)", padding: "4px 8px", borderRadius: 2,
           letterSpacing: 0.5, wordBreak: "break-all",
         }}>
-          steammiguel.vercel.app/wallet
+          itssmiikey.vercel.app/wallet
         </div>
 
         <div>User :</div>

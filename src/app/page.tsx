@@ -36,7 +36,7 @@ export default function Home() {
         <div className="w-12 h-px bg-accent/40 mb-8" />
 
         <h1 className="text-5xl sm:text-7xl font-black tracking-tighter leading-none glitch-text">
-          Steam<span className="text-accent">Miguel</span>
+          Itss<span className="text-accent">Miikey</span>
         </h1>
 
         <p className="mt-4 text-muted text-sm sm:text-base tracking-[0.25em] uppercase font-mono">
