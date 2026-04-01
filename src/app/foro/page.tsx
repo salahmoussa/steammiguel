@@ -11,9 +11,17 @@ export default function ForoPage() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
+  const [onlineUsers, setOnlineUsers] = useState(14);
 
   useEffect(() => {
     setThreads(getThreads());
+    const interval = setInterval(() => {
+      setOnlineUsers((prev) => {
+        const delta = Math.random() > 0.5 ? 1 : -1;
+        return Math.max(8, Math.min(23, prev + delta));
+      });
+    }, 15000 + Math.random() * 15000);
+    return () => clearInterval(interval);
   }, []);
 
   function handleSubmit(e: React.FormEvent) {
@@ -54,7 +62,11 @@ export default function ForoPage() {
           {" "}
           [<Link href="/wallet">Wallet</Link>]
         </div>
-        <div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span style={{ color: "#707070", fontSize: 12 }}>
+            <span style={{ display: "inline-block", width: 6, height: 6, borderRadius: "50%", background: "#117743", marginRight: 4, verticalAlign: "middle" }} />
+            {onlineUsers} usuarios activos
+          </span>
           [<Link href="/foro">Catalogo</Link>]
         </div>
       </div>
@@ -125,6 +137,7 @@ export default function ForoPage() {
             <div className="post post-op">
               <div className="post-info">
                 {thread.sticky && <span className="sticky-badge">DESTACADO</span>}
+                {thread.id === "11" && <span style={{ display: "inline-block", background: "#CC1105", color: "#fff", fontSize: 10, fontWeight: "bold", padding: "1px 5px", marginRight: 6, verticalAlign: "middle", letterSpacing: 0.5, animation: "pulse-dot 2s ease-in-out infinite" }}>NUEVO</span>}
                 <Link href={`/foro/${thread.id}`} className="post-subject">{thread.title}</Link>
                 {" "}
                 <span className="post-name">{thread.author}</span>

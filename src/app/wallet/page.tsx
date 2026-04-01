@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 const VALID_USER = "4827163";
 const VALID_PASS = "perroNegro_33!";
@@ -69,16 +69,31 @@ export default function WalletPage() {
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
   const [loginError, setLoginError] = useState("");
+  const [loggingIn, setLoggingIn] = useState(false);
   const [showInvest, setShowInvest] = useState(false);
   const [showWithdraw, setShowWithdraw] = useState(false);
   const [seedWords, setSeedWords] = useState(Array(12).fill(""));
   const [withdrawError, setWithdrawError] = useState("");
 
+  // Dashboard reveal states
+  const [dashboardReady, setDashboardReady] = useState(false);
+  const [displayedBalance, setDisplayedBalance] = useState(0);
+  const [balanceCountDone, setBalanceCountDone] = useState(false);
+  const [visibleAssets, setVisibleAssets] = useState(0);
+  const [showTransactions, setShowTransactions] = useState(false);
+  const animFrameRef = useRef<number>(0);
+
+  const totalValue = PORTFOLIO.reduce((sum, c) => sum + c.amount * c.price, 0);
+
   function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     if (user.trim() === VALID_USER && pass === VALID_PASS) {
-      setAuthed(true);
+      setLoggingIn(true);
       setLoginError("");
+      setTimeout(() => {
+        setAuthed(true);
+        setLoggingIn(false);
+      }, 1200);
     } else {
       setLoginError("ID o contrasena incorrectos.");
     }
@@ -89,7 +104,53 @@ export default function WalletPage() {
     setWithdrawError("Error de verificacion: las palabras introducidas no coinciden con la seed phrase de esta wallet. Intentos restantes: 2");
   }
 
-  const totalValue = PORTFOLIO.reduce((sum, c) => sum + c.amount * c.price, 0);
+  // Dashboard mount: trigger balance count-up
+  useEffect(() => {
+    if (!authed) return;
+    setDashboardReady(true);
+  }, [authed]);
+
+  // Balance count-up animation
+  const easeOutExpo = useCallback((t: number) => 1 - Math.pow(2, -10 * t), []);
+
+  useEffect(() => {
+    if (!dashboardReady) return;
+    const duration = 2000;
+    const start = performance.now();
+
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeOutExpo(progress);
+      setDisplayedBalance(totalValue * easedProgress);
+
+      if (progress < 1) {
+        animFrameRef.current = requestAnimationFrame(tick);
+      } else {
+        setDisplayedBalance(totalValue);
+        setBalanceCountDone(true);
+      }
+    }
+
+    animFrameRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animFrameRef.current);
+  }, [dashboardReady, totalValue, easeOutExpo]);
+
+  // Staggered asset cards
+  useEffect(() => {
+    if (!dashboardReady) return;
+    const timers = PORTFOLIO.map((_, i) =>
+      setTimeout(() => setVisibleAssets((v) => Math.max(v, i + 1)), 200 * (i + 1))
+    );
+    return () => timers.forEach(clearTimeout);
+  }, [dashboardReady]);
+
+  // Transaction section fade-in
+  useEffect(() => {
+    if (!dashboardReady) return;
+    const timer = setTimeout(() => setShowTransactions(true), 800);
+    return () => clearTimeout(timer);
+  }, [dashboardReady]);
 
   // ====== LOGIN ======
   if (!authed) {
@@ -173,12 +234,24 @@ export default function WalletPage() {
                 </div>
               )}
 
-              <button type="submit" style={{
+              <button type="submit" disabled={loggingIn} style={{
                 width: "100%", padding: "12px", background: "linear-gradient(135deg, #00d4aa, #00a886)",
                 border: "none", borderRadius: 8, color: "#0b0e17", fontSize: 15,
-                fontWeight: 700, cursor: "pointer", fontFamily: "inherit",
+                fontWeight: 700, cursor: loggingIn ? "default" : "pointer", fontFamily: "inherit",
+                opacity: loggingIn ? 0.85 : 1,
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
               }}>
-                Acceder
+                {loggingIn && (
+                  <span style={{
+                    display: "inline-block", width: 16, height: 16,
+                    border: "2px solid rgba(11,14,23,0.3)",
+                    borderTopColor: "#0b0e17",
+                    borderRadius: "50%",
+                    animation: "mazevault-spin 0.6s linear infinite",
+                  }} />
+                )}
+                {loggingIn ? "Verificando..." : "Acceder"}
+                <style>{`@keyframes mazevault-spin { to { transform: rotate(360deg); } }`}</style>
               </button>
             </form>
           </div>
@@ -338,9 +411,13 @@ export default function WalletPage() {
         }}>
           <div style={{ fontSize: 13, color: "#6b7280", fontWeight: 500 }}>Valor total del portfolio</div>
           <div style={{ fontSize: 38, fontWeight: 800, color: "#fff", marginTop: 4, fontFamily: "monospace" }}>
-            {formatMoney(totalValue)}
+            {formatMoney(displayedBalance)}
           </div>
-          <div style={{ fontSize: 14, color: "#00d4aa", marginTop: 4 }}>
+          <div style={{
+            fontSize: 14, color: "#00d4aa", marginTop: 4,
+            opacity: balanceCountDone ? 1 : 0,
+            transition: "opacity 0.5s ease",
+          }}>
             +$127,432.18 (1.72%) hoy
           </div>
 
@@ -368,13 +445,17 @@ export default function WalletPage() {
           Activos
         </h3>
         <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
-          {PORTFOLIO.map((c) => {
+          {PORTFOLIO.map((c, index) => {
             const value = c.amount * c.price;
             const pct = (value / totalValue) * 100;
+            const isVisible = index < visibleAssets;
             return (
               <div key={c.id} style={{
                 background: "#111827", border: "1px solid #1f2937", borderRadius: 12,
                 padding: "18px 20px", display: "flex", alignItems: "center", gap: 16,
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? "translateY(0)" : "translateY(20px)",
+                transition: "opacity 0.4s ease, transform 0.4s ease",
               }}>
                 {/* Icon */}
                 <div style={{
@@ -419,6 +500,10 @@ export default function WalletPage() {
         </div>
 
         {/* Transactions */}
+        <div style={{
+          opacity: showTransactions ? 1 : 0,
+          transition: "opacity 0.6s ease",
+        }}>
         <h3 style={{ fontSize: 16, color: "#9ca3af", fontWeight: 600, marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>
           Historial de transacciones
         </h3>
@@ -457,6 +542,7 @@ export default function WalletPage() {
               </div>
             </div>
           ))}
+        </div>
         </div>
 
         {/* Footer */}

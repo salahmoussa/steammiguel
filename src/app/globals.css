@@ -39,3 +39,111 @@ body {
   background: #333;
   border-radius: 3px;
 }
+
+/* CRT vignette - only on dark pages */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.3) 100%);
+}
+
+/* Disable CRT on foro (light theme) */
+body:has(.foro-yotsuba)::after {
+  display: none;
+}
+
+/* Glitch keyframes for titles */
+@keyframes glitch {
+  0%, 92%, 100% {
+    transform: none;
+    text-shadow: none;
+  }
+  93% {
+    transform: translate(-2px, 1px);
+    text-shadow: 2px 0 #ff0040, -2px 0 #00ff88;
+  }
+  94% {
+    transform: translate(2px, -1px);
+    text-shadow: -2px 0 #ff0040, 2px 0 #00ff88;
+  }
+  95% {
+    transform: translate(-1px, 2px);
+    text-shadow: 1px 0 #ff0040, -1px 0 #00ff88;
+  }
+  96% {
+    transform: none;
+    text-shadow: none;
+  }
+}
+
+.glitch-text {
+  animation: glitch 10s infinite;
+}
+
+/* Pulse for live indicators */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* Fade in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+.fade-in-up-1 { animation-delay: 0ms; }
+.fade-in-up-2 { animation-delay: 100ms; }
+.fade-in-up-3 { animation-delay: 200ms; }
+
+/* Blink cursor for terminal effects */
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.blink-cursor::after {
+  content: "█";
+  animation: blink-cursor 0.8s step-end infinite;
+  color: #22c55e;
+}
+
+/* Subtle floating particles */
+@keyframes float-particle {
+  0% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+    transform: translateY(90vh) scale(1);
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-10vh) scale(0.5);
+    opacity: 0;
+  }
+}

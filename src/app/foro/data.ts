@@ -105,6 +105,14 @@ export const DEFAULT_THREADS: Thread[] = [
     replies: 10,
     createdAt: "2026-03-30T20:00:00.000Z",
   },
+  {
+    id: "11",
+    title: "Alguien sabe que es MazeVault??",
+    author: "Anonymous",
+    content: "No voy a dar muchos detalles pero he encontrado unas credenciales de acceso a algo que se llama MazeVault. No lo busqueis en Google porque no sale nada. NADA. Es como si no existiera.\n\nHe conseguido entrar y parece una especie de wallet o plataforma de fondos. Hay movimientos, cantidades, codigos de transferencia. No entiendo la mitad de lo que veo pero las cantidades son grandes. Muy grandes.\n\nAlguien ha oido hablar de esto? No se si deberia estar viendo lo que estoy viendo y me estoy empezando a poner nervioso.",
+    replies: 4,
+    createdAt: "2026-03-31T02:15:00.000Z",
+  },
 ];
 
 export const DEFAULT_REPLIES: Record<string, Reply[]> = {
@@ -238,6 +246,12 @@ export const DEFAULT_REPLIES: Record<string, Reply[]> = {
     { id: "r10h", author: "fisherman_luis", content: "Mi primo trabaja en Downtown Cab Co. Dice que el truco es quedarse por Vinewood y Rockford Hills. Los clientes de ahi pagan bien y no dan problemas. Evita el sur a toda costa.", createdAt: "2026-03-31T12:00:00.000Z" },
     { id: "r10i", author: "nuevo_en_ls", content: ">>r10h\nGracias! Hoy me quede por el centro y fue mucho mejor. Saque 410$ y nadie me vomito encima. Progreso.", createdAt: "2026-03-31T18:00:00.000Z" },
     { id: "r10j", author: "Anonymous", content: "Espera a que te toque llevar a alguien al aeropuerto. 45 minutos en el trafico de la autopista para que te den 15 dolares. Experiencia taxista completa.", createdAt: "2026-03-31T19:00:00.000Z" },
+  ],
+  "11": [
+    { id: "r11a", author: "Anonymous", content: "Suena a crypto scam de manual. \"Plataforma exclusiva\", \"no sale en Google\", \"cantidades grandes\"... Hermano te van a vaciar la cuenta.", createdAt: "2026-03-31T02:40:00.000Z" },
+    { id: "r11b", author: "nocturno_ls", content: "No es crypto. Yo he oido hablar de MazeVault una vez, en un foro de deep web. Es una plataforma de custodia de fondos. No me preguntes mas. Borra este hilo y olvida lo que has visto.", createdAt: "2026-03-31T03:05:00.000Z" },
+    { id: "r11c", author: "Anonymous", content: ">encontre unas credenciales\n>entre a una plataforma desconocida\n>hay cantidades muy grandes\n\ntio que has hecho. Si eso es lo que creo que es no deberias haber tocado nada. Esas plataformas registran cada login, IP, todo. Ya saben que entraste.", createdAt: "2026-03-31T03:30:00.000Z" },
+    { id: "r11d", author: "Anonymous", content: "Conozco a alguien que trabajaba en una empresa de contabilidad en el centro. Le despidieron de la noche a la manana y me conto que algunos clientes movian pasta a traves de algo que se llamaba MV o Maze algo. Dijo que era todo legal sobre el papel pero que olia raro. No le hice caso en su momento. Ahora leyendo esto no se que pensar.", createdAt: "2026-03-31T04:15:00.000Z" },
   ],
 };
 

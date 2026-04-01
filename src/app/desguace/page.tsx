@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const VALID_CODE = "DSG-7741-BX";
 
@@ -8,7 +8,7 @@ const VEHICLE_DATA = {
   expediente: "EXP-2015-00347",
   fechaIngreso: "17/06/2015",
   fechaLimite: "17/07/2015",
-  estado: "PENDIENTE DE RECLAMACION",
+  estado: "PLAZO DE RECLAMACION EXPIRADO",
   diasRestantes: 0,
   vehiculo: {
     marca: "Vapid",
@@ -104,7 +104,8 @@ const VEHICLE_DATA = {
 };
 
 export default function DesguacePage() {
-  const [step, setStep] = useState<"form" | "panel">("form");
+  const [step, setStep] = useState<"form" | "loading" | "panel">("form");
+  const [terminalLines, setTerminalLines] = useState<number>(0);
   const [nombre, setNombre] = useState("");
   const [dni, setDni] = useState("");
   const [telefono, setTelefono] = useState("");
@@ -112,6 +113,28 @@ export default function DesguacePage() {
   const [error, setError] = useState("");
   const [expandedObj, setExpandedObj] = useState<string | null>(null);
   const [openDoc, setOpenDoc] = useState<string | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [closing, setClosing] = useState(false);
+
+  const openDocument = useCallback((id: string) => {
+    setOpenDoc(id);
+    setClosing(false);
+    // Small delay so the DOM renders first, then trigger entrance animation
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setModalVisible(true);
+      });
+    });
+  }, []);
+
+  const closeDocument = useCallback(() => {
+    setClosing(true);
+    setModalVisible(false);
+    setTimeout(() => {
+      setOpenDoc(null);
+      setClosing(false);
+    }, 250);
+  }, []);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -124,8 +147,20 @@ export default function DesguacePage() {
       return;
     }
     setError("");
-    setStep("panel");
+    setTerminalLines(0);
+    setStep("loading");
   }
+
+  useEffect(() => {
+    if (step !== "loading") return;
+    const delays = [0, 600, 1200, 1800, 2400];
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    delays.forEach((delay, i) => {
+      timers.push(setTimeout(() => setTerminalLines(i + 1), delay));
+    });
+    timers.push(setTimeout(() => setStep("panel"), 3200));
+    return () => timers.forEach(clearTimeout);
+  }, [step]);
 
   if (step === "form") {
     return (
@@ -267,6 +302,83 @@ export default function DesguacePage() {
     );
   }
 
+  if (step === "loading") {
+    const lines = [
+      { text: "> Conectando con servidor del Deposito Municipal...", bright: false },
+      { text: "> Autenticando credenciales...", bright: false },
+      { text: "> Expediente EXP-2015-00347 localizado.", bright: false },
+      { text: "> Cargando registros del vehiculo...", bright: false },
+      { text: "> ACCESO CONCEDIDO", bright: true },
+    ];
+    return (
+      <div style={{
+        minHeight: "100vh",
+        background: "#0a0e1a",
+        color: "#c8c8d4",
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      }}>
+        <style>{`@keyframes blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }`}</style>
+        {/* Header */}
+        <div style={{
+          background: "linear-gradient(135deg, #16213e 0%, #0f3460 100%)",
+          borderBottom: "3px solid #e94560",
+          padding: "20px 0",
+          textAlign: "center",
+        }}>
+          <div style={{ fontSize: 14, color: "#e94560", fontWeight: "bold", letterSpacing: 2, textTransform: "uppercase" }}>
+            Gobierno del Estado de San Andreas
+          </div>
+          <div style={{ fontSize: 28, fontWeight: "bold", color: "#fff", marginTop: 4 }}>
+            Deposito Municipal de Vehiculos
+          </div>
+          <div style={{ fontSize: 13, color: "#8a8a9a", marginTop: 4 }}>
+            Division de Vehiculos Abandonados y Decomisados &bull; Los Santos
+          </div>
+        </div>
+
+        {/* Terminal */}
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "center",
+          minHeight: "calc(100vh - 100px)", padding: 20,
+        }}>
+          <div style={{
+            background: "#0d1117",
+            border: "1px solid #1a2a1a",
+            borderRadius: 6,
+            padding: "28px 32px",
+            maxWidth: 560,
+            width: "100%",
+            fontFamily: "'Courier New', Courier, monospace",
+            fontSize: 15,
+            lineHeight: 2,
+            boxShadow: "0 0 40px rgba(0,255,0,0.05)",
+          }}>
+            {lines.slice(0, terminalLines).map((line, i) => (
+              <div key={i} style={{
+                color: line.bright ? "#00ff41" : "#4af04a",
+                fontWeight: line.bright ? "bold" : "normal",
+                fontSize: line.bright ? 16 : 15,
+              }}>
+                {line.text}
+                {i === terminalLines - 1 && (
+                  <span style={{
+                    display: "inline-block",
+                    width: 8,
+                    height: 16,
+                    background: line.bright ? "#00ff41" : "#4af04a",
+                    marginLeft: 4,
+                    verticalAlign: "middle",
+                    animation: "blink 0.8s step-end infinite",
+                  }} />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Panel de vehiculo
   const v = VEHICLE_DATA;
   return (
@@ -350,18 +462,32 @@ export default function DesguacePage() {
         {/* Document modals */}
         {openDoc && (
           <div
-            onClick={() => setOpenDoc(null)}
+            onClick={closeDocument}
             style={{
               position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
               background: "rgba(0,0,0,0.85)", zIndex: 9999,
               display: "flex", alignItems: "center", justifyContent: "center",
               padding: 20,
+              opacity: modalVisible && !closing ? 1 : 0,
+              transition: closing ? "opacity 250ms ease-in" : "opacity 200ms ease-out",
             }}
           >
-            <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", maxHeight: "90vh", overflowY: "auto" }}>
+            <div
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                position: "relative", maxHeight: "90vh", overflowY: "auto",
+                transform: modalVisible && !closing
+                  ? "scale(1) rotate(-0.4deg) translateY(0)"
+                  : "scale(0.85) rotate(-4deg) translateY(30px)",
+                opacity: modalVisible && !closing ? 1 : 0,
+                transition: closing
+                  ? "transform 250ms ease-in, opacity 250ms ease-in"
+                  : "transform 350ms ease-out, opacity 350ms ease-out",
+              }}
+            >
               {/* Close button */}
               <button
-                onClick={() => setOpenDoc(null)}
+                onClick={closeDocument}
                 style={{
                   position: "absolute", top: -12, right: -12, width: 32, height: 32,
                   borderRadius: "50%", background: "#e94560", border: "none", color: "#fff",
@@ -369,6 +495,30 @@ export default function DesguacePage() {
                   display: "flex", alignItems: "center", justifyContent: "center",
                 }}
               >X</button>
+
+              {/* Evidence tape */}
+              <div style={{
+                position: "absolute",
+                top: 18,
+                right: -32,
+                width: 160,
+                textAlign: "center",
+                background: "rgba(198, 40, 40, 0.88)",
+                color: "#fff",
+                fontSize: 10,
+                fontWeight: "bold",
+                fontFamily: "Arial, sans-serif",
+                textTransform: "uppercase",
+                letterSpacing: 2,
+                padding: "5px 0",
+                transform: "rotate(45deg)",
+                transformOrigin: "center",
+                zIndex: 20,
+                pointerEvents: "none",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
+              }}>
+                PRUEBA MATERIAL
+              </div>
 
               {openDoc === "obj1" && <DocPermiso />}
               {openDoc === "obj2" && <DocCompraventa />}
@@ -404,7 +554,7 @@ export default function DesguacePage() {
                   }}
                 >
                   <button
-                    onClick={() => isDoc ? setOpenDoc(obj.id) : setExpandedObj(expandedObj === obj.id ? null : obj.id)}
+                    onClick={() => isDoc ? openDocument(obj.id) : setExpandedObj(expandedObj === obj.id ? null : obj.id)}
                     style={{
                       width: "100%", padding: "12px 14px", background: "none", border: "none",
                       color: "#fff", fontSize: 15, textAlign: "left", cursor: "pointer",
@@ -706,6 +856,12 @@ function DocSeguro() {
           <div>Alguien filtra info desde</div>
           <div>dentro. No se de quien fiarme.</div>
           <div style={{ color: "#e94560", fontStyle: "italic" }}>Cuidado.</div>
+        </div>
+
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontSize: 12, color: "#666", fontFamily: "Arial, sans-serif" }}>11/06/2015</div>
+          <div>Transferencia a MV confirmada.</div>
+          <div>MazeVault — verificar fondos.</div>
         </div>
 
         <div style={{ marginBottom: 16 }}>

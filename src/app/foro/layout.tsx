@@ -133,6 +133,11 @@ export default function ForoLayout({
         .thread-container {
           margin: 0;
           padding: 6px 12px;
+          border-left: 3px solid transparent;
+          transition: border-color 0.2s;
+        }
+        .thread-container:hover {
+          border-left-color: #800000;
         }
 
         .post {
