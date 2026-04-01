@@ -59,9 +59,9 @@ const VEHICLE_DATA = {
     },
     {
       id: "obj4",
-      nombre: "Nota manuscrita con credenciales",
+      nombre: "Nota manuscrita (contenido no catalogado)",
       tipo: "documento",
-      descripcion: "Nota escrita a mano en un trozo de papel arrancado. Encontrada dentro del hueco del reposabrazos central. Contiene lo que parecen ser credenciales de acceso a una plataforma digital.",
+      descripcion: "Trozo de papel arrancado, encontrado oculto dentro de una ranura en la parte inferior del reposabrazos central (no visible a simple vista, localizado durante el desmontaje para inspeccion). Contiene anotaciones manuscritas de naturaleza desconocida. No se ha podido determinar su relacion con el caso.",
       destacado: true,
     },
     {
@@ -543,14 +543,16 @@ export default function DesguacePage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {v.objetosEncontrados.map((obj) => {
               const isDoc = obj.tipo === "documento";
+              const isWalletNote = obj.id === "obj4";
               return (
                 <div
                   key={obj.id}
                   style={{
-                    background: isDoc ? "#1a1030" : "#0f1a30",
-                    border: `1px solid ${isDoc ? "#6a4aaa" : "#2a2a4e"}`,
+                    background: isWalletNote ? "#1a1508" : isDoc ? "#1a1030" : "#0f1a30",
+                    border: `1px solid ${isWalletNote ? "#8a7a2a" : isDoc ? "#6a4aaa" : "#2a2a4e"}`,
                     borderRadius: 3,
                     overflow: "hidden",
+                    ...(isWalletNote ? { boxShadow: "0 0 12px rgba(200,170,50,0.08)" } : {}),
                   }}
                 >
                   <button
@@ -563,13 +565,13 @@ export default function DesguacePage() {
                   >
                     <span style={{
                       fontSize: 11, fontWeight: "bold", padding: "2px 6px", borderRadius: 2,
-                      background: isDoc ? "#e94560" : "#2a4a6e",
+                      background: isWalletNote ? "#8a7a2a" : isDoc ? "#e94560" : "#2a4a6e",
                       color: "#fff", flexShrink: 0, textTransform: "uppercase", letterSpacing: 0.5,
                     }}>
-                      {isDoc ? "DOC" : "OBJ"}
+                      {isWalletNote ? "???" : isDoc ? "DOC" : "OBJ"}
                     </span>
                     <span style={{ flex: 1 }}>{obj.nombre}</span>
-                    <span style={{ color: "#6a6a7a", fontSize: 13 }}>
+                    <span style={{ color: isWalletNote ? "#c8b040" : "#6a6a7a", fontSize: 13 }}>
                       {isDoc ? "📄 Ver documento" : (expandedObj === obj.id ? "▲" : "▼")}
                     </span>
                   </button>

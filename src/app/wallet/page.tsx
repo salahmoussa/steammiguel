@@ -101,7 +101,7 @@ export default function WalletPage() {
 
   function handleWithdraw(e: React.FormEvent) {
     e.preventDefault();
-    setWithdrawError("Error de verificacion: las palabras introducidas no coinciden con la seed phrase de esta wallet. Intentos restantes: 2");
+    setWithdrawError("⚠ ALERTA DE SEGURIDAD: Verificacion fallida. Las palabras introducidas no coinciden con la seed phrase registrada. Este intento ha sido registrado y notificado al titular original de la cuenta. Direccion IP y marca de tiempo almacenados. Intentos restantes antes de bloqueo permanente: 2");
   }
 
   // Dashboard mount: trigger balance count-up
@@ -437,6 +437,23 @@ export default function WalletPage() {
             }}>
               Retirar
             </button>
+          </div>
+        </div>
+
+        {/* Security notice */}
+        <div style={{
+          background: "rgba(234,179,8,0.06)", border: "1px solid rgba(234,179,8,0.15)",
+          borderRadius: 10, padding: "12px 16px", marginBottom: 20,
+          display: "flex", alignItems: "center", gap: 10,
+        }}>
+          <span style={{ fontSize: 16 }}>🔒</span>
+          <div>
+            <div style={{ fontSize: 13, color: "#eab308", fontWeight: 600 }}>
+              Sesion monitoreada
+            </div>
+            <div style={{ fontSize: 12, color: "#92810e", lineHeight: 1.5 }}>
+              Esta cuenta tiene activada la verificacion por seed phrase. Cualquier intento de retirada sera notificado al titular registrado. Ultimo acceso autorizado: 14/06/2015.
+            </div>
           </div>
         </div>
 
