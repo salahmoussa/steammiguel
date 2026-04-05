@@ -431,7 +431,7 @@ export default function CajaPage() {
 
       {/* Main content */}
       <div style={{ position:"relative",zIndex:10 }}>
-        <div style={{ position:"relative",width:440,maxWidth:"92vw" }}>
+        <div style={{ position:"relative",width:580,maxWidth:"94vw" }}>
 
           {/* === CLOSED === */}
           {!isOpen && (
@@ -478,7 +478,7 @@ export default function CajaPage() {
               <div style={{ width:"calc(100% + 8px)",height:36,marginLeft:-4,background:"linear-gradient(0deg,#dd2828 0%,#b01818 60%,#901010 100%)",borderRadius:"6px 6px 0 0",boxShadow:"0 -2px 8px rgba(0,0,0,0.2), inset 0 -2px 0 rgba(255,255,255,0.1)",marginBottom:2,opacity:0.6 }}/>
 
               <div ref={boxRef} style={{
-                width:"100%",height:340,position:"relative",
+                width:"100%",height:440,position:"relative",
                 background:"linear-gradient(180deg,#2a2220 0%,#1e1a18 50%,#181412 100%)",
                 border:"4px solid",borderImage:"linear-gradient(180deg,#c62020,#6a0e0e) 1",
                 boxShadow:"0 8px 30px rgba(0,0,0,0.7), inset 0 4px 20px rgba(0,0,0,0.5)",
@@ -489,25 +489,30 @@ export default function CajaPage() {
                 <div style={{ position:"absolute",top:"33%",left:0,right:0,height:1,background:"rgba(255,255,255,0.03)",pointerEvents:"none" }}/>
                 <div style={{ position:"absolute",top:"66%",left:0,right:0,height:1,background:"rgba(255,255,255,0.03)",pointerEvents:"none" }}/>
 
-                {/* Hidden paper at the very bottom */}
+                {/* Hidden paper at the center bottom */}
                 <div
                   onClick={()=>setShowPaper(true)}
                   style={{
-                    position:"absolute",bottom:6,left:"50%",transform:"translateX(-50%) rotate(2deg)",
-                    width:90,height:26,zIndex:0,
-                    background:"linear-gradient(175deg,#e8e0c8 0%,#d8d0b8 100%)",
+                    position:"absolute",top:"42%",left:"50%",transform:"translate(-50%,-50%) rotate(3deg)",
+                    width:120,height:80,zIndex:0,
+                    background:"linear-gradient(175deg,#f0e8d0 0%,#e0d8c0 50%,#d8d0b8 100%)",
                     borderRadius:2,cursor:"pointer",
-                    boxShadow:"0 1px 4px rgba(0,0,0,0.5)",
+                    boxShadow:"0 2px 8px rgba(0,0,0,0.5)",
                     transition:"all 0.3s",
                     display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden",
                   }}
-                  onMouseEnter={e=>{e.currentTarget.style.boxShadow="0 4px 16px rgba(200,180,100,0.4)";e.currentTarget.style.transform="translateX(-50%) rotate(2deg) scale(1.1)";}}
-                  onMouseLeave={e=>{e.currentTarget.style.boxShadow="0 1px 4px rgba(0,0,0,0.5)";e.currentTarget.style.transform="translateX(-50%) rotate(2deg) scale(1)";}}
+                  onMouseEnter={e=>{e.currentTarget.style.boxShadow="0 4px 20px rgba(200,180,100,0.5)";e.currentTarget.style.transform="translate(-50%,-50%) rotate(3deg) scale(1.08)";}}
+                  onMouseLeave={e=>{e.currentTarget.style.boxShadow="0 2px 8px rgba(0,0,0,0.5)";e.currentTarget.style.transform="translate(-50%,-50%) rotate(3deg) scale(1)";}}
                 >
-                  <div style={{ position:"absolute",top:"50%",left:0,right:0,height:1,background:"rgba(120,100,60,0.15)",pointerEvents:"none" }}/>
-                  <span style={{ fontSize:7,color:"#8a7a5a",fontFamily:"Arial,sans-serif",letterSpacing:0.5,textTransform:"uppercase",opacity:0.6 }}>
-                    ???
-                  </span>
+                  {/* Fold lines */}
+                  <div style={{ position:"absolute",top:"50%",left:0,right:0,height:1,background:"rgba(120,100,60,0.2)",pointerEvents:"none" }}/>
+                  <div style={{ position:"absolute",top:0,left:"50%",width:1,height:"100%",background:"rgba(120,100,60,0.2)",pointerEvents:"none" }}/>
+                  {/* Faint handwriting hint */}
+                  <div style={{ fontSize:9,color:"#9a8a6a",fontFamily:"'Segoe Script',cursive",opacity:0.5,textAlign:"center",lineHeight:1.4 }}>
+                    <div>~~~~</div>
+                    <div>~~~~</div>
+                    <div>~~</div>
+                  </div>
                 </div>
 
                 {/* Draggable tools */}
@@ -520,7 +525,8 @@ export default function CajaPage() {
                       position:"absolute",
                       left:`${tool.x}%`,top:`${tool.y}%`,
                       zIndex: tool.z,
-                      transform:`rotate(${tool.rotation}deg)`,
+                      transform:`rotate(${tool.rotation}deg) scale(1.8)`,
+                      transformOrigin:"center center",
                       cursor: dragging === tool.id ? "grabbing" : "grab",
                       filter:`drop-shadow(0 ${dragging===tool.id?6:3}px ${dragging===tool.id?12:6}px rgba(0,0,0,${dragging===tool.id?0.8:0.6}))`,
                       transition: dragging === tool.id ? "none" : "filter 0.2s",
