@@ -32,6 +32,12 @@ const VEHICLE_DATA = {
   deudaTotal: "$280",
   objetosEncontrados: [
     {
+      id: "obj0",
+      nombre: "Dispositivo electronico no identificado",
+      descripcion: "Aparato electronico de pequeno tamano, sin marca visible ni numero de serie. No coincide con ningun modelo catalogado. Estado: apagado. Pendiente de analisis tecnico.",
+      destacado: true,
+    },
+    {
       id: "obj1",
       nombre: "Cartera de piel",
       descripcion: "Cartera de piel marron con documentacion personal del titular.",
@@ -369,48 +375,52 @@ export default function DesguacePage() {
           </p>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {v.objetosEncontrados.map((obj) => (
-              <div
-                key={obj.id}
-                style={{
-                  background: "#0f1a30",
-                  border: "1px solid #2a2a4e",
-                  borderRadius: 3,
-                  overflow: "hidden",
-                }}
-              >
-                <button
-                  onClick={() => setExpandedObj(expandedObj === obj.id ? null : obj.id)}
+            {v.objetosEncontrados.map((obj) => {
+              const destacado = "destacado" in obj && obj.destacado;
+              return (
+                <div
+                  key={obj.id}
                   style={{
-                    width: "100%", padding: "12px 14px", background: "none", border: "none",
-                    color: "#fff", fontSize: 15, textAlign: "left", cursor: "pointer",
-                    fontFamily: "inherit", display: "flex", alignItems: "center", gap: 10,
+                    background: destacado ? "#2a1010" : "#0f1a30",
+                    border: destacado ? "1px solid #e94560" : "1px solid #2a2a4e",
+                    borderRadius: 3,
+                    overflow: "hidden",
+                    ...(destacado ? { boxShadow: "0 0 18px rgba(233,69,96,0.25)" } : {}),
                   }}
                 >
-                  <span style={{
-                    fontSize: 11, fontWeight: "bold", padding: "2px 6px", borderRadius: 2,
-                    background: "#2a4a6e",
-                    color: "#fff", flexShrink: 0, textTransform: "uppercase", letterSpacing: 0.5,
-                  }}>
-                    OBJ
-                  </span>
-                  <span style={{ flex: 1 }}>{obj.nombre}</span>
-                  <span style={{ color: "#6a6a7a", fontSize: 13 }}>
-                    {expandedObj === obj.id ? "▲" : "▼"}
-                  </span>
-                </button>
+                  <button
+                    onClick={() => setExpandedObj(expandedObj === obj.id ? null : obj.id)}
+                    style={{
+                      width: "100%", padding: "12px 14px", background: "none", border: "none",
+                      color: "#fff", fontSize: 15, textAlign: "left", cursor: "pointer",
+                      fontFamily: "inherit", display: "flex", alignItems: "center", gap: 10,
+                    }}
+                  >
+                    <span style={{
+                      fontSize: 11, fontWeight: "bold", padding: "2px 6px", borderRadius: 2,
+                      background: destacado ? "#e94560" : "#2a4a6e",
+                      color: "#fff", flexShrink: 0, textTransform: "uppercase", letterSpacing: 0.5,
+                    }}>
+                      {destacado ? "!" : "OBJ"}
+                    </span>
+                    <span style={{ flex: 1, fontWeight: destacado ? 600 : 400 }}>{obj.nombre}</span>
+                    <span style={{ color: destacado ? "#e94560" : "#6a6a7a", fontSize: 13 }}>
+                      {expandedObj === obj.id ? "▲" : "▼"}
+                    </span>
+                  </button>
 
-                {expandedObj === obj.id && (
-                  <div style={{
-                    padding: "0 14px 14px", fontSize: 14, color: "#a0a0b0",
-                    lineHeight: 1.7, whiteSpace: "pre-wrap",
-                    borderTop: "1px solid #2a2a4e", paddingTop: 12,
-                  }}>
-                    {obj.descripcion}
-                  </div>
-                )}
-              </div>
-            ))}
+                  {expandedObj === obj.id && (
+                    <div style={{
+                      padding: "0 14px 14px", fontSize: 14, color: destacado ? "#f0c0c8" : "#a0a0b0",
+                      lineHeight: 1.7, whiteSpace: "pre-wrap",
+                      borderTop: destacado ? "1px solid #e94560" : "1px solid #2a2a4e", paddingTop: 12,
+                    }}>
+                      {obj.descripcion}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
 
