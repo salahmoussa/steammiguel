@@ -15,11 +15,11 @@ interface Tool {
 }
 
 const INITIAL_TOOLS: Tool[] = [
-  // Bottom layer (covering the paper)
+  // === LAYER 1: Directly on top of paper (bottom of pile) ===
   {
     id: "bigratchet",
     name: "Carraca grande",
-    x: 28, y: 72, z: 1, rotation: 8, width: 160, height: 30,
+    x: 25, y: 68, z: 1, rotation: 8, width: 160, height: 30,
     render: () => (
       <div style={{ width: 160, height: 30, position: "relative" }}>
         <div style={{ position: "absolute", left: 0, top: 8, width: 120, height: 14, background: "linear-gradient(180deg, #aaa 0%, #777 50%, #888 100%)", borderRadius: 2, boxShadow: "inset 0 1px 0 rgba(255,255,255,0.2), 0 2px 4px rgba(0,0,0,0.5)" }} />
@@ -33,7 +33,7 @@ const INITIAL_TOOLS: Tool[] = [
   {
     id: "flatbar",
     name: "Palanca plana",
-    x: 12, y: 78, z: 2, rotation: -5, width: 180, height: 16,
+    x: 8, y: 72, z: 2, rotation: -12, width: 180, height: 16,
     render: () => (
       <div style={{ width: 180, height: 16, position: "relative" }}>
         <div style={{ position: "absolute", left: 0, top: 3, width: 180, height: 10, background: "linear-gradient(180deg, #777 0%, #555 50%, #666 100%)", borderRadius: "2px 6px 6px 2px", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.15), 0 2px 4px rgba(0,0,0,0.5)" }}>
@@ -42,11 +42,11 @@ const INITIAL_TOOLS: Tool[] = [
       </div>
     ),
   },
-  // Middle layer
+  // === LAYER 2: Covering the bottom tools ===
   {
     id: "wrench",
     name: "Llave inglesa",
-    x: 10, y: 20, z: 3, rotation: -25, width: 140, height: 38,
+    x: 15, y: 55, z: 3, rotation: -18, width: 140, height: 38,
     render: () => (
       <div style={{ width: 140, height: 38, position: "relative" }}>
         <div style={{ position: "absolute", left: 0, top: 10, width: 90, height: 18, background: "linear-gradient(180deg, #7a7a7a 0%, #555 40%, #666 60%, #4a4a4a 100%)", borderRadius: "3px 2px 2px 3px", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.15), 0 2px 4px rgba(0,0,0,0.5)" }}>
@@ -62,7 +62,7 @@ const INITIAL_TOOLS: Tool[] = [
   {
     id: "screwdriver",
     name: "Destornillador plano",
-    x: 50, y: 15, z: 4, rotation: 5, width: 150, height: 24,
+    x: 30, y: 60, z: 4, rotation: 22, width: 150, height: 24,
     render: () => (
       <div style={{ width: 150, height: 24, position: "relative" }}>
         <div style={{ position: "absolute", left: 0, top: 2, width: 60, height: 20, background: "linear-gradient(180deg, #e8a020 0%, #c8400a 40%, #b03808 100%)", borderRadius: "8px 4px 4px 8px", boxShadow: "inset 0 2px 0 rgba(255,255,255,0.25), 0 2px 4px rgba(0,0,0,0.4)" }}>
@@ -76,7 +76,7 @@ const INITIAL_TOOLS: Tool[] = [
   {
     id: "screwdriver2",
     name: "Destornillador de estrella",
-    x: 55, y: 50, z: 5, rotation: -35, width: 140, height: 22,
+    x: 10, y: 62, z: 5, rotation: -30, width: 140, height: 22,
     render: () => (
       <div style={{ width: 140, height: 22, position: "relative" }}>
         <div style={{ position: "absolute", left: 0, top: 1, width: 55, height: 20, background: "linear-gradient(180deg, #2080d0 0%, #1060a0 40%, #0a4a80 100%)", borderRadius: "8px 4px 4px 8px", boxShadow: "inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 4px rgba(0,0,0,0.4)" }}>
@@ -92,7 +92,7 @@ const INITIAL_TOOLS: Tool[] = [
   {
     id: "pliers",
     name: "Alicates",
-    x: 22, y: 45, z: 6, rotation: 40, width: 130, height: 50,
+    x: 35, y: 48, z: 6, rotation: 35, width: 130, height: 50,
     render: () => (
       <div style={{ width: 130, height: 50, position: "relative" }}>
         <div style={{ position:"absolute",left:0,top:28,width:55,height:18,background:"linear-gradient(180deg,#d44020 0%,#a02010 100%)",borderRadius:"8px 2px 2px 8px",transform:"rotate(5deg)",boxShadow:"inset 0 1px 0 rgba(255,255,255,0.2), 0 2px 3px rgba(0,0,0,0.4)" }}/>
@@ -110,7 +110,7 @@ const INITIAL_TOOLS: Tool[] = [
   {
     id: "tape",
     name: "Cinta aislante",
-    x: 65, y: 35, z: 7, rotation: 0, width: 56, height: 56,
+    x: 55, y: 55, z: 7, rotation: 0, width: 56, height: 56,
     render: () => (
       <div style={{ width: 56, height: 56, position: "relative" }}>
         <div style={{ width:56,height:56,borderRadius:"50%",background:"radial-gradient(circle,#333 28%,#111 30%,#222 32%,#111 80%,#1a1a1a 100%)",boxShadow:"inset 0 2px 4px rgba(255,255,255,0.1), 0 3px 6px rgba(0,0,0,0.5)" }}>
@@ -122,7 +122,7 @@ const INITIAL_TOOLS: Tool[] = [
   {
     id: "socketwrench",
     name: "Llave de tubo",
-    x: 5, y: 58, z: 8, rotation: -10, width: 120, height: 30,
+    x: 20, y: 40, z: 8, rotation: -15, width: 120, height: 30,
     render: () => (
       <div style={{ width: 120, height: 30, position: "relative" }}>
         <div style={{ position:"absolute",left:0,top:10,width:100,height:10,background:"linear-gradient(180deg,#999 0%,#666 50%,#777 100%)",borderRadius:2,boxShadow:"inset 0 1px 0 rgba(255,255,255,0.2), 0 2px 3px rgba(0,0,0,0.4)" }}/>
@@ -136,7 +136,7 @@ const INITIAL_TOOLS: Tool[] = [
   {
     id: "hexkeys",
     name: "Llaves Allen",
-    x: 70, y: 68, z: 9, rotation: 15, width: 60, height: 50,
+    x: 55, y: 42, z: 9, rotation: 15, width: 60, height: 50,
     render: () => (
       <div style={{ width: 60, height: 50, position: "relative" }}>
         {[0,1,2,3,4].map(i => (
@@ -155,7 +155,7 @@ const INITIAL_TOOLS: Tool[] = [
   {
     id: "cutter",
     name: "Cuter",
-    x: 72, y: 12, z: 10, rotation: -50, width: 110, height: 20,
+    x: 5, y: 45, z: 10, rotation: -40, width: 110, height: 20,
     render: () => (
       <div style={{ width: 110, height: 20, position: "relative" }}>
         <div style={{ position:"absolute",left:0,top:3,width:85,height:14,background:"linear-gradient(180deg,#e8c020 0%,#c8a010 50%,#a88008 100%)",borderRadius:"2px 1px 1px 2px",boxShadow:"inset 0 1px 0 rgba(255,255,255,0.25), 0 2px 4px rgba(0,0,0,0.4)" }}>
@@ -168,7 +168,7 @@ const INITIAL_TOOLS: Tool[] = [
   {
     id: "measuringtape",
     name: "Flexometro",
-    x: 48, y: 70, z: 11, rotation: 5, width: 50, height: 50,
+    x: 40, y: 35, z: 11, rotation: 5, width: 50, height: 50,
     render: () => (
       <div style={{ width: 50, height: 50, position: "relative" }}>
         <div style={{ width:50,height:50,borderRadius:6,background:"linear-gradient(135deg,#e8c020 0%,#c8a010 50%,#a88008 100%)",boxShadow:"inset 0 2px 0 rgba(255,255,255,0.2), 0 3px 8px rgba(0,0,0,0.5)" }}>
@@ -182,7 +182,7 @@ const INITIAL_TOOLS: Tool[] = [
   {
     id: "gloves",
     name: "Guantes de trabajo",
-    x: 2, y: 35, z: 12, rotation: 12, width: 70, height: 60,
+    x: 50, y: 30, z: 12, rotation: 12, width: 70, height: 60,
     render: () => (
       <div style={{ width: 70, height: 60, position: "relative" }}>
         <div style={{ position:"absolute",left:0,top:15,width:35,height:45,background:"linear-gradient(180deg,#c8b080 0%,#a89060 100%)",borderRadius:"12px 12px 8px 8px",boxShadow:"0 2px 6px rgba(0,0,0,0.4)",transform:"rotate(-5deg)" }}>
@@ -190,6 +190,118 @@ const INITIAL_TOOLS: Tool[] = [
           <div style={{position:"absolute",left:-6,top:8,width:10,height:20,background:"linear-gradient(180deg,#c8b080,#b8a070)",borderRadius:"6px 0 0 6px",transform:"rotate(15deg)"}}/>
         </div>
         <div style={{ position:"absolute",right:0,top:12,width:33,height:42,background:"linear-gradient(180deg,#baa878 0%,#9a8058 100%)",borderRadius:"12px 12px 8px 8px",boxShadow:"0 2px 6px rgba(0,0,0,0.4)",transform:"rotate(8deg)",opacity:0.85 }}/>
+      </div>
+    ),
+  },
+  // === LAYER 3: Top of the pile (first things you see) ===
+  {
+    id: "wrench2",
+    name: "Llave fija 17mm",
+    x: 18, y: 25, z: 13, rotation: -55, width: 120, height: 22,
+    render: () => (
+      <div style={{ width: 120, height: 22, position: "relative" }}>
+        <div style={{ position:"absolute",left:14,top:6,width:85,height:10,background:"linear-gradient(180deg,#aaa 0%,#777 50%,#888 100%)",borderRadius:1,boxShadow:"inset 0 1px 0 rgba(255,255,255,0.15), 0 2px 3px rgba(0,0,0,0.4)" }}/>
+        <div style={{ position:"absolute",left:0,top:0,width:20,height:22,background:"linear-gradient(180deg,#999 0%,#666 100%)",borderRadius:"8px 4px 4px 8px" }}>
+          <div style={{position:"absolute",left:5,top:6,width:10,height:10,background:"#444",borderRadius:"50%"}}/>
+        </div>
+        <div style={{ position:"absolute",right:0,top:2,width:18,height:18,background:"linear-gradient(180deg,#999 0%,#666 100%)",borderRadius:"4px 8px 8px 4px" }}>
+          <div style={{position:"absolute",left:4,top:4,width:8,height:10,background:"#444",borderRadius:2}}/>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "hammer",
+    name: "Martillo",
+    x: 8, y: 18, z: 14, rotation: 30, width: 130, height: 40,
+    render: () => (
+      <div style={{ width: 130, height: 40, position: "relative" }}>
+        <div style={{ position:"absolute",left:0,top:15,width:90,height:12,background:"linear-gradient(180deg,#9a7040 0%,#705020 50%,#604018 100%)",borderRadius:2,boxShadow:"0 2px 4px rgba(0,0,0,0.4)" }}/>
+        <div style={{ position:"absolute",right:0,top:2,width:44,height:36,background:"linear-gradient(180deg,#888 0%,#555 50%,#444 100%)",borderRadius:"4px 6px 6px 2px",boxShadow:"inset 0 1px 0 rgba(255,255,255,0.15), 0 3px 6px rgba(0,0,0,0.5)" }}>
+          <div style={{position:"absolute",left:0,top:4,width:6,height:28,background:"linear-gradient(90deg,#666,#444)",borderRadius:"2px 0 0 2px"}}/>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "sparkplug",
+    name: "Bujia",
+    x: 60, y: 22, z: 15, rotation: -10, width: 50, height: 20,
+    render: () => (
+      <div style={{ width: 50, height: 20, position: "relative" }}>
+        <div style={{ position:"absolute",left:0,top:5,width:24,height:10,background:"linear-gradient(180deg,#eee 0%,#bbb 100%)",borderRadius:2,boxShadow:"0 1px 3px rgba(0,0,0,0.3)" }}>
+          <div style={{position:"absolute",left:2,top:2,width:6,height:6,background:"#999",borderRadius:"50%"}}/>
+        </div>
+        <div style={{ position:"absolute",right:0,top:4,width:22,height:12,background:"linear-gradient(180deg,#777 0%,#444 100%)",borderRadius:"0 3px 3px 0" }}/>
+      </div>
+    ),
+  },
+  {
+    id: "wrench3",
+    name: "Llave fija 13mm",
+    x: 42, y: 18, z: 16, rotation: 65, width: 100, height: 18,
+    render: () => (
+      <div style={{ width: 100, height: 18, position: "relative" }}>
+        <div style={{ position:"absolute",left:12,top:5,width:72,height:8,background:"linear-gradient(180deg,#bbb 0%,#888 50%,#999 100%)",borderRadius:1,boxShadow:"0 1px 2px rgba(0,0,0,0.3)" }}/>
+        <div style={{ position:"absolute",left:0,top:0,width:16,height:18,background:"linear-gradient(180deg,#aaa 0%,#777 100%)",borderRadius:"6px 3px 3px 6px" }}>
+          <div style={{position:"absolute",left:4,top:5,width:8,height:8,background:"#555",borderRadius:"50%"}}/>
+        </div>
+        <div style={{ position:"absolute",right:0,top:1,width:14,height:16,background:"linear-gradient(180deg,#aaa 0%,#777 100%)",borderRadius:"3px 6px 6px 3px" }}>
+          <div style={{position:"absolute",left:3,top:4,width:6,height:8,background:"#555",borderRadius:1}}/>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "rag",
+    name: "Trapo sucio",
+    x: 25, y: 12, z: 17, rotation: -8, width: 80, height: 50,
+    render: () => (
+      <div style={{ width: 80, height: 50, position: "relative" }}>
+        <div style={{ width:80,height:50,background:"linear-gradient(135deg,#6a5a4a 0%,#8a7a6a 30%,#5a4a3a 60%,#7a6a5a 100%)",borderRadius:"12px 8px 15px 6px",boxShadow:"0 2px 6px rgba(0,0,0,0.4)",opacity:0.9 }}>
+          <div style={{position:"absolute",top:10,left:15,width:30,height:12,background:"rgba(60,40,20,0.3)",borderRadius:4,transform:"rotate(-5deg)"}}/>
+          <div style={{position:"absolute",top:25,left:35,width:20,height:8,background:"rgba(40,30,15,0.25)",borderRadius:3,transform:"rotate(8deg)"}}/>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "bolts",
+    name: "Tornillos sueltos",
+    x: 62, y: 50, z: 18, rotation: 0, width: 45, height: 35,
+    render: () => (
+      <div style={{ width: 45, height: 35, position: "relative" }}>
+        {[{x:5,y:2,r:20},{x:20,y:8,r:-30},{x:8,y:18,r:45},{x:25,y:22,r:-10},{x:15,y:28,r:60}].map((b,i) => (
+          <div key={i} style={{position:"absolute",left:b.x,top:b.y,width:14,height:5,background:"linear-gradient(180deg,#aaa 0%,#777 100%)",borderRadius:1,transform:`rotate(${b.r}deg)`,boxShadow:"0 1px 2px rgba(0,0,0,0.3)"}}>
+            <div style={{position:"absolute",left:0,top:-1,width:5,height:7,background:"linear-gradient(180deg,#bbb,#888)",borderRadius:"50%"}}/>
+          </div>
+        ))}
+      </div>
+    ),
+  },
+  {
+    id: "pliers2",
+    name: "Alicates de punta",
+    x: 5, y: 30, z: 19, rotation: -55, width: 120, height: 35,
+    render: () => (
+      <div style={{ width: 120, height: 35, position: "relative" }}>
+        <div style={{ position:"absolute",left:0,top:18,width:50,height:14,background:"linear-gradient(180deg,#e8a020 0%,#c88010 100%)",borderRadius:"6px 2px 2px 6px",transform:"rotate(3deg)",boxShadow:"0 2px 3px rgba(0,0,0,0.4)" }}/>
+        <div style={{ position:"absolute",left:0,top:4,width:50,height:14,background:"linear-gradient(180deg,#e8a020 0%,#c88010 100%)",borderRadius:"6px 2px 2px 6px",transform:"rotate(-3deg)",boxShadow:"0 2px 3px rgba(0,0,0,0.4)" }}/>
+        <div style={{ position:"absolute",left:46,top:10,width:14,height:14,borderRadius:"50%",background:"radial-gradient(circle,#999 30%,#555 80%)",border:"2px solid #444",zIndex:2 }}/>
+        <div style={{ position:"absolute",left:58,top:10,width:60,height:6,background:"linear-gradient(180deg,#888 0%,#666 100%)",borderRadius:"0 3px 3px 0",transform:"rotate(-2deg)" }}/>
+        <div style={{ position:"absolute",left:58,top:20,width:60,height:6,background:"linear-gradient(180deg,#777 0%,#555 100%)",borderRadius:"0 3px 3px 0",transform:"rotate(2deg)" }}/>
+      </div>
+    ),
+  },
+  {
+    id: "tape2",
+    name: "Cinta americana",
+    x: 58, y: 10, z: 20, rotation: 5, width: 62, height: 62,
+    render: () => (
+      <div style={{ width: 62, height: 62, position: "relative" }}>
+        <div style={{ width:62,height:62,borderRadius:"50%",background:"radial-gradient(circle,#666 26%,#888 28%,#777 32%,#888 80%,#777 100%)",boxShadow:"inset 0 2px 4px rgba(255,255,255,0.1), 0 3px 8px rgba(0,0,0,0.5)" }}>
+          <div style={{ position:"absolute",top:18,left:18,width:26,height:26,borderRadius:"50%",background:"radial-gradient(circle,#444 0%,#333 100%)",border:"1px solid #555" }}/>
+        </div>
       </div>
     ),
   },
