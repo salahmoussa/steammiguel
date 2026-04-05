@@ -67,6 +67,12 @@ const VEHICLE_DATA = {
       nombre: "Paquete de tabaco",
       descripcion: "Cajetilla de tabaco en el bolsillo lateral de la puerta.",
     },
+    {
+      id: "obj7",
+      nombre: "Caja de herramientas (NUEVO)",
+      descripcion: "Caja de herramientas metalica de color rojo localizada en el maletero durante la segunda inspeccion. Contiene diversas herramientas de mecanica. No catalogada en el inventario inicial. Se recomienda revision presencial del contenido.",
+      destacado: true,
+    },
   ],
 };
 
@@ -316,6 +322,22 @@ export default function DesguacePage() {
       </div>
 
       <div style={{ maxWidth: 780, margin: "0 auto", padding: "24px 20px" }}>
+
+        {/* Update notice */}
+        <div style={{
+          background: "rgba(234,179,8,0.08)", border: "1px solid rgba(234,179,8,0.25)", borderRadius: 4,
+          padding: "14px 18px", marginBottom: 16, borderLeft: "4px solid #eab308",
+        }}>
+          <div style={{ fontSize: 12, color: "#eab308", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
+            Actualizacion del expediente
+          </div>
+          <div style={{ fontSize: 14, color: "#d4a80a", lineHeight: 1.6 }}>
+            Durante una segunda revision del vehiculo, el equipo de inspeccion ha localizado una <strong style={{ color: "#eab308" }}>caja de herramientas</strong> en el maletero que no fue catalogada en el inventario inicial. El contenido ha sido agregado a la seccion de objetos encontrados.
+          </div>
+          <div style={{ fontSize: 12, color: "#92810e", marginTop: 8, fontStyle: "italic" }}>
+            Lamentamos la omision. Le recordamos que las pertenencias del vehiculo aun no han sido recogidas y permanecen en nuestras instalaciones a su disposicion.
+          </div>
+        </div>
 
         {/* Status banner */}
         <div style={{
