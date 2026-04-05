@@ -247,7 +247,7 @@ export default function CajaPage() {
     window.addEventListener("pointerup", handleUp);
   }, [tools]);
 
-  const selectedToolData = TOOLS.find(t => t.id === selectedTool);
+  const selectedToolData = tools.find(t => t.id === selectedTool);
 
   return (
     <div style={{
