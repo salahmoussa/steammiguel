@@ -12,7 +12,7 @@ const VEHICLE_DATA = {
   estado: "EN PLAZO DE RECLAMACION",
   diasRestantes: 14,
   vehiculo: {
-    titular: "Carlos Ocasio (fallecido)",
+    titular: "Hector Ocasio (fallecido)",
     marca: "Albany",
     modelo: "Emperor",
     ano: 2006,

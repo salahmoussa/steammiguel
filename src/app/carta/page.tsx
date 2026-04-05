@@ -224,7 +224,7 @@ export default function CartaPage() {
           <p style={{ marginBottom: 14, textAlign: "justify" }}>
             Nos dirigimos a usted en relacion a un vehiculo retenido en
             nuestras instalaciones cuya titularidad figura a nombre de{" "}
-            <strong>Carlos Ocasio</strong> (fallecido). El vehiculo contiene
+            <strong>Hector Ocasio</strong> (fallecido). El vehiculo contiene
             pertenencias personales pendientes de reclamacion por parte del
             heredero legal.
           </p>
