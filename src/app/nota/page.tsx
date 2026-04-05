@@ -50,55 +50,6 @@ export default function NotaPage() {
           /do La nota esta cortada, se ve que falta la parte de arriba.
         </div>
 
-        {/* Torn/redacted words above the paper */}
-        <div
-          style={{
-            fontFamily: "'Segoe Script', 'Comic Sans MS', cursive",
-            fontSize: 18,
-            lineHeight: "28px",
-            color: "#1a1a2e",
-            paddingLeft: 54,
-            marginBottom: -8,
-            position: "relative",
-          }}
-        >
-          {/* Three illegible redacted words */}
-          <span style={{
-            display: "inline-block",
-            background: "#1a1a1a",
-            color: "transparent",
-            borderRadius: 2,
-            padding: "1px 18px",
-            marginRight: 10,
-            opacity: 0.7,
-            transform: "rotate(-0.5deg)",
-            textDecoration: "line-through",
-            textDecorationColor: "#1a1a1a",
-          }}>palabra</span>
-          <span style={{
-            display: "inline-block",
-            background: "#1a1a1a",
-            color: "transparent",
-            borderRadius: 2,
-            padding: "1px 28px",
-            marginRight: 10,
-            opacity: 0.6,
-            transform: "rotate(0.3deg)",
-            textDecoration: "line-through",
-            textDecorationColor: "#1a1a1a",
-          }}>segunda</span>
-          <span style={{
-            display: "inline-block",
-            background: "#1a1a1a",
-            color: "transparent",
-            borderRadius: 2,
-            padding: "1px 14px",
-            opacity: 0.75,
-            transform: "rotate(-0.8deg)",
-            textDecoration: "line-through",
-            textDecorationColor: "#1a1a1a",
-          }}>tres</span>
-        </div>
       </div>
 
       {/* Paper */}
