@@ -8,9 +8,9 @@ const VALID_KEY = "1744";
 const VEHICLE_DATA = {
   expediente: "DMV-2026-04471",
   fechaIngreso: "28/03/2026",
-  fechaLimite: "12/04/2026",
+  fechaLimite: "20/04/2026",
   estado: "EN PLAZO DE RECLAMACION",
-  diasRestantes: 7,
+  diasRestantes: 14,
   vehiculo: {
     titular: "Carlos Ocasio (fallecido)",
     marca: "Albany",
@@ -319,16 +319,17 @@ export default function DesguacePage() {
 
         {/* Status banner */}
         <div style={{
-          background: "#3a0a0a", border: "1px solid #e94560", borderRadius: 4,
+          background: "#0a2e1a", border: "1px solid #22c55e", borderRadius: 4,
           padding: "14px 18px", marginBottom: 24, display: "flex", justifyContent: "space-between", alignItems: "center",
         }}>
           <div>
-            <div style={{ fontSize: 12, color: "#e94560", fontWeight: 600, textTransform: "uppercase", letterSpacing: 1 }}>Estado del expediente</div>
-            <div style={{ fontSize: 18, color: "#ff6b81", fontWeight: "bold", marginTop: 2 }}>PLAZO DE RECLAMACION EXPIRADO</div>
+            <div style={{ fontSize: 12, color: "#22c55e", fontWeight: 600, textTransform: "uppercase", letterSpacing: 1 }}>Estado del expediente</div>
+            <div style={{ fontSize: 18, color: "#4ade80", fontWeight: "bold", marginTop: 2 }}>EN PLAZO DE RECLAMACION</div>
+            <div style={{ fontSize: 12, color: "#86efac", marginTop: 2 }}>Quedan {v.diasRestantes} dias para reclamar el vehiculo</div>
           </div>
           <div style={{ textAlign: "right" }}>
             <div style={{ fontSize: 12, color: "#8a8a9a" }}>Fecha limite</div>
-            <div style={{ fontSize: 16, color: "#e94560", fontWeight: "bold", fontFamily: "monospace" }}>{v.fechaLimite}</div>
+            <div style={{ fontSize: 16, color: "#4ade80", fontWeight: "bold", fontFamily: "monospace" }}>{v.fechaLimite}</div>
           </div>
         </div>
 
