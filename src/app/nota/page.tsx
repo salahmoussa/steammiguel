@@ -8,6 +8,7 @@ export default function NotaPage() {
         background:
           "radial-gradient(ellipse at center, #2a2620 0%, #151210 70%, #0a0907 100%)",
         display: "flex",
+        flexDirection: "column" as const,
         alignItems: "center",
         justifyContent: "center",
         padding: 20,
@@ -26,6 +27,79 @@ export default function NotaPage() {
           pointerEvents: "none",
         }}
       />
+
+      {/* /do text */}
+      <div
+        style={{
+          position: "relative",
+          width: 380,
+          maxWidth: "92vw",
+          transform: "rotate(-1.8deg)",
+        }}
+      >
+        <div
+          style={{
+            fontFamily: "'Inter', 'Segoe UI', sans-serif",
+            fontSize: 14,
+            color: "#22c55e",
+            marginBottom: 12,
+            paddingLeft: 4,
+            letterSpacing: 0.3,
+          }}
+        >
+          /do La nota esta cortada, se ve que falta la parte de arriba.
+        </div>
+
+        {/* Torn/redacted words above the paper */}
+        <div
+          style={{
+            fontFamily: "'Segoe Script', 'Comic Sans MS', cursive",
+            fontSize: 18,
+            lineHeight: "28px",
+            color: "#1a1a2e",
+            paddingLeft: 54,
+            marginBottom: -8,
+            position: "relative",
+          }}
+        >
+          {/* Three illegible redacted words */}
+          <span style={{
+            display: "inline-block",
+            background: "#1a1a1a",
+            color: "transparent",
+            borderRadius: 2,
+            padding: "1px 18px",
+            marginRight: 10,
+            opacity: 0.7,
+            transform: "rotate(-0.5deg)",
+            textDecoration: "line-through",
+            textDecorationColor: "#1a1a1a",
+          }}>palabra</span>
+          <span style={{
+            display: "inline-block",
+            background: "#1a1a1a",
+            color: "transparent",
+            borderRadius: 2,
+            padding: "1px 28px",
+            marginRight: 10,
+            opacity: 0.6,
+            transform: "rotate(0.3deg)",
+            textDecoration: "line-through",
+            textDecorationColor: "#1a1a1a",
+          }}>segunda</span>
+          <span style={{
+            display: "inline-block",
+            background: "#1a1a1a",
+            color: "transparent",
+            borderRadius: 2,
+            padding: "1px 14px",
+            opacity: 0.75,
+            transform: "rotate(-0.8deg)",
+            textDecoration: "line-through",
+            textDecorationColor: "#1a1a1a",
+          }}>tres</span>
+        </div>
+      </div>
 
       {/* Paper */}
       <div
