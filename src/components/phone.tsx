@@ -725,6 +725,20 @@ function NoteBlank({ value, onChange, answer, hint }: {
   const isComplete = value.length > 0 && value.length === answer.length;
   const isCorrect = value.toUpperCase() === answer;
 
+  if (isComplete && isCorrect) {
+    return (
+      <span style={{
+        fontFamily: "'Segoe Script','Comic Sans MS',cursive",
+        fontSize: 14, letterSpacing: 1,
+        borderBottom: "2px solid #22c55e",
+        padding: "0 4px",
+      }}>
+        <span style={{ color: "#22c55e", fontWeight: "bold" }}>{answer[0]}</span>
+        <span style={{ color: "#1a1a2e" }}>{answer.slice(1).toLowerCase()}</span>
+      </span>
+    );
+  }
+
   return (
     <span style={{ display: "inline-flex", alignItems: "center", verticalAlign: "baseline" }}>
       <span style={{ position: "relative", display: "inline-block" }}>
@@ -738,27 +752,17 @@ function NoteBlank({ value, onChange, answer, hint }: {
             width: answer.length * 12 + 16,
             background: "transparent",
             border: "none",
-            borderBottom: `2px ${isComplete ? (isCorrect ? "solid #22c55e" : "solid #ef4444") : "dashed #a09070"}`,
-            color: isComplete ? (isCorrect ? "#22c55e" : "#ef4444") : "#1a1a2e",
+            borderBottom: `2px ${isComplete ? "solid #ef4444" : "dashed #a09070"}`,
+            color: isComplete ? "#ef4444" : "#1a1a2e",
             fontFamily: "'Segoe Script','Comic Sans MS',cursive",
             fontSize: 14,
             textAlign: "center",
             outline: "none",
             padding: "0 4px",
-            fontWeight: isComplete && isCorrect ? "bold" : "normal",
             textTransform: "uppercase",
             letterSpacing: 1,
           }}
         />
-        {/* First letter indicator when correct */}
-        {isComplete && isCorrect && (
-          <span style={{
-            position: "absolute", top: -14, left: "50%", transform: "translateX(-50%)",
-            fontSize: 10, color: "#22c55e", fontFamily: "Arial,sans-serif", fontWeight: "bold",
-          }}>
-            ✓
-          </span>
-        )}
       </span>
     </span>
   );
