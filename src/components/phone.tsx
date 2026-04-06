@@ -541,7 +541,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                       value={noteAnswers[0]}
                       onChange={v => { const a = [...noteAnswers]; a[0] = v; setNoteAnswers(a); }}
                       answer="CIUDAD"
-                      hint="C____D"
+                      hint="C_____"
                     />
                     {" "}a lo lejos y pensaba que algo en ella me debia algo.
                   </p>
@@ -551,7 +551,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                       value={noteAnswers[1]}
                       onChange={v => { const a = [...noteAnswers]; a[1] = v; setNoteAnswers(a); }}
                       answer="AGUA"
-                      hint="A__A"
+                      hint="_G__"
                     />
                     {" "}del rio siempre corria igual, sin prisa, sin culpa.
                   </p>
@@ -561,7 +561,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                       value={noteAnswers[2]}
                       onChange={v => { const a = [...noteAnswers]; a[2] = v; setNoteAnswers(a); }}
                       answer="NORTE"
-                      hint="N___E"
+                      hint="__R__"
                     />
                     {" "}las colinas parecian proteger todo lo que habia debajo.
                   </p>
@@ -571,7 +571,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                       value={noteAnswers[3]}
                       onChange={v => { const a = [...noteAnswers]; a[3] = v; setNoteAnswers(a); }}
                       answer="ARBOLES"
-                      hint="A____ES"
+                      hint="___O___"
                     />
                     {" "}eran los unicos testigos de las cosas que nunca dije.
                   </p>
@@ -581,7 +581,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                       value={noteAnswers[4]}
                       onChange={v => { const a = [...noteAnswers]; a[4] = v; setNoteAnswers(a); }}
                       answer="LUZ"
-                      hint="L_Z"
+                      hint="_U_"
                     />
                     {" "}de la tarde lo hacia todo parecer mas facil de lo que era.
                   </p>
