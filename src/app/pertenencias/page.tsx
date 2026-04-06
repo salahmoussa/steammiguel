@@ -646,6 +646,60 @@ export default function CajaPage() {
           )}
         </div>
         </div>{/* close items row */}
+
+        {/* Personal items */}
+        <div style={{ maxWidth:700,width:"100%",margin:"40px auto 0",padding:"0 20px" }}>
+          <div style={{ fontSize:13,color:"#665544",letterSpacing:1,textTransform:"uppercase",marginBottom:14,textAlign:"center" }}>
+            Efectos personales
+          </div>
+          <div style={{ display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap" }}>
+            {[
+              { icon:"👛", name:"Cartera de piel", desc:"Cartera de piel marron con documentacion personal del titular. DNI, carnet de conducir y varias tarjetas de credito a nombre de Hector Ocasio." },
+              { icon:"🔑", name:"Juego de llaves", desc:"Llavero con 4 llaves de uso domestico. Una llave grande de portal, dos de cerradura y una pequeña que parece de buzon o candado." },
+              { icon:"🕶️", name:"Gafas de sol", desc:"Gafas de sol con montura oscura dentro de una funda rigida negra. Encontradas en la guantera. Sin danos." },
+              { icon:"🧥", name:"Chaqueta", desc:"Chaqueta de entretiempo color azul marino, talla L. Doblada sobre el asiento del copiloto. Bolsillos vacios." },
+              { icon:"🚬", name:"Paquete de tabaco", desc:"Cajetilla de Redwood Cigarettes casi vacia (2 cigarrillos restantes). Encontrada en el bolsillo lateral de la puerta del conductor junto a un mechero." },
+            ].map((item,i) => (
+              <div key={i} className="personal-item" style={{
+                background:"#1a1510",border:"1px solid #2a2218",borderRadius:8,
+                padding:"14px 16px",width:120,textAlign:"center",
+                cursor:"default",transition:"all 0.2s",position:"relative",
+              }}
+              onMouseEnter={e=>{
+                const tip = e.currentTarget.querySelector('.item-tip') as HTMLElement;
+                if(tip) tip.style.opacity="1";
+                if(tip) tip.style.transform="translateX(-50%) translateY(0)";
+              }}
+              onMouseLeave={e=>{
+                const tip = e.currentTarget.querySelector('.item-tip') as HTMLElement;
+                if(tip) tip.style.opacity="0";
+                if(tip) tip.style.transform="translateX(-50%) translateY(8px)";
+              }}
+              >
+                <div style={{ fontSize:28,marginBottom:6 }}>{item.icon}</div>
+                <div style={{ fontSize:10,color:"#887766",fontFamily:"Arial,sans-serif",lineHeight:1.3 }}>{item.name}</div>
+                {/* Tooltip */}
+                <div className="item-tip" style={{
+                  position:"absolute",bottom:"calc(100% + 10px)",left:"50%",
+                  transform:"translateX(-50%) translateY(8px)",
+                  width:220,padding:"10px 12px",
+                  background:"rgba(10,8,6,0.95)",border:"1px solid #3a3020",borderRadius:6,
+                  fontSize:11,color:"#aa9977",fontFamily:"Arial,sans-serif",lineHeight:1.5,
+                  textAlign:"left",zIndex:100,pointerEvents:"none",
+                  opacity:0,transition:"all 0.2s",
+                }}>
+                  {item.desc}
+                  {/* Arrow */}
+                  <div style={{
+                    position:"absolute",bottom:-6,left:"50%",transform:"translateX(-50%)",
+                    width:0,height:0,borderLeft:"6px solid transparent",borderRight:"6px solid transparent",
+                    borderTop:"6px solid #3a3020",
+                  }}/>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
