@@ -480,33 +480,38 @@ export default function CajaPage() {
           cursor:"pointer",animation:"fadeIn 0.3s ease-out",
         }}>
           <div onClick={e=>e.stopPropagation()} style={{
-            width:280,height:280,borderRadius:24,
-            background:"linear-gradient(145deg,#111 0%,#1a1a1a 40%,#0a0a0a 100%)",
-            border:"2px solid #2a2a2a",
-            boxShadow:"0 20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.05)",
+            width:280,height:280,borderRadius:20,
+            background:"linear-gradient(155deg,#151210 0%,#1a1714 30%,#0e0c0a 60%,#141210 100%)",
+            border:"2px solid #2a2520",
+            boxShadow:"0 20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.03), inset 0 0 40px rgba(60,40,20,0.08)",
             display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",
-            gap:12,position:"relative",
+            gap:8,position:"relative",overflow:"hidden",
           }}>
-            {/* Subtle LED indicator */}
-            <div style={{ position:"absolute",top:16,right:16,width:6,height:6,borderRadius:"50%",background:"#333",boxShadow:"0 0 4px rgba(0,212,170,0.3)" }}/>
-            {/* MazeVault logo */}
+            {/* Scratches */}
+            <div style={{ position:"absolute",top:30,left:20,width:80,height:1,background:"rgba(255,255,255,0.04)",transform:"rotate(-8deg)",pointerEvents:"none" }}/>
+            <div style={{ position:"absolute",top:60,left:50,width:120,height:1,background:"rgba(255,255,255,0.03)",transform:"rotate(3deg)",pointerEvents:"none" }}/>
+            <div style={{ position:"absolute",bottom:70,right:30,width:60,height:1,background:"rgba(255,255,255,0.04)",transform:"rotate(-12deg)",pointerEvents:"none" }}/>
+            <div style={{ position:"absolute",top:100,left:10,width:40,height:1,background:"rgba(255,255,255,0.03)",transform:"rotate(15deg)",pointerEvents:"none" }}/>
+            {/* Dirt/grime patches */}
+            <div style={{ position:"absolute",top:15,right:20,width:50,height:40,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(80,60,30,0.12) 0%,transparent 70%)",pointerEvents:"none" }}/>
+            <div style={{ position:"absolute",bottom:40,left:15,width:70,height:50,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(60,50,25,0.1) 0%,transparent 70%)",pointerEvents:"none" }}/>
+            <div style={{ position:"absolute",top:80,right:40,width:40,height:30,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(50,40,20,0.08) 0%,transparent 70%)",pointerEvents:"none" }}/>
+            {/* Scuff mark corner */}
+            <div style={{ position:"absolute",bottom:0,right:0,width:60,height:60,background:"linear-gradient(135deg,transparent 50%,rgba(80,60,30,0.06) 100%)",borderRadius:"0 0 20px 0",pointerEvents:"none" }}/>
+            {/* Dead LED */}
+            <div style={{ position:"absolute",top:16,right:16,width:6,height:6,borderRadius:"50%",background:"#1a1510",border:"1px solid #2a2218" }}/>
+            {/* Faded logo - barely visible, worn */}
             <div style={{
-              width:60,height:60,borderRadius:"50%",
-              background:"linear-gradient(135deg,#00d4aa20,#00a88610)",
-              border:"1px solid #00d4aa30",
+              width:50,height:50,borderRadius:"50%",
+              background:"rgba(255,255,255,0.02)",
+              border:"1px solid rgba(255,255,255,0.04)",
               display:"flex",alignItems:"center",justifyContent:"center",
-              fontSize:28,color:"#00d4aa",fontWeight:"bold",
+              fontSize:24,color:"rgba(0,212,170,0.15)",fontWeight:"bold",
             }}>◆</div>
-            <div style={{ fontSize:16,fontWeight:700,color:"#fff",fontFamily:"'Inter','Segoe UI',sans-serif" }}>
-              Maze<span style={{ color:"#00d4aa" }}>Vault</span>
-            </div>
-            <div style={{ fontSize:10,color:"#444",fontFamily:"Arial,sans-serif",letterSpacing:1 }}>
-              HARDWARE WALLET
-            </div>
-            {/* USB port at bottom */}
-            <div style={{ position:"absolute",bottom:14,left:"50%",transform:"translateX(-50%)",width:18,height:8,background:"#1a1a1a",border:"1px solid #333",borderRadius:2 }}>
-              <div style={{ position:"absolute",top:2,left:3,width:4,height:4,background:"#333",borderRadius:1 }}/>
-              <div style={{ position:"absolute",top:2,right:3,width:4,height:4,background:"#333",borderRadius:1 }}/>
+            {/* Worn USB port */}
+            <div style={{ position:"absolute",bottom:14,left:"50%",transform:"translateX(-50%)",width:18,height:8,background:"#0e0c0a",border:"1px solid #2a2218",borderRadius:2 }}>
+              <div style={{ position:"absolute",top:2,left:3,width:4,height:4,background:"#1a1510",borderRadius:1 }}/>
+              <div style={{ position:"absolute",top:2,right:3,width:4,height:4,background:"#1a1510",borderRadius:1 }}/>
             </div>
           </div>
           <div style={{ color:"#555",fontSize:12,marginTop:16,fontFamily:"Arial,sans-serif" }}>Dispositivo electronico no identificado</div>
