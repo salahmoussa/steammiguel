@@ -331,6 +331,7 @@ export default function CajaPage() {
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
   const [showPaper, setShowPaper] = useState(false);
   const [showPhone, setShowPhone] = useState(false);
+  const [showDevice, setShowDevice] = useState(false);
   const [chargerCollected, setChargerCollected] = useState(false);
   const [showChargerToast, setShowChargerToast] = useState(false);
   const [dragging, setDragging] = useState<string | null>(null);
@@ -470,6 +471,48 @@ export default function CajaPage() {
 
       {/* Phone modal */}
       <Phone visible={showPhone} onClose={() => setShowPhone(false)} />
+
+      {/* Device zoom modal */}
+      {showDevice && (
+        <div onClick={()=>setShowDevice(false)} style={{
+          position:"fixed",inset:0,background:"rgba(0,0,0,0.9)",zIndex:9999,
+          display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",
+          cursor:"pointer",animation:"fadeIn 0.3s ease-out",
+        }}>
+          <div onClick={e=>e.stopPropagation()} style={{
+            width:280,height:280,borderRadius:24,
+            background:"linear-gradient(145deg,#111 0%,#1a1a1a 40%,#0a0a0a 100%)",
+            border:"2px solid #2a2a2a",
+            boxShadow:"0 20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.05)",
+            display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",
+            gap:12,position:"relative",
+          }}>
+            {/* Subtle LED indicator */}
+            <div style={{ position:"absolute",top:16,right:16,width:6,height:6,borderRadius:"50%",background:"#333",boxShadow:"0 0 4px rgba(0,212,170,0.3)" }}/>
+            {/* MazeVault logo */}
+            <div style={{
+              width:60,height:60,borderRadius:"50%",
+              background:"linear-gradient(135deg,#00d4aa20,#00a88610)",
+              border:"1px solid #00d4aa30",
+              display:"flex",alignItems:"center",justifyContent:"center",
+              fontSize:28,color:"#00d4aa",fontWeight:"bold",
+            }}>◆</div>
+            <div style={{ fontSize:16,fontWeight:700,color:"#fff",fontFamily:"'Inter','Segoe UI',sans-serif" }}>
+              Maze<span style={{ color:"#00d4aa" }}>Vault</span>
+            </div>
+            <div style={{ fontSize:10,color:"#444",fontFamily:"Arial,sans-serif",letterSpacing:1 }}>
+              HARDWARE WALLET
+            </div>
+            {/* USB port at bottom */}
+            <div style={{ position:"absolute",bottom:14,left:"50%",transform:"translateX(-50%)",width:18,height:8,background:"#1a1a1a",border:"1px solid #333",borderRadius:2 }}>
+              <div style={{ position:"absolute",top:2,left:3,width:4,height:4,background:"#333",borderRadius:1 }}/>
+              <div style={{ position:"absolute",top:2,right:3,width:4,height:4,background:"#333",borderRadius:1 }}/>
+            </div>
+          </div>
+          <div style={{ color:"#555",fontSize:12,marginTop:16,fontFamily:"Arial,sans-serif" }}>Dispositivo electronico no identificado</div>
+          <div style={{ color:"#333",fontSize:11,marginTop:4,fontFamily:"Arial,sans-serif" }}>Click para cerrar</div>
+        </div>
+      )}
 
       {/* Main content */}
       <div style={{ position:"relative",zIndex:10 }}>
@@ -645,6 +688,31 @@ export default function CajaPage() {
             </div>
           )}
         </div>
+
+        {/* Device */}
+        <div style={{ display:"flex",flexDirection:"column",alignItems:"center",gap:10 }}>
+          <div
+            onDoubleClick={() => setShowDevice(true)}
+            style={{
+              width:70,height:70,borderRadius:14,
+              background:"linear-gradient(145deg,#111 0%,#1a1a1a 40%,#0a0a0a 100%)",
+              border:"2px solid #2a2a2a",
+              boxShadow:"0 6px 20px rgba(0,0,0,0.6)",
+              display:"flex",alignItems:"center",justifyContent:"center",
+              cursor:"pointer",transition:"transform 0.2s, box-shadow 0.2s",
+              position:"relative",
+            }}
+            onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.05)";e.currentTarget.style.boxShadow="0 8px 30px rgba(0,212,170,0.15)";}}
+            onMouseLeave={e=>{e.currentTarget.style.transform="scale(1)";e.currentTarget.style.boxShadow="0 6px 20px rgba(0,0,0,0.6)";}}
+          >
+            <div style={{ fontSize:20,color:"#00d4aa",fontWeight:"bold",opacity:0.4 }}>◆</div>
+            {/* LED */}
+            <div style={{ position:"absolute",top:6,right:6,width:4,height:4,borderRadius:"50%",background:"#333" }}/>
+          </div>
+          <div style={{ fontSize:11,color:"#665544",textAlign:"center" }}>Doble click para inspeccionar</div>
+          <div style={{ fontSize:10,color:"#443322",fontFamily:"monospace" }}>Dispositivo electronico</div>
+        </div>
+
         </div>{/* close items row */}
 
         {/* Personal items - same style as phone/toolbox */}
