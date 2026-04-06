@@ -134,6 +134,29 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
   if (!visible) return null;
 
   return (
+    <>
+    {/* Photo viewer - outside phone */}
+    {viewingPhoto && (
+      <div
+        onClick={() => setViewingPhoto(null)}
+        style={{
+          position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 99999,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          cursor: "pointer", padding: 20,
+        }}
+      >
+        <img
+          src={viewingPhoto}
+          alt="Foto"
+          style={{ maxWidth: "90vw", maxHeight: "90vh", objectFit: "contain", borderRadius: 4, boxShadow: "0 8px 40px rgba(0,0,0,0.8)" }}
+        />
+        <div style={{
+          position: "absolute", bottom: 24, left: "50%", transform: "translateX(-50%)",
+          fontSize: 12, color: "#666", fontFamily: "Arial,sans-serif",
+        }}>Click para cerrar</div>
+      </div>
+    )}
+
     <div
       onClick={onClose}
       style={{
@@ -477,28 +500,6 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                 <div style={{ width: 40 }} />
               </div>
 
-              {/* Photo viewer */}
-              {viewingPhoto && (
-                <div
-                  onClick={() => setViewingPhoto(null)}
-                  style={{
-                    position: "absolute", inset: 0, background: "#000", zIndex: 20,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    cursor: "pointer",
-                  }}
-                >
-                  <img
-                    src={viewingPhoto}
-                    alt="Foto"
-                    style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
-                  />
-                  <div style={{
-                    position: "absolute", bottom: 12, left: "50%", transform: "translateX(-50%)",
-                    fontSize: 10, color: "#666", fontFamily: "Arial,sans-serif",
-                  }}>Toca para cerrar</div>
-                </div>
-              )}
-
               {/* Photos grid */}
               <div style={{ padding: "8px 10px", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 3, flex: 1, alignContent: "start" }}>
                 {PHOTOS.map((photo) => (
@@ -641,6 +642,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
         </div>
       </div>
     </div>
+    </>
   );
 }
 
