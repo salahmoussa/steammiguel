@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import { Phone } from "@/components/phone";
 
 interface Tool {
   id: string;
@@ -313,6 +314,7 @@ export default function CajaPage() {
   const [tools, setTools] = useState(INITIAL_TOOLS);
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
   const [showPaper, setShowPaper] = useState(false);
+  const [showPhone, setShowPhone] = useState(false);
   const [dragging, setDragging] = useState<string | null>(null);
   const dragStart = useRef<{ x: number; y: number; toolX: number; toolY: number } | null>(null);
   const boxRef = useRef<HTMLDivElement>(null);
@@ -442,8 +444,48 @@ export default function CajaPage() {
         </div>
       )}
 
+      {/* Phone modal */}
+      <Phone visible={showPhone} onClose={() => setShowPhone(false)} />
+
       {/* Main content */}
       <div style={{ position:"relative",zIndex:10 }}>
+
+        {/* Title */}
+        <div style={{ textAlign:"center",marginBottom:24 }}>
+          <div style={{ fontSize:22,fontWeight:700,color:"#998877",letterSpacing:1 }}>Pertenencias</div>
+          <div style={{ fontSize:12,color:"#554433",marginTop:4 }}>Objetos recuperados del vehiculo</div>
+        </div>
+
+        {/* Items row */}
+        <div style={{ display:"flex",gap:40,alignItems:"flex-end",justifyContent:"center",flexWrap:"wrap" }}>
+
+        {/* Phone object */}
+        <div style={{ display:"flex",flexDirection:"column",alignItems:"center",gap:10 }}>
+          <div
+            onDoubleClick={() => setShowPhone(true)}
+            style={{
+              width:80,height:150,
+              background:"linear-gradient(180deg,#222 0%,#111 100%)",
+              borderRadius:12,border:"2px solid #333",
+              boxShadow:"0 6px 20px rgba(0,0,0,0.6)",
+              position:"relative",cursor:"pointer",
+              transition:"transform 0.2s, box-shadow 0.2s",
+            }}
+            onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.05)";e.currentTarget.style.boxShadow="0 8px 30px rgba(200,180,100,0.2)";}}
+            onMouseLeave={e=>{e.currentTarget.style.transform="scale(1)";e.currentTarget.style.boxShadow="0 6px 20px rgba(0,0,0,0.6)";}}
+          >
+            {/* Screen (off) */}
+            <div style={{ margin:6,borderRadius:8,background:"#0a0a0a",position:"absolute",inset:6,display:"flex",alignItems:"center",justifyContent:"center" }}>
+              <div style={{ width:20,height:20,borderRadius:"50%",border:"2px solid #333" }}/>
+            </div>
+            {/* Notch */}
+            <div style={{ position:"absolute",top:4,left:"50%",transform:"translateX(-50%)",width:24,height:4,background:"#222",borderRadius:2 }}/>
+          </div>
+          <div style={{ fontSize:11,color:"#665544",textAlign:"center" }}>Doble click para encender</div>
+          <div style={{ fontSize:10,color:"#443322",fontFamily:"monospace" }}>Telefono movil</div>
+        </div>
+
+        {/* Toolbox */}
         <div style={{ position:"relative",width:580,maxWidth:"94vw" }}>
 
           {/* === CLOSED === */}
@@ -556,6 +598,7 @@ export default function CajaPage() {
             </div>
           )}
         </div>
+        </div>{/* close items row */}
       </div>
     </div>
   );
