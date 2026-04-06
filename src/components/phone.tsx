@@ -25,12 +25,12 @@ const APPS = [
 ];
 
 const PHOTOS = [
-  { id: "p1", placeholder: true },
-  { id: "p2", placeholder: true },
-  { id: "p3", placeholder: true },
-  { id: "p4", placeholder: true },
-  { id: "p5", placeholder: true },
-  { id: "p6", placeholder: true },
+  { id: "p1", placeholder: false, src: "/photos/foto1.png" },
+  { id: "p2", placeholder: true, src: "" },
+  { id: "p3", placeholder: true, src: "" },
+  { id: "p4", placeholder: true, src: "" },
+  { id: "p5", placeholder: true, src: "" },
+  { id: "p6", placeholder: true, src: "" },
 ];
 
 export function Phone({ visible, onClose }: { visible: boolean; onClose: () => void }) {
@@ -45,6 +45,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
   const [showSubconscious, setShowSubconscious] = useState(false);
   const [subconsciousMsg, setSubconsciousMsg] = useState("");
   const [noteAnswers, setNoteAnswers] = useState(["", "", "", "", ""]);
+  const [viewingPhoto, setViewingPhoto] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -476,24 +477,52 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                 <div style={{ width: 40 }} />
               </div>
 
+              {/* Photo viewer */}
+              {viewingPhoto && (
+                <div
+                  onClick={() => setViewingPhoto(null)}
+                  style={{
+                    position: "absolute", inset: 0, background: "#000", zIndex: 20,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    cursor: "pointer",
+                  }}
+                >
+                  <img
+                    src={viewingPhoto}
+                    alt="Foto"
+                    style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
+                  />
+                  <div style={{
+                    position: "absolute", bottom: 12, left: "50%", transform: "translateX(-50%)",
+                    fontSize: 10, color: "#666", fontFamily: "Arial,sans-serif",
+                  }}>Toca para cerrar</div>
+                </div>
+              )}
+
               {/* Photos grid */}
               <div style={{ padding: "8px 10px", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 3, flex: 1, alignContent: "start" }}>
                 {PHOTOS.map((photo) => (
                   <div
                     key={photo.id}
+                    onClick={() => !photo.placeholder && photo.src && setViewingPhoto(photo.src)}
                     style={{
                       aspectRatio: "1", background: "#1a1a1a", borderRadius: 4,
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      cursor: "pointer",
+                      cursor: photo.placeholder ? "default" : "pointer",
+                      overflow: "hidden",
                     }}
                   >
-                    <span style={{ fontSize: 24, opacity: 0.3 }}>📷</span>
+                    {photo.placeholder ? (
+                      <span style={{ fontSize: 24, opacity: 0.3 }}>📷</span>
+                    ) : (
+                      <img src={photo.src} alt="Foto" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    )}
                   </div>
                 ))}
               </div>
 
               <div style={{ textAlign: "center", padding: "10px 0", fontSize: 11, color: "#555", fontFamily: "Arial,sans-serif" }}>
-                6 fotos
+                {PHOTOS.filter(p => !p.placeholder).length} de {PHOTOS.length} fotos
               </div>
             </div>
           )}
