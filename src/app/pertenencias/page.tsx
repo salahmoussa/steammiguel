@@ -451,7 +451,7 @@ export default function CajaPage() {
       <div style={{ position:"relative",zIndex:10 }}>
 
         {/* Title */}
-        <div style={{ textAlign:"center",marginBottom:24 }}>
+        <div style={{ textAlign:"center",marginBottom:60 }}>
           <div style={{ fontSize:22,fontWeight:700,color:"#998877",letterSpacing:1 }}>Pertenencias</div>
           <div style={{ fontSize:12,color:"#554433",marginTop:4 }}>Objetos recuperados del vehiculo</div>
         </div>
