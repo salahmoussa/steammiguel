@@ -392,7 +392,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                   fontSize: 11, color: "#999", fontFamily: "Arial,sans-serif",
                   whiteSpace: "nowrap",
                 }}>
-                  Sin conexion a la red
+                  Memoria insuficiente (RAM al 98%)
                 </div>
               )}
             </div>
