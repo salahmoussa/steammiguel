@@ -595,7 +595,7 @@ export default function CajaPage() {
                 </div>
 
                 {/* Draggable tools */}
-                {tools.map(tool => (
+                {tools.filter(t => !(t.id === "charger" && chargerCollected)).map(tool => (
                   <div
                     key={tool.id}
                     onPointerDown={e => handlePointerDown(e, tool.id)}
