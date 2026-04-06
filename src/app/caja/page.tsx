@@ -398,30 +398,34 @@ export default function CajaPage() {
         <div onClick={()=>setShowPaper(false)} style={{ position:"fixed",inset:0,background:"rgba(0,0,0,0.85)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",animation:"fadeIn 0.3s ease-out" }}>
           <div onClick={e=>e.stopPropagation()} style={{
             background:"linear-gradient(175deg,#f5f0e4 0%,#ede6d4 50%,#e4dcc8 100%)",
-            width:480,maxWidth:"90vw",padding:"40px 44px",position:"relative",
-            fontFamily:"'Times New Roman',Georgia,serif",color:"#1a1a1a",
+            width:440,maxWidth:"90vw",padding:"44px 48px",position:"relative",
+            fontFamily:"'Segoe Script','Comic Sans MS','Bradley Hand',cursive",color:"#1a1a2e",
             boxShadow:"0 8px 40px rgba(0,0,0,0.6), inset 0 0 80px rgba(139,119,80,0.1)",
-            animation:"unfold 0.6s ease-out forwards",lineHeight:1.7,
+            animation:"unfold 0.6s ease-out forwards",lineHeight:2.1,
+            transform:"rotate(-0.6deg)",
           }}>
-            <div style={{ position:"absolute",top:"50%",left:0,width:"100%",height:1,background:"rgba(120,100,60,0.12)",pointerEvents:"none" }}/>
-            <div style={{ position:"absolute",top:0,left:"50%",width:1,height:"100%",background:"rgba(120,100,60,0.12)",pointerEvents:"none" }}/>
-            <div style={{ position:"absolute",top:20,right:30,width:70,height:60,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(139,110,60,0.1) 0%,transparent 70%)",pointerEvents:"none" }}/>
+            {/* Fold creases */}
+            <div style={{ position:"absolute",top:"50%",left:0,width:"100%",height:2,background:"rgba(120,100,60,0.12)",pointerEvents:"none" }}/>
+            <div style={{ position:"absolute",top:0,left:"50%",width:2,height:"100%",background:"rgba(120,100,60,0.12)",pointerEvents:"none" }}/>
+            {/* Stains */}
+            <div style={{ position:"absolute",top:15,right:25,width:70,height:60,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(139,110,60,0.12) 0%,transparent 70%)",pointerEvents:"none" }}/>
+            <div style={{ position:"absolute",bottom:30,left:15,width:50,height:40,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(100,90,60,0.08) 0%,transparent 70%)",pointerEvents:"none" }}/>
 
-            <div style={{ fontSize:14,lineHeight:1.8,textAlign:"justify" }}>
-              <p style={{ marginBottom:14 }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            <div style={{ fontSize:18,color:"#1e1e3a" }}>
+              <p style={{ marginBottom:16 }}>
+                Si alguien lee esto que no sea yo, <span style={{ position:"relative" }}>para.<span style={{ position:"absolute",bottom:-1,left:0,width:"100%",height:2,background:"rgba(30,30,80,0.15)",pointerEvents:"none" }}/></span>
               </p>
-              <p style={{ marginBottom:14 }}>
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                culpa qui officia deserunt mollit anim id est laborum.
+              <p style={{ marginBottom:16 }}>
+                El aparato que esta en el coche no es mio. Me lo dejaron una noche sin explicarme bien que era. Solo me dijeron que para acceder necesitaba unas palabras. Doce en total. Como una llave pero en palabras.
               </p>
-              <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+              <p style={{ marginBottom:16 }}>
+                No las tengo todas. Solo se donde estan algunas.
+              </p>
+              <p style={{ marginBottom:24 }}>
+                No he preguntado mas. Cuanto menos sepa mejor.
+              </p>
+              <p style={{ textAlign:"right",marginRight:20,fontSize:22,color:"#1a2a5a" }}>
+                H.
               </p>
             </div>
             <div style={{ textAlign:"center",marginTop:20,fontSize:11,color:"#999",fontFamily:"Arial,sans-serif" }}>Click fuera para cerrar</div>
