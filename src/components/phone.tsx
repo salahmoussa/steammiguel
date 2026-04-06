@@ -46,6 +46,8 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
   const [subconsciousMsg, setSubconsciousMsg] = useState("");
   const [noteAnswers, setNoteAnswers] = useState(["", "", "", "", ""]);
   const [viewingPhoto, setViewingPhoto] = useState<string | null>(null);
+  const [photosViewed, setPhotosViewed] = useState(false);
+  const [showNotesBlock, setShowNotesBlock] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -122,14 +124,20 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
 
   const handleAppClick = useCallback((appId: string) => {
     if (appId === "photos") {
+      setPhotosViewed(true);
       setState("photos");
     } else if (appId === "notes") {
-      setState("notes");
+      if (!photosViewed) {
+        setShowNotesBlock(true);
+        setTimeout(() => setShowNotesBlock(false), 3000);
+      } else {
+        setState("notes");
+      }
     } else {
       setShowAppError(appId);
       setTimeout(() => setShowAppError(null), 1500);
     }
-  }, []);
+  }, [photosViewed]);
 
   if (!visible) return null;
 
@@ -479,6 +487,38 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                   whiteSpace: "nowrap",
                 }}>
                   Memoria insuficiente (RAM al 98%)
+                </div>
+              )}
+
+              {/* Notes blocked - haven't seen photos yet */}
+              {showNotesBlock && (
+                <div style={{
+                  position: "absolute", inset: 0, zIndex: 20,
+                  display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                  padding: 20,
+                }}>
+                  {/* Blurred unreadable note background */}
+                  <div style={{
+                    position: "absolute", inset: 0,
+                    background: "#e8e0c8",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    filter: "blur(3px)",
+                    opacity: 0.4,
+                  }}>
+                    <div style={{ fontFamily: "'Segoe Script',cursive", fontSize: 12, color: "#1a1a2e", lineHeight: 2, padding: 30, transform: "rotate(-1deg)" }}>
+                      ~~~~ ~~~ ~~~~~~ ~~~~<br/>~~~ ~~~~~~ ~~ ~~~<br/>~~~~ ~~ ~~~~~ ~~~~<br/>~~ ~~~~~~ ~~~~ ~~<br/>~~~~ ~~ ~~~
+                    </div>
+                  </div>
+                  {/* Subconscious overlay */}
+                  <div style={{
+                    position: "relative", zIndex: 2, textAlign: "center",
+                    background: "rgba(0,0,0,0.85)", borderRadius: 12, padding: "18px 22px",
+                  }}>
+                    <div style={{ color: "#22c55e", fontSize: 11, letterSpacing: 2, marginBottom: 6, fontFamily: "Arial,sans-serif" }}>/subconsciente</div>
+                    <div style={{ fontSize: 13, color: "#94a3b8", fontStyle: "italic", fontFamily: "Arial,sans-serif", lineHeight: 1.6 }}>
+                      No entiendo nada, deberia ver otra cosa primero?
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
