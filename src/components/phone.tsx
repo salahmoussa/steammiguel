@@ -345,7 +345,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                     textAlign: "center", lineHeight: 1.8, fontStyle: "italic",
                   }}>
                     <div style={{ color: "#22c55e", fontSize: 12, marginBottom: 8, fontStyle: "normal", letterSpacing: 2 }}>/subconsciente</div>
-                    Esto no me va a llevar a ningun lado, de momento...
+                    No se la clave... deberia buscar mejor en la caja de herramientas, seguro que me dejo algo.
                   </div>
                 </div>
               )}
