@@ -219,15 +219,10 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                   🔌 Cargar movil
                 </button>
               ) : (
-                <div style={{ marginTop: 12, textAlign: "center" }}>
-                  <div style={{
-                    padding: "10px 24px", background: "#222", border: "1px solid #333",
-                    borderRadius: 20, color: "#666", fontSize: 12, fontFamily: "Arial,sans-serif",
-                  }}>
-                    🔌 Necesito un cargador...
-                  </div>
-                  <div style={{ marginTop: 10, fontSize: 11, color: "#555", fontStyle: "italic", fontFamily: "Arial,sans-serif", lineHeight: 1.5 }}>
-                    A lo mejor esta en la caja de herramientas
+                <div style={{ marginTop: 16, textAlign: "center", padding: "0 20px" }}>
+                  <div style={{ color: "#22c55e", fontSize: 11, letterSpacing: 2, marginBottom: 6, fontFamily: "Arial,sans-serif" }}>/subconsciente</div>
+                  <div style={{ fontSize: 13, color: "#94a3b8", fontStyle: "italic", fontFamily: "Arial,sans-serif", lineHeight: 1.6 }}>
+                    Necesito un cargador... a lo mejor esta en la caja de herramientas.
                   </div>
                 </div>
               )}
