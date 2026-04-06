@@ -411,18 +411,27 @@ export default function CajaPage() {
             <div style={{ position:"absolute",top:15,right:25,width:70,height:60,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(139,110,60,0.12) 0%,transparent 70%)",pointerEvents:"none" }}/>
             <div style={{ position:"absolute",bottom:30,left:15,width:50,height:40,borderRadius:"50%",background:"radial-gradient(ellipse,rgba(100,90,60,0.08) 0%,transparent 70%)",pointerEvents:"none" }}/>
 
-            <div style={{ fontSize:18,color:"#1e1e3a" }}>
+            <div style={{ fontSize:18,color:"#1e1e3a",position:"relative" }}>
+              {/* Scattered numbers - look like idle scribbles in margins */}
+              <span style={{ position:"absolute",top:-8,left:2,fontSize:11,color:"#a09880",fontFamily:"'Segoe Script',cursive",opacity:0.55,transform:"rotate(-3deg)" }}>48</span>
+
               <p style={{ marginBottom:16 }}>
                 Si alguien lee esto que no sea yo, <span style={{ position:"relative" }}>para.<span style={{ position:"absolute",bottom:-1,left:0,width:"100%",height:2,background:"rgba(30,30,80,0.15)",pointerEvents:"none" }}/></span>
+                <span style={{ fontSize:11,color:"#a09880",fontFamily:"'Segoe Script',cursive",opacity:0.5,marginLeft:8 }}>07</span>
               </p>
               <p style={{ marginBottom:16 }}>
+                <span style={{ fontSize:11,color:"#a09880",fontFamily:"'Segoe Script',cursive",opacity:0.5,marginRight:6 }}>8</span>
                 El aparato que esta en el coche no es mio. Me lo dejaron una noche sin explicarme bien que era. Solo me dijeron que para acceder necesitaba unas palabras. Doce en total. Como una llave pero en palabras.
+                <span style={{ fontSize:11,color:"#a09880",fontFamily:"'Segoe Script',cursive",opacity:0.5,marginLeft:8 }}>4</span>
               </p>
               <p style={{ marginBottom:16 }}>
                 No las tengo todas. Solo se donde estan algunas.
+                <span style={{ fontSize:11,color:"#a09880",fontFamily:"'Segoe Script',cursive",opacity:0.5,marginLeft:8 }}>82</span>
               </p>
               <p style={{ marginBottom:24 }}>
+                <span style={{ fontSize:11,color:"#a09880",fontFamily:"'Segoe Script',cursive",opacity:0.5,marginRight:6 }}>3</span>
                 No he preguntado mas. Cuanto menos sepa mejor.
+                <span style={{ fontSize:11,color:"#a09880",fontFamily:"'Segoe Script',cursive",opacity:0.5,marginLeft:8 }}>9</span>
               </p>
               <p style={{ textAlign:"right",marginRight:20,fontSize:22,color:"#1a2a5a" }}>
                 H.
