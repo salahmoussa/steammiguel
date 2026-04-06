@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-type PhoneState = "off" | "nobattery" | "charging" | "charged" | "lockscreen" | "home" | "photos";
+type PhoneState = "off" | "nobattery" | "charging" | "charged" | "lockscreen" | "home" | "photos" | "notes";
 
 const CORRECT_PIN = "1051";
 const CACHE_KEY = "sm_phone_charged";
@@ -16,7 +16,7 @@ const APPS = [
   { id: "photos", name: "Fotos", icon: "🖼️", color: "#f59e0b", action: true },
   { id: "maps", name: "Mapas", icon: "🗺️", color: "#10b981" },
   { id: "weather", name: "Tiempo", icon: "⛅", color: "#06b6d4" },
-  { id: "notes", name: "Notas", icon: "📝", color: "#eab308" },
+  { id: "notes", name: "Notas", icon: "📝", color: "#eab308", action: true },
   { id: "calculator", name: "Calc", icon: "🔢", color: "#8b5cf6" },
   { id: "clock", name: "Reloj", icon: "🕐", color: "#f43f5e" },
   { id: "settings", name: "Ajustes", icon: "⚙️", color: "#6b7280" },
@@ -44,6 +44,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
   const [hasPaper, setHasPaper] = useState(false);
   const [showSubconscious, setShowSubconscious] = useState(false);
   const [subconsciousMsg, setSubconsciousMsg] = useState("");
+  const [noteAnswers, setNoteAnswers] = useState(["", "", "", "", ""]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -121,6 +122,8 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
   const handleAppClick = useCallback((appId: string) => {
     if (appId === "photos") {
       setState("photos");
+    } else if (appId === "notes") {
+      setState("notes");
     } else {
       setShowAppError(appId);
       setTimeout(() => setShowAppError(null), 1500);
@@ -395,7 +398,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                     onMouseUp={e => (e.currentTarget.style.transform = "scale(1)")}
                     >
                       {app.icon}
-                      {/* Notification dot on photos */}
+                      {/* Notification badges */}
                       {app.id === "photos" && (
                         <div style={{
                           position: "absolute", top: -3, right: -3,
@@ -404,6 +407,15 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                           display: "flex", alignItems: "center", justifyContent: "center",
                           fontSize: 9, color: "#fff", fontWeight: "bold",
                         }}>6</div>
+                      )}
+                      {app.id === "notes" && (
+                        <div style={{
+                          position: "absolute", top: -3, right: -3,
+                          width: 16, height: 16, borderRadius: "50%",
+                          background: "#eab308", border: "2px solid #0c0a20",
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          fontSize: 9, color: "#000", fontWeight: "bold",
+                        }}>1</div>
                       )}
                     </div>
                     <span style={{ fontSize: 9, color: "#94a3b8", fontFamily: "Arial,sans-serif", textAlign: "center" }}>
@@ -486,6 +498,104 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
             </div>
           )}
 
+          {/* === NOTES === */}
+          {state === "notes" && (
+            <div style={{
+              width: "100%", height: "100%",
+              background: "#faf5e8",
+              display: "flex", flexDirection: "column",
+              color: "#1a1a1a",
+            }}>
+              {/* Header */}
+              <div style={{
+                padding: "36px 14px 10px", display: "flex", alignItems: "center", justifyContent: "space-between",
+                borderBottom: "1px solid #e0d8c4",
+              }}>
+                <button
+                  onClick={() => setState("home")}
+                  style={{ background: "none", border: "none", color: "#b08020", fontSize: 13, cursor: "pointer", fontFamily: "Arial,sans-serif" }}
+                >
+                  ← Atras
+                </button>
+                <span style={{ fontSize: 14, color: "#1a1a1a", fontWeight: 600, fontFamily: "Arial,sans-serif" }}>Notas</span>
+                <div style={{ width: 40 }} />
+              </div>
+
+              {/* Note content */}
+              <div style={{
+                flex: 1, padding: "16px 18px", overflowY: "auto",
+                fontFamily: "'Segoe Script','Comic Sans MS',cursive",
+                fontSize: 14, lineHeight: 2.2,
+                backgroundImage: "repeating-linear-gradient(180deg, transparent 0px, transparent 27px, rgba(60,80,140,0.08) 27px, rgba(60,80,140,0.08) 28px)",
+              }}>
+                {/* Red margin line */}
+                <div style={{ position: "absolute", left: 44, top: 0, bottom: 0, width: 1, background: "rgba(200,60,60,0.2)", pointerEvents: "none" }} />
+
+                <div style={{ paddingLeft: 8 }}>
+                  <p style={{ marginBottom: 4 }}>
+                    Cada vez que venia aqui, me quedaba en silencio.
+                  </p>
+                  <p style={{ marginBottom: 4 }}>
+                    Miraba la{" "}
+                    <NoteBlank
+                      value={noteAnswers[0]}
+                      onChange={v => { const a = [...noteAnswers]; a[0] = v; setNoteAnswers(a); }}
+                      answer="CIUDAD"
+                      hint="C____D"
+                    />
+                    {" "}a lo lejos y pensaba que algo en ella me debia algo.
+                  </p>
+                  <p style={{ marginBottom: 4 }}>
+                    El{" "}
+                    <NoteBlank
+                      value={noteAnswers[1]}
+                      onChange={v => { const a = [...noteAnswers]; a[1] = v; setNoteAnswers(a); }}
+                      answer="AGUA"
+                      hint="A__A"
+                    />
+                    {" "}del rio siempre corria igual, sin prisa, sin culpa.
+                  </p>
+                  <p style={{ marginBottom: 4 }}>
+                    Al{" "}
+                    <NoteBlank
+                      value={noteAnswers[2]}
+                      onChange={v => { const a = [...noteAnswers]; a[2] = v; setNoteAnswers(a); }}
+                      answer="NORTE"
+                      hint="N___E"
+                    />
+                    {" "}las colinas parecian proteger todo lo que habia debajo.
+                  </p>
+                  <p style={{ marginBottom: 4 }}>
+                    Los{" "}
+                    <NoteBlank
+                      value={noteAnswers[3]}
+                      onChange={v => { const a = [...noteAnswers]; a[3] = v; setNoteAnswers(a); }}
+                      answer="ARBOLES"
+                      hint="A____ES"
+                    />
+                    {" "}eran los unicos testigos de las cosas que nunca dije.
+                  </p>
+                  <p style={{ marginBottom: 4 }}>
+                    Y la{" "}
+                    <NoteBlank
+                      value={noteAnswers[4]}
+                      onChange={v => { const a = [...noteAnswers]; a[4] = v; setNoteAnswers(a); }}
+                      answer="LUZ"
+                      hint="L_Z"
+                    />
+                    {" "}de la tarde lo hacia todo parecer mas facil de lo que era.
+                  </p>
+                  <p style={{ marginTop: 8 }}>
+                    Ojala hubiera sido mas facil.
+                  </p>
+                  <p style={{ textAlign: "right", marginTop: 12, fontSize: 18, color: "#1a2a5a" }}>
+                    H.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
         </div>
 
         {/* Home button */}
@@ -493,14 +603,63 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
           height: 24, display: "flex", alignItems: "center", justifyContent: "center", paddingBottom: 6,
         }}>
           <div
-            onClick={() => { if (state === "photos") setState("home"); }}
+            onClick={() => { if (state === "photos" || state === "notes") setState("home"); }}
             style={{
               width: 100, height: 4, borderRadius: 2, background: "#444",
-              cursor: state === "photos" ? "pointer" : "default",
+              cursor: (state === "photos" || state === "notes") ? "pointer" : "default",
             }}
           />
         </div>
       </div>
     </div>
+  );
+}
+
+/* ========== Note blank input component ========== */
+function NoteBlank({ value, onChange, answer, hint }: {
+  value: string;
+  onChange: (v: string) => void;
+  answer: string;
+  hint: string;
+}) {
+  const isComplete = value.length > 0 && value.length === answer.length;
+  const isCorrect = value.toUpperCase() === answer;
+
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", verticalAlign: "baseline" }}>
+      <span style={{ position: "relative", display: "inline-block" }}>
+        <input
+          type="text"
+          value={value}
+          onChange={e => onChange(e.target.value.slice(0, answer.length))}
+          placeholder={hint}
+          maxLength={answer.length}
+          style={{
+            width: answer.length * 12 + 16,
+            background: "transparent",
+            border: "none",
+            borderBottom: `2px ${isComplete ? (isCorrect ? "solid #22c55e" : "solid #ef4444") : "dashed #a09070"}`,
+            color: isComplete ? (isCorrect ? "#22c55e" : "#ef4444") : "#1a1a2e",
+            fontFamily: "'Segoe Script','Comic Sans MS',cursive",
+            fontSize: 14,
+            textAlign: "center",
+            outline: "none",
+            padding: "0 4px",
+            fontWeight: isComplete && isCorrect ? "bold" : "normal",
+            textTransform: "uppercase",
+            letterSpacing: 1,
+          }}
+        />
+        {/* First letter indicator when correct */}
+        {isComplete && isCorrect && (
+          <span style={{
+            position: "absolute", top: -14, left: "50%", transform: "translateX(-50%)",
+            fontSize: 10, color: "#22c55e", fontFamily: "Arial,sans-serif", fontWeight: "bold",
+          }}>
+            ✓
+          </span>
+        )}
+      </span>
+    </span>
   );
 }
