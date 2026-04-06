@@ -6,6 +6,8 @@ type PhoneState = "off" | "nobattery" | "charging" | "charged" | "lockscreen" | 
 
 const CORRECT_PIN = "1051";
 const CACHE_KEY = "sm_phone_charged";
+const CHARGER_KEY = "sm_charger_found";
+const PAPER_KEY = "sm_paper_read";
 
 const APPS = [
   { id: "phone", name: "Telefono", icon: "📞", color: "#22c55e" },
@@ -38,14 +40,25 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
   const [chargePercent, setChargePercent] = useState(0);
   const [showAppError, setShowAppError] = useState<string | null>(null);
   const [bootAnim, setBootAnim] = useState(false);
+  const [hasCharger, setHasCharger] = useState(false);
+  const [hasPaper, setHasPaper] = useState(false);
+  const [showSubconscious, setShowSubconscious] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const cached = localStorage.getItem(CACHE_KEY);
-      if (cached === "true") {
-        setState("lockscreen");
-      }
+      if (cached === "true") setState("lockscreen");
+      setHasCharger(localStorage.getItem(CHARGER_KEY) === "true");
+      setHasPaper(localStorage.getItem(PAPER_KEY) === "true");
     }
+    // Poll for changes from the toolbox
+    const interval = setInterval(() => {
+      if (typeof window !== "undefined") {
+        setHasCharger(localStorage.getItem(CHARGER_KEY) === "true");
+        setHasPaper(localStorage.getItem(PAPER_KEY) === "true");
+      }
+    }, 500);
+    return () => clearInterval(interval);
   }, []);
 
   // Charging animation
@@ -75,11 +88,16 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
 
   const handlePinPress = useCallback((digit: string) => {
     setPinError(false);
+    const paperRead = localStorage.getItem(PAPER_KEY) === "true";
     const newPin = pin + digit;
     if (newPin.length <= 4) {
       setPin(newPin);
       if (newPin.length === 4) {
-        if (newPin === CORRECT_PIN) {
+        if (!paperRead) {
+          // Haven't read the paper yet — subconscious block
+          setShowSubconscious(true);
+          setTimeout(() => { setPin(""); setShowSubconscious(false); }, 2500);
+        } else if (newPin === CORRECT_PIN) {
           setBootAnim(true);
           setTimeout(() => {
             setState("home");
@@ -186,17 +204,31 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                 <div style={{ position: "absolute", top: 30, left: "50%", transform: "translateX(-50%)", fontSize: 20, color: "#ef4444", fontWeight: "bold" }}>✕</div>
               </div>
               <div style={{ color: "#ef4444", fontSize: 13, fontFamily: "Arial,sans-serif" }}>Sin bateria</div>
-              <button
-                onClick={() => setState("charging")}
-                style={{
-                  marginTop: 8, padding: "10px 24px",
-                  background: "linear-gradient(135deg, #22c55e, #16a34a)",
-                  border: "none", borderRadius: 20, color: "#fff",
-                  fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "Arial,sans-serif",
-                }}
-              >
-                🔌 Cargar movil
-              </button>
+              {hasCharger ? (
+                <button
+                  onClick={() => setState("charging")}
+                  style={{
+                    marginTop: 8, padding: "10px 24px",
+                    background: "linear-gradient(135deg, #22c55e, #16a34a)",
+                    border: "none", borderRadius: 20, color: "#fff",
+                    fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "Arial,sans-serif",
+                  }}
+                >
+                  🔌 Cargar movil
+                </button>
+              ) : (
+                <div style={{ marginTop: 12, textAlign: "center" }}>
+                  <div style={{
+                    padding: "10px 24px", background: "#222", border: "1px solid #333",
+                    borderRadius: 20, color: "#666", fontSize: 12, fontFamily: "Arial,sans-serif",
+                  }}>
+                    🔌 Necesito un cargador...
+                  </div>
+                  <div style={{ marginTop: 10, fontSize: 11, color: "#555", fontStyle: "italic", fontFamily: "Arial,sans-serif", lineHeight: 1.5 }}>
+                    A lo mejor esta en la caja de herramientas
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
@@ -301,6 +333,22 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                   Borrar
                 </button>
               </div>
+
+              {/* Subconscious modal */}
+              {showSubconscious && (
+                <div style={{
+                  position: "absolute", inset: 0, background: "rgba(0,0,0,0.9)", zIndex: 20,
+                  display: "flex", alignItems: "center", justifyContent: "center", padding: 20,
+                }}>
+                  <div style={{
+                    fontSize: 14, color: "#94a3b8", fontFamily: "Arial,sans-serif",
+                    textAlign: "center", lineHeight: 1.8, fontStyle: "italic",
+                  }}>
+                    <div style={{ color: "#22c55e", fontSize: 12, marginBottom: 8, fontStyle: "normal", letterSpacing: 2 }}>/subconsciente</div>
+                    Esto no me va a llevar a ningun lado, de momento...
+                  </div>
+                </div>
+              )}
 
               {/* Boot animation overlay */}
               {bootAnim && (

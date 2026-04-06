@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Phone } from "@/components/phone";
 
 interface Tool {
@@ -306,6 +306,22 @@ const INITIAL_TOOLS: Tool[] = [
       </div>
     ),
   },
+  // Charger - hidden among tools, near bottom
+  {
+    id: "charger",
+    name: "Cargador inalambrico",
+    x: 35, y: 62, z: 3, rotation: -5, width: 60, height: 60,
+    render: () => (
+      <div style={{ width: 60, height: 60, position: "relative" }}>
+        <div style={{ width:60,height:60,borderRadius:10,background:"linear-gradient(135deg,#1a1a1a 0%,#2a2a2a 50%,#1a1a1a 100%)",boxShadow:"inset 0 1px 0 rgba(255,255,255,0.08), 0 3px 8px rgba(0,0,0,0.5)",border:"1px solid #333",display:"flex",alignItems:"center",justifyContent:"center" }}>
+          <div style={{ fontSize:20 }}>⚡</div>
+        </div>
+        {/* USB cable */}
+        <div style={{ position:"absolute",bottom:-8,left:"50%",transform:"translateX(-50%)",width:4,height:12,background:"linear-gradient(180deg,#333,#222)",borderRadius:1 }}/>
+        <div style={{ position:"absolute",bottom:-12,left:"50%",transform:"translateX(-50%)",width:10,height:6,background:"#333",borderRadius:"0 0 3px 3px" }}/>
+      </div>
+    ),
+  },
 ];
 
 export default function CajaPage() {
@@ -315,10 +331,18 @@ export default function CajaPage() {
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
   const [showPaper, setShowPaper] = useState(false);
   const [showPhone, setShowPhone] = useState(false);
+  const [chargerCollected, setChargerCollected] = useState(false);
+  const [showChargerToast, setShowChargerToast] = useState(false);
   const [dragging, setDragging] = useState<string | null>(null);
   const dragStart = useRef<{ x: number; y: number; toolX: number; toolY: number } | null>(null);
   const boxRef = useRef<HTMLDivElement>(null);
   const maxZ = useRef(13);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setChargerCollected(localStorage.getItem("sm_charger_found") === "true");
+    }
+  }, []);
 
   function handleOpen() {
     if (isOpen) return;
@@ -546,7 +570,7 @@ export default function CajaPage() {
 
                 {/* Hidden paper at the center bottom */}
                 <div
-                  onClick={()=>setShowPaper(true)}
+                  onClick={()=>{localStorage.setItem("sm_paper_read","true");setShowPaper(true);}}
                   style={{
                     position:"absolute",top:"42%",left:"50%",transform:"translate(-50%,-50%) rotate(3deg)",
                     width:120,height:80,zIndex:0,
@@ -575,7 +599,16 @@ export default function CajaPage() {
                   <div
                     key={tool.id}
                     onPointerDown={e => handlePointerDown(e, tool.id)}
-                    onDoubleClick={() => setSelectedTool(tool.id)}
+                    onDoubleClick={() => {
+                      if (tool.id === "charger" && !chargerCollected) {
+                        localStorage.setItem("sm_charger_found", "true");
+                        setChargerCollected(true);
+                        setShowChargerToast(true);
+                        setTimeout(() => setShowChargerToast(false), 2500);
+                      } else {
+                        setSelectedTool(tool.id);
+                      }
+                    }}
                     style={{
                       position:"absolute",
                       left:`${tool.x}%`,top:`${tool.y}%`,
@@ -591,6 +624,20 @@ export default function CajaPage() {
                   </div>
                 ))}
               </div>
+
+              {/* Charger collected toast */}
+              {showChargerToast && (
+                <div style={{
+                  position:"fixed",top:"50%",left:"50%",transform:"translate(-50%,-50%)",
+                  background:"rgba(0,0,0,0.9)",border:"1px solid #22c55e",borderRadius:12,
+                  padding:"16px 24px",zIndex:10000,textAlign:"center",
+                  animation:"fadeIn 0.3s ease-out",
+                }}>
+                  <div style={{ fontSize:28,marginBottom:8 }}>⚡</div>
+                  <div style={{ color:"#22c55e",fontSize:14,fontWeight:600 }}>Cargador recogido</div>
+                  <div style={{ color:"#666",fontSize:11,marginTop:4 }}>Ahora puedes cargar el movil</div>
+                </div>
+              )}
 
               <div style={{ textAlign:"center",marginTop:12,fontSize:12,color:"#554433",letterSpacing:0.5 }}>
                 Arrastra las herramientas &bull; Doble click para ampliar
