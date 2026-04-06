@@ -43,6 +43,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
   const [hasCharger, setHasCharger] = useState(false);
   const [hasPaper, setHasPaper] = useState(false);
   const [showSubconscious, setShowSubconscious] = useState(false);
+  const [subconsciousMsg, setSubconsciousMsg] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -94,7 +95,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
       setPin(newPin);
       if (newPin.length === 4) {
         if (!paperRead) {
-          // Haven't read the paper yet — subconscious block
+          setSubconsciousMsg("No se la clave... deberia buscar mejor en la caja de herramientas, seguro que me dejo algo.");
           setShowSubconscious(true);
           setTimeout(() => { setPin(""); setShowSubconscious(false); }, 2500);
         } else if (newPin === CORRECT_PIN) {
@@ -104,8 +105,9 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
             setBootAnim(false);
           }, 600);
         } else {
-          setPinError(true);
-          setTimeout(() => { setPin(""); setPinError(false); }, 800);
+          setSubconsciousMsg("A lo mejor esos numeros no son la clave del movil, que podria ser?");
+          setShowSubconscious(true);
+          setTimeout(() => { setPin(""); setShowSubconscious(false); }, 2500);
         }
       }
     }
@@ -345,7 +347,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                     textAlign: "center", lineHeight: 1.8, fontStyle: "italic",
                   }}>
                     <div style={{ color: "#22c55e", fontSize: 12, marginBottom: 8, fontStyle: "normal", letterSpacing: 2 }}>/subconsciente</div>
-                    No se la clave... deberia buscar mejor en la caja de herramientas, seguro que me dejo algo.
+                    {subconsciousMsg}
                   </div>
                 </div>
               )}
