@@ -412,11 +412,16 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                   >
                     <div style={{
                       width: 48, height: 48, borderRadius: 12,
-                      background: `linear-gradient(135deg, ${app.color}40, ${app.color}20)`,
-                      border: `1px solid ${app.color}30`,
+                      background: app.action
+                        ? `linear-gradient(135deg, ${app.color}80, ${app.color}40)`
+                        : "rgba(255,255,255,0.06)",
+                      border: app.action
+                        ? `1px solid ${app.color}60`
+                        : "1px solid rgba(255,255,255,0.08)",
                       display: "flex", alignItems: "center", justifyContent: "center",
                       fontSize: 22, transition: "transform 0.15s",
                       position: "relative",
+                      opacity: app.action ? 1 : 0.5,
                     }}
                     onMouseDown={e => (e.currentTarget.style.transform = "scale(0.9)")}
                     onMouseUp={e => (e.currentTarget.style.transform = "scale(1)")}
