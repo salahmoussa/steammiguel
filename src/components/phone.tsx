@@ -494,29 +494,53 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
               {showNotesBlock && (
                 <div style={{
                   position: "absolute", inset: 0, zIndex: 20,
-                  display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-                  padding: 20,
                 }}>
-                  {/* Blurred unreadable note background */}
+                  {/* Actual notes screen blurred behind */}
                   <div style={{
                     position: "absolute", inset: 0,
-                    background: "#e8e0c8",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    filter: "blur(3px)",
-                    opacity: 0.4,
+                    background: "#faf5e8",
+                    filter: "blur(4px)",
+                    overflow: "hidden",
                   }}>
-                    <div style={{ fontFamily: "'Segoe Script',cursive", fontSize: 12, color: "#1a1a2e", lineHeight: 2, padding: 30, transform: "rotate(-1deg)" }}>
-                      ~~~~ ~~~ ~~~~~~ ~~~~<br/>~~~ ~~~~~~ ~~ ~~~<br/>~~~~ ~~ ~~~~~ ~~~~<br/>~~ ~~~~~~ ~~~~ ~~<br/>~~~~ ~~ ~~~
+                    {/* Header */}
+                    <div style={{ padding: "36px 14px 10px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #e0d8c4" }}>
+                      <span style={{ color: "#b08020", fontSize: 13, fontFamily: "Arial,sans-serif" }}>← Atras</span>
+                      <span style={{ fontSize: 14, color: "#1a1a1a", fontWeight: 600, fontFamily: "Arial,sans-serif" }}>Notas</span>
+                      <div style={{ width: 40 }} />
+                    </div>
+                    {/* Note content blurred */}
+                    <div style={{
+                      padding: "16px 18px",
+                      fontFamily: "'Segoe Script','Comic Sans MS',cursive",
+                      fontSize: 14, lineHeight: 2.2, color: "#1a1a2e",
+                      backgroundImage: "repeating-linear-gradient(180deg, transparent 0px, transparent 27px, rgba(60,80,140,0.08) 27px, rgba(60,80,140,0.08) 28px)",
+                    }}>
+                      <div style={{ paddingLeft: 8 }}>
+                        <p>Cada vez que venia aqui, me quedaba en silencio.</p>
+                        <p>Miraba la ______ a lo lejos y pensaba que algo en ella me debia algo.</p>
+                        <p>El ____ del rio siempre corria igual, sin prisa, sin culpa.</p>
+                        <p>Al _____ las colinas parecian proteger todo.</p>
+                        <p>Los _______ eran los unicos testigos.</p>
+                        <p>Y la ___ de la tarde lo hacia todo parecer mas facil.</p>
+                        <p style={{ marginTop: 8 }}>Ojala hubiera sido mas facil.</p>
+                        <p style={{ textAlign: "right", fontSize: 18, color: "#1a2a5a" }}>H.</p>
+                      </div>
                     </div>
                   </div>
                   {/* Subconscious overlay */}
                   <div style={{
-                    position: "relative", zIndex: 2, textAlign: "center",
-                    background: "rgba(0,0,0,0.85)", borderRadius: 12, padding: "18px 22px",
+                    position: "absolute", inset: 0, zIndex: 2,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    background: "rgba(0,0,0,0.5)",
                   }}>
-                    <div style={{ color: "#22c55e", fontSize: 11, letterSpacing: 2, marginBottom: 6, fontFamily: "Arial,sans-serif" }}>/subconsciente</div>
-                    <div style={{ fontSize: 13, color: "#94a3b8", fontStyle: "italic", fontFamily: "Arial,sans-serif", lineHeight: 1.6 }}>
-                      No entiendo nada, deberia ver otra cosa primero?
+                    <div style={{
+                      textAlign: "center",
+                      background: "rgba(0,0,0,0.9)", borderRadius: 12, padding: "18px 22px",
+                    }}>
+                      <div style={{ color: "#22c55e", fontSize: 11, letterSpacing: 2, marginBottom: 6, fontFamily: "Arial,sans-serif" }}>/subconsciente</div>
+                      <div style={{ fontSize: 13, color: "#94a3b8", fontStyle: "italic", fontFamily: "Arial,sans-serif", lineHeight: 1.6 }}>
+                        No entiendo nada, deberia ver otra cosa primero?
+                      </div>
                     </div>
                   </div>
                 </div>
