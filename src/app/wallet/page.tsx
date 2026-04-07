@@ -23,8 +23,8 @@ const PORTFOLIO: Crypto[] = [
     symbol: "BTC",
     icon: "₿",
     amount: 47.8213,
-    price: 104250.00,
-    change24h: 2.34,
+    price: 120450.00,
+    change24h: 3.81,
     color: "#f7931a",
   },
   {
@@ -33,8 +33,8 @@ const PORTFOLIO: Crypto[] = [
     symbol: "ETH",
     icon: "Ξ",
     amount: 312.4471,
-    price: 6841.20,
-    change24h: -1.12,
+    price: 7220.00,
+    change24h: 2.47,
     color: "#627eea",
   },
   {
@@ -43,25 +43,25 @@ const PORTFOLIO: Crypto[] = [
     symbol: "MZC",
     icon: "◆",
     amount: 84200,
-    price: 3.17,
-    change24h: 14.82,
+    price: 6.30,
+    change24h: 18.54,
     color: "#00d4aa",
   },
 ];
 
 const TRANSACTIONS = [
-  { id: "t1", type: "buy", asset: "MZC", amount: 30000, value: 95100.00, date: "18/11/2025" },
-  { id: "t2", type: "sell", asset: "ETH", amount: 15.0000, value: 102618.00, date: "03/09/2025" },
-  { id: "t3", type: "buy", asset: "ETH", amount: 50.0000, value: 342060.00, date: "21/06/2025" },
-  { id: "t4", type: "buy", asset: "MZC", amount: 54200, value: 171814.00, date: "14/03/2025" },
-  { id: "t5", type: "buy", asset: "BTC", amount: 10.0000, value: 1042500.00, date: "02/11/2024" },
-  { id: "t6", type: "buy", asset: "BTC", amount: 2.5000, value: 260625.00, date: "19/07/2024" },
-  { id: "t7", type: "buy", asset: "BTC", amount: 35.3213, value: 3682148.25, date: "08/02/2024" },
-  { id: "t8", type: "buy", asset: "ETH", amount: 277.4471, value: 1898033.77, date: "08/02/2024" },
+  { id: "t1", type: "buy", asset: "MZC", amount: 30000, value: 95100.00, date: "12/11/2015" },
+  { id: "t2", type: "sell", asset: "ETH", amount: 15.0000, value: 102618.00, date: "28/09/2015" },
+  { id: "t3", type: "buy", asset: "ETH", amount: 50.0000, value: 342060.00, date: "14/08/2015" },
+  { id: "t4", type: "buy", asset: "MZC", amount: 54200, value: 171814.00, date: "02/07/2015" },
+  { id: "t5", type: "buy", asset: "BTC", amount: 10.0000, value: 1042500.00, date: "19/05/2015" },
+  { id: "t6", type: "buy", asset: "BTC", amount: 2.5000, value: 260625.00, date: "08/04/2015" },
+  { id: "t7", type: "buy", asset: "BTC", amount: 35.3213, value: 3682148.25, date: "15/02/2015" },
+  { id: "t8", type: "buy", asset: "ETH", amount: 277.4471, value: 1898033.77, date: "15/02/2015" },
 ];
 
 function formatMoney(n: number): string {
-  return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return n.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + "€";
 }
 
 export default function WalletPage() {
@@ -74,6 +74,13 @@ export default function WalletPage() {
   const [showWithdraw, setShowWithdraw] = useState(false);
   const [seedWords, setSeedWords] = useState(Array(12).fill(""));
   const [withdrawError, setWithdrawError] = useState("");
+  const [withdrawAttempts, setWithdrawAttempts] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("sm_withdraw_attempts");
+      return saved ? parseInt(saved) : 10;
+    }
+    return 10;
+  });
 
   // Dashboard reveal states
   const [dashboardReady, setDashboardReady] = useState(false);
@@ -101,7 +108,14 @@ export default function WalletPage() {
 
   function handleWithdraw(e: React.FormEvent) {
     e.preventDefault();
-    setWithdrawError("⚠ ALERTA DE SEGURIDAD: Verificacion fallida. Las palabras introducidas no coinciden con la seed phrase registrada. Este intento ha sido registrado y notificado al titular original de la cuenta. Direccion IP y marca de tiempo almacenados. Intentos restantes antes de bloqueo permanente: 2");
+    const remaining = Math.max(0, withdrawAttempts - 1);
+    setWithdrawAttempts(remaining);
+    localStorage.setItem("sm_withdraw_attempts", remaining.toString());
+    if (remaining === 0) {
+      setWithdrawError("⛔ CUENTA BLOQUEADA: Se han agotado todos los intentos de verificacion. Esta cuenta ha sido bloqueada permanentemente. Se ha notificado al titular original. Direccion IP y marca de tiempo registrados.");
+    } else {
+      setWithdrawError(`⚠ ALERTA DE SEGURIDAD: Verificacion fallida. Las palabras introducidas no coinciden con la seed phrase registrada. Este intento ha sido registrado y notificado al titular original de la cuenta. Direccion IP y marca de tiempo almacenados. Intentos restantes antes de bloqueo permanente: ${remaining}`);
+    }
   }
 
   // Dashboard mount: trigger balance count-up
@@ -418,7 +432,7 @@ export default function WalletPage() {
             opacity: balanceCountDone ? 1 : 0,
             transition: "opacity 0.5s ease",
           }}>
-            +$127,432.18 (1.72%) hoy
+            +214.891,40€ (2.58%) hoy
           </div>
 
           {/* Action buttons */}
@@ -430,12 +444,14 @@ export default function WalletPage() {
             }}>
               Invertir mas
             </button>
-            <button onClick={() => setShowWithdraw(true)} style={{
+            <button onClick={() => withdrawAttempts > 0 && setShowWithdraw(true)} style={{
               flex: 1, padding: "12px", background: "transparent",
-              border: "1px solid #374151", borderRadius: 10, color: "#fff", fontSize: 15,
-              fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
+              border: `1px solid ${withdrawAttempts > 0 ? "#374151" : "#ef4444"}`, borderRadius: 10,
+              color: withdrawAttempts > 0 ? "#fff" : "#ef4444", fontSize: 15,
+              fontWeight: 600, cursor: withdrawAttempts > 0 ? "pointer" : "not-allowed",
+              fontFamily: "inherit", opacity: withdrawAttempts > 0 ? 1 : 0.6,
             }}>
-              Retirar
+              {withdrawAttempts > 0 ? "Retirar" : "Bloqueado"}
             </button>
           </div>
         </div>
