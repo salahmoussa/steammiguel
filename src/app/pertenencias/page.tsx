@@ -332,7 +332,10 @@ export default function CajaPage() {
   const [showPaper, setShowPaper] = useState(false);
   const [showPhone, setShowPhone] = useState(false);
   const [showDevice, setShowDevice] = useState(false);
-  const [chargerCollected, setChargerCollected] = useState(false);
+  const [chargerCollected, setChargerCollected] = useState(() => {
+    if (typeof window !== "undefined") return localStorage.getItem("sm_charger_found") === "true";
+    return false;
+  });
   const [showChargerToast, setShowChargerToast] = useState(false);
   const [dragging, setDragging] = useState<string | null>(null);
   const dragStart = useRef<{ x: number; y: number; toolX: number; toolY: number } | null>(null);
