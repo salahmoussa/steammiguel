@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 
 const VALID_USER = "4827163";
 const VALID_PASS = "perroNegro_33!";
+const VALID_SEED_WORDS = ["canal", "benefactor"];
 
 interface Crypto {
   id: string;
@@ -73,6 +74,8 @@ export default function WalletPage() {
   const [showInvest, setShowInvest] = useState(false);
   const [showWithdraw, setShowWithdraw] = useState(false);
   const [seedWords, setSeedWords] = useState(Array(12).fill(""));
+  const [seedStatus, setSeedStatus] = useState<Array<"idle"|"correct"|"wrong">>(Array(12).fill("idle"));
+  const seedTimers = useRef<Array<ReturnType<typeof setTimeout> | null>>(Array(12).fill(null));
   const [withdrawError, setWithdrawError] = useState("");
   const [withdrawAttempts, setWithdrawAttempts] = useState(() => {
     if (typeof window !== "undefined") {
@@ -106,15 +109,52 @@ export default function WalletPage() {
     }
   }
 
+  function handleSeedWordChange(index: number, value: string) {
+    const updated = [...seedWords];
+    updated[index] = value;
+    setSeedWords(updated);
+
+    // Reset status to idle while typing
+    const statuses = [...seedStatus];
+    statuses[index] = "idle";
+    setSeedStatus(statuses);
+
+    // Clear previous timer
+    if (seedTimers.current[index]) clearTimeout(seedTimers.current[index]!);
+
+    // Set 2s cooldown to validate
+    if (value.trim().length > 0) {
+      seedTimers.current[index] = setTimeout(() => {
+        const s = [...seedStatus];
+        if (VALID_SEED_WORDS.includes(value.trim().toLowerCase())) {
+          s[index] = "correct";
+        } else {
+          s[index] = "wrong";
+          // Count as attempt
+          const remaining = Math.max(0, withdrawAttempts - 1);
+          setWithdrawAttempts(remaining);
+          localStorage.setItem("sm_withdraw_attempts", remaining.toString());
+          if (remaining === 0) {
+            setWithdrawError("⛔ CUENTA BLOQUEADA: Se han agotado todos los intentos de verificacion. Esta cuenta ha sido bloqueada permanentemente. Se ha notificado al titular original. Direccion IP y marca de tiempo registrados.");
+          }
+        }
+        setSeedStatus(s);
+      }, 2000);
+    }
+  }
+
   function handleWithdraw(e: React.FormEvent) {
     e.preventDefault();
-    const remaining = Math.max(0, withdrawAttempts - 1);
-    setWithdrawAttempts(remaining);
-    localStorage.setItem("sm_withdraw_attempts", remaining.toString());
-    if (remaining === 0) {
-      setWithdrawError("⛔ CUENTA BLOQUEADA: Se han agotado todos los intentos de verificacion. Esta cuenta ha sido bloqueada permanentemente. Se ha notificado al titular original. Direccion IP y marca de tiempo registrados.");
-    } else {
-      setWithdrawError(`⚠ ALERTA DE SEGURIDAD: Verificacion fallida. Las palabras introducidas no coinciden con la seed phrase registrada. Este intento ha sido registrado y notificado al titular original de la cuenta. Direccion IP y marca de tiempo almacenados. Intentos restantes antes de bloqueo permanente: ${remaining}`);
+    const correctCount = seedStatus.filter(s => s === "correct").length;
+    if (correctCount < 12) {
+      const remaining = Math.max(0, withdrawAttempts - 1);
+      setWithdrawAttempts(remaining);
+      localStorage.setItem("sm_withdraw_attempts", remaining.toString());
+      if (remaining === 0) {
+        setWithdrawError("⛔ CUENTA BLOQUEADA: Se han agotado todos los intentos de verificacion. Esta cuenta ha sido bloqueada permanentemente. Se ha notificado al titular original. Direccion IP y marca de tiempo registrados.");
+      } else {
+        setWithdrawError(`⚠ ALERTA DE SEGURIDAD: Verificacion incompleta. ${correctCount}/12 palabras correctas. Intentos restantes: ${remaining}`);
+      }
     }
   }
 
@@ -320,7 +360,7 @@ export default function WalletPage() {
 
       {/* Withdraw modal */}
       {showWithdraw && (
-        <div onClick={() => { setShowWithdraw(false); setWithdrawError(""); setSeedWords(Array(12).fill("")); }} style={{
+        <div onClick={() => { setShowWithdraw(false); setWithdrawError(""); setSeedWords(Array(12).fill("")); setSeedStatus(prev => prev.map(s => s === "correct" ? "correct" : "idle")); }} style={{
           position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
           background: "rgba(0,0,0,0.7)", zIndex: 9999,
           display: "flex", alignItems: "center", justifyContent: "center", padding: 20,
@@ -331,35 +371,40 @@ export default function WalletPage() {
           }}>
             <h3 style={{ fontSize: 18, color: "#fff", marginBottom: 4 }}>Retirar fondos</h3>
             <p style={{ fontSize: 14, color: "#6b7280", marginBottom: 20, lineHeight: 1.6 }}>
-              Para autorizar la retirada, introduce las 12 palabras de tu frase semilla (seed phrase) en el orden correcto.
+              Para autorizar la retirada, introduce las 12 palabras de tu frase semilla (seed phrase). El orden no importa. Cada palabra se verificara automaticamente.
             </p>
 
             <form onSubmit={handleWithdraw}>
               <div style={{
                 display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 20,
               }}>
-                {seedWords.map((word, i) => (
+                {seedWords.map((word, i) => {
+                  const status = seedStatus[i];
+                  const borderColor = status === "correct" ? "#22c55e" : status === "wrong" ? "#ef4444" : "#374151";
+                  const textColor = status === "correct" ? "#22c55e" : status === "wrong" ? "#ef4444" : "#fff";
+                  return (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ fontSize: 12, color: "#4b5563", fontFamily: "monospace", width: 20, textAlign: "right", flexShrink: 0 }}>
+                    <span style={{ fontSize: 12, color: status === "correct" ? "#22c55e" : "#4b5563", fontFamily: "monospace", width: 20, textAlign: "right", flexShrink: 0 }}>
                       {i + 1}.
                     </span>
                     <input
                       type="text"
                       value={word}
-                      onChange={(e) => {
-                        const updated = [...seedWords];
-                        updated[i] = e.target.value;
-                        setSeedWords(updated);
-                      }}
+                      onChange={(e) => handleSeedWordChange(i, e.target.value)}
+                      disabled={status === "correct" || withdrawAttempts === 0}
                       style={{
-                        width: "100%", padding: "8px 10px", background: "#0b0e17",
-                        border: "1px solid #374151", borderRadius: 6, color: "#fff",
+                        width: "100%", padding: "8px 10px", background: status === "correct" ? "rgba(34,197,94,0.08)" : "#0b0e17",
+                        border: `1px solid ${borderColor}`, borderRadius: 6, color: textColor,
                         fontSize: 14, outline: "none", boxSizing: "border-box",
                         fontFamily: "monospace",
+                        transition: "border-color 0.3s, color 0.3s, background 0.3s",
                       }}
                     />
+                    {status === "correct" && <span style={{ color: "#22c55e", fontSize: 14 }}>✓</span>}
+                    {status === "wrong" && <span style={{ color: "#ef4444", fontSize: 14 }}>✕</span>}
                   </div>
-                ))}
+                  );
+                })}
               </div>
 
               {withdrawError && (
@@ -373,7 +418,7 @@ export default function WalletPage() {
               )}
 
               <div style={{ display: "flex", gap: 10 }}>
-                <button type="button" onClick={() => { setShowWithdraw(false); setWithdrawError(""); setSeedWords(Array(12).fill("")); }} style={{
+                <button type="button" onClick={() => { setShowWithdraw(false); setWithdrawError(""); setSeedWords(Array(12).fill("")); setSeedStatus(prev => prev.map(s => s === "correct" ? "correct" : "idle")); }} style={{
                   flex: 1, padding: "10px", background: "#1f2937", border: "1px solid #374151",
                   borderRadius: 8, color: "#fff", fontSize: 14, cursor: "pointer", fontFamily: "inherit",
                 }}>
