@@ -401,8 +401,6 @@ export default function WalletPage() {
                         transition: "border-color 0.3s, color 0.3s, background 0.3s",
                       }}
                     />
-                    {status === "correct" && <span style={{ color: "#22c55e", fontSize: 14 }}>✓</span>}
-                    {status === "wrong" && <span style={{ color: "#ef4444", fontSize: 14 }}>✕</span>}
                   </div>
                   );
                 })}
