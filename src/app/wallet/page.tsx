@@ -125,6 +125,7 @@ export default function WalletPage() {
     // Set 2s cooldown to validate
     if (value.trim().length > 0) {
       seedTimers.current[index] = setTimeout(() => {
+      // 1s cooldown
         const s = [...seedStatus];
         if (VALID_SEED_WORDS.includes(value.trim().toLowerCase())) {
           s[index] = "correct";
@@ -139,7 +140,7 @@ export default function WalletPage() {
           }
         }
         setSeedStatus(s);
-      }, 2000);
+      }, 1000);
     }
   }
 
