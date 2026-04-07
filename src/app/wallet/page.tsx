@@ -80,9 +80,9 @@ export default function WalletPage() {
   const [withdrawAttempts, setWithdrawAttempts] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("sm_withdraw_attempts");
-      return saved ? parseInt(saved) : 10;
+      return saved ? parseInt(saved) : 3;
     }
-    return 10;
+    return 3;
   });
 
   // Dashboard reveal states
