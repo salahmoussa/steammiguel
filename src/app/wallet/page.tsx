@@ -138,7 +138,7 @@ export default function WalletPage() {
           setWithdrawAttempts(remaining);
           localStorage.setItem("sm_withdraw_attempts", remaining.toString());
           if (remaining === 0) {
-            setWithdrawError("⛔ CUENTA BLOQUEADA: Se han agotado todos los intentos de verificacion. Esta cuenta ha sido bloqueada permanentemente. Se ha notificado al titular original. Direccion IP y marca de tiempo registrados.");
+            setWithdrawError("");
           }
         }
         setSeedStatus([...seedStatusRef.current]);
@@ -157,7 +157,7 @@ export default function WalletPage() {
       if (remaining === 0) {
         setWithdrawError("⛔ CUENTA BLOQUEADA: Se han agotado todos los intentos de verificacion. Esta cuenta ha sido bloqueada permanentemente. Se ha notificado al titular original. Direccion IP y marca de tiempo registrados.");
       } else {
-        setWithdrawError(`⚠ ALERTA DE SEGURIDAD: Verificacion incompleta. ${correctCount}/12 palabras correctas. Intentos restantes: ${remaining}`);
+        setWithdrawError(`Verificacion incompleta. ${correctCount}/12 palabras correctas.`);
       }
     }
   }
@@ -373,9 +373,22 @@ export default function WalletPage() {
             background: "#111827", border: "1px solid #1f2937", borderRadius: 12,
             padding: 28, maxWidth: 520, width: "100%", maxHeight: "90vh", overflowY: "auto",
           }}>
-            <h3 style={{ fontSize: 18, color: "#fff", marginBottom: 4 }}>Retirar fondos</h3>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+              <h3 style={{ fontSize: 18, color: "#fff" }}>Retirar fondos</h3>
+              {/* Visual attempts */}
+              <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                {[0,1,2].map(i => (
+                  <div key={i} style={{
+                    width: 10, height: 10, borderRadius: "50%",
+                    background: i < withdrawAttempts ? "#ef4444" : "#1f2937",
+                    border: `1px solid ${i < withdrawAttempts ? "#ef4444" : "#374151"}`,
+                    transition: "all 0.3s",
+                  }} />
+                ))}
+              </div>
+            </div>
             <p style={{ fontSize: 14, color: "#6b7280", marginBottom: 20, lineHeight: 1.6 }}>
-              Para autorizar la retirada, introduce las 12 palabras de tu frase semilla (seed phrase). El orden no importa. Cada palabra se verificara automaticamente.
+              Introduce las 12 palabras de tu seed phrase. Cada palabra se verificara automaticamente.
             </p>
 
             <form onSubmit={handleWithdraw}>
@@ -408,16 +421,6 @@ export default function WalletPage() {
                   );
                 })}
               </div>
-
-              {withdrawError && (
-                <div style={{
-                  background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)",
-                  borderRadius: 8, padding: "12px 14px", marginBottom: 16,
-                  fontSize: 13, color: "#ef4444", lineHeight: 1.5,
-                }}>
-                  {withdrawError}
-                </div>
-              )}
 
               <div style={{ display: "flex", gap: 10 }}>
                 <button type="button" onClick={() => { setShowWithdraw(false); setWithdrawError(""); setSeedWords(Array(12).fill("")); setSeedStatus(prev => { const n = prev.map(s => s === "correct" ? "correct" : "idle") as Array<"idle"|"correct"|"wrong">; seedStatusRef.current = n; return n; }); }} style={{
@@ -493,12 +496,12 @@ export default function WalletPage() {
             </button>
             <button onClick={() => withdrawAttempts > 0 && setShowWithdraw(true)} style={{
               flex: 1, padding: "12px", background: "transparent",
-              border: `1px solid ${withdrawAttempts > 0 ? "#374151" : "#ef4444"}`, borderRadius: 10,
-              color: withdrawAttempts > 0 ? "#fff" : "#ef4444", fontSize: 15,
+              border: "1px solid #374151", borderRadius: 10,
+              color: "#fff", fontSize: 15,
               fontWeight: 600, cursor: withdrawAttempts > 0 ? "pointer" : "not-allowed",
-              fontFamily: "inherit", opacity: withdrawAttempts > 0 ? 1 : 0.6,
+              fontFamily: "inherit", opacity: withdrawAttempts > 0 ? 1 : 0.3,
             }}>
-              {withdrawAttempts > 0 ? "Retirar" : "Bloqueado"}
+              Retirar
             </button>
           </div>
         </div>
