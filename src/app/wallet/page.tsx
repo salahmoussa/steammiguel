@@ -62,7 +62,7 @@ const TRANSACTIONS = [
 ];
 
 function formatMoney(n: number): string {
-  return n.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + "€";
+  return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 export default function WalletPage() {
@@ -476,7 +476,7 @@ export default function WalletPage() {
             opacity: balanceCountDone ? 1 : 0,
             transition: "opacity 0.5s ease",
           }}>
-            +214.891,40€ (2.58%) hoy
+            +$214,891.40 (2.58%) hoy
           </div>
 
           {/* Action buttons */}
