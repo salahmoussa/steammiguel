@@ -75,12 +75,16 @@ export default function WalletPage() {
   const [showWithdraw, setShowWithdraw] = useState(false);
   const [seedWords, setSeedWords] = useState(Array(12).fill(""));
   const [seedStatus, setSeedStatus] = useState<Array<"idle"|"correct"|"wrong">>(Array(12).fill("idle"));
+  const seedStatusRef = useRef<Array<"idle"|"correct"|"wrong">>(Array(12).fill("idle"));
   const seedTimers = useRef<Array<ReturnType<typeof setTimeout> | null>>(Array(12).fill(null));
+  const attemptsRef = useRef(3);
   const [withdrawError, setWithdrawError] = useState("");
   const [withdrawAttempts, setWithdrawAttempts] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("sm_withdraw_attempts");
-      return saved ? parseInt(saved) : 3;
+      const val = saved ? parseInt(saved) : 3;
+      attemptsRef.current = val;
+      return val;
     }
     return 3;
   });
@@ -115,40 +119,39 @@ export default function WalletPage() {
     setSeedWords(updated);
 
     // Reset status to idle while typing
-    const statuses = [...seedStatus];
-    statuses[index] = "idle";
-    setSeedStatus(statuses);
+    seedStatusRef.current[index] = "idle";
+    setSeedStatus([...seedStatusRef.current]);
 
     // Clear previous timer
     if (seedTimers.current[index]) clearTimeout(seedTimers.current[index]!);
 
-    // Set 2s cooldown to validate
+    // Validate after 1s cooldown
     if (value.trim().length > 0) {
       seedTimers.current[index] = setTimeout(() => {
-      // 1s cooldown
-        const s = [...seedStatus];
         if (VALID_SEED_WORDS.includes(value.trim().toLowerCase())) {
-          s[index] = "correct";
+          seedStatusRef.current[index] = "correct";
         } else {
-          s[index] = "wrong";
-          // Count as attempt
-          const remaining = Math.max(0, withdrawAttempts - 1);
+          seedStatusRef.current[index] = "wrong";
+          // Count as attempt using ref for fresh value
+          const remaining = Math.max(0, attemptsRef.current - 1);
+          attemptsRef.current = remaining;
           setWithdrawAttempts(remaining);
           localStorage.setItem("sm_withdraw_attempts", remaining.toString());
           if (remaining === 0) {
             setWithdrawError("⛔ CUENTA BLOQUEADA: Se han agotado todos los intentos de verificacion. Esta cuenta ha sido bloqueada permanentemente. Se ha notificado al titular original. Direccion IP y marca de tiempo registrados.");
           }
         }
-        setSeedStatus(s);
+        setSeedStatus([...seedStatusRef.current]);
       }, 1000);
     }
   }
 
   function handleWithdraw(e: React.FormEvent) {
     e.preventDefault();
-    const correctCount = seedStatus.filter(s => s === "correct").length;
+    const correctCount = seedStatusRef.current.filter(s => s === "correct").length;
     if (correctCount < 12) {
-      const remaining = Math.max(0, withdrawAttempts - 1);
+      const remaining = Math.max(0, attemptsRef.current - 1);
+      attemptsRef.current = remaining;
       setWithdrawAttempts(remaining);
       localStorage.setItem("sm_withdraw_attempts", remaining.toString());
       if (remaining === 0) {
@@ -361,7 +364,7 @@ export default function WalletPage() {
 
       {/* Withdraw modal */}
       {showWithdraw && (
-        <div onClick={() => { setShowWithdraw(false); setWithdrawError(""); setSeedWords(Array(12).fill("")); setSeedStatus(prev => prev.map(s => s === "correct" ? "correct" : "idle")); }} style={{
+        <div onClick={() => { setShowWithdraw(false); setWithdrawError(""); setSeedWords(Array(12).fill("")); setSeedStatus(prev => { const n = prev.map(s => s === "correct" ? "correct" : "idle") as Array<"idle"|"correct"|"wrong">; seedStatusRef.current = n; return n; }); }} style={{
           position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
           background: "rgba(0,0,0,0.7)", zIndex: 9999,
           display: "flex", alignItems: "center", justifyContent: "center", padding: 20,
@@ -417,7 +420,7 @@ export default function WalletPage() {
               )}
 
               <div style={{ display: "flex", gap: 10 }}>
-                <button type="button" onClick={() => { setShowWithdraw(false); setWithdrawError(""); setSeedWords(Array(12).fill("")); setSeedStatus(prev => prev.map(s => s === "correct" ? "correct" : "idle")); }} style={{
+                <button type="button" onClick={() => { setShowWithdraw(false); setWithdrawError(""); setSeedWords(Array(12).fill("")); setSeedStatus(prev => { const n = prev.map(s => s === "correct" ? "correct" : "idle") as Array<"idle"|"correct"|"wrong">; seedStatusRef.current = n; return n; }); }} style={{
                   flex: 1, padding: "10px", background: "#1f2937", border: "1px solid #374151",
                   borderRadius: 8, color: "#fff", fontSize: 14, cursor: "pointer", fontFamily: "inherit",
                 }}>
