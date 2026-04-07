@@ -34,7 +34,10 @@ const PHOTOS = [
 ];
 
 export function Phone({ visible, onClose }: { visible: boolean; onClose: () => void }) {
-  const [state, setState] = useState<PhoneState>("off");
+  const [state, setState] = useState<PhoneState>(() => {
+    if (typeof window !== "undefined" && localStorage.getItem(CACHE_KEY) === "true") return "lockscreen";
+    return "off";
+  });
   const [pin, setPin] = useState("");
   const [pinError, setPinError] = useState(false);
   const [chargePercent, setChargePercent] = useState(0);
