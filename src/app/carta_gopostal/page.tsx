@@ -158,165 +158,76 @@ export default function CartaPostNLPage() {
         </div>
       )}
 
-      {/* === OPENED LETTER === */}
+      {/* === OPENED: just photos === */}
       {opened && (
         <div style={{
-          width: 580, maxWidth: "94vw",
-          background: "linear-gradient(175deg, #faf5e8 0%, #f3ecd8 50%, #ebe2c8 100%)",
-          padding: "44px 50px",
-          position: "relative",
-          fontFamily: "'Times New Roman', Georgia, serif",
-          color: "#1a1a1a",
-          boxShadow: "0 12px 50px rgba(0,0,0,0.7), inset 0 0 80px rgba(139,119,80,0.1)",
+          display: "flex", flexWrap: "wrap", gap: 50, justifyContent: "center",
+          padding: "20px 0 40px",
           animation: "slideUp 0.6s ease-out",
-          transform: "rotate(-0.4deg)",
         }}>
-          {/* Fold creases */}
-          <div style={{ position: "absolute", top: "33%", left: 0, width: "100%", height: 1, background: "rgba(120,100,60,0.1)", pointerEvents: "none" }} />
-          <div style={{ position: "absolute", top: "66%", left: 0, width: "100%", height: 1, background: "rgba(120,100,60,0.1)", pointerEvents: "none" }} />
+          {PHOTOS.map((photo, idx) => {
+            const rotation = idx === 0 ? -4 : 3.5;
+            return (
+              <div
+                key={photo.id}
+                onClick={() => setViewingPhoto(photo.src)}
+                style={{
+                  position: "relative",
+                  background: "#fdfaf2",
+                  padding: "20px 20px 70px 20px",
+                  boxShadow: "0 12px 36px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.4)",
+                  cursor: "pointer",
+                  transition: "transform 0.3s, box-shadow 0.3s",
+                  transform: `rotate(${rotation}deg)`,
+                  width: 320,
+                  border: "1px solid rgba(0,0,0,0.05)",
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = "scale(1.04) rotate(0deg)";
+                  e.currentTarget.style.boxShadow = "0 18px 50px rgba(0,0,0,0.75), 0 6px 14px rgba(0,0,0,0.5)";
+                  e.currentTarget.style.zIndex = "10";
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = `rotate(${rotation}deg)`;
+                  e.currentTarget.style.boxShadow = "0 12px 36px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.4)";
+                  e.currentTarget.style.zIndex = "1";
+                }}
+              >
+                {/* Tape on top */}
+                <div style={{
+                  position: "absolute", top: -10, left: "50%", transform: "translateX(-50%) rotate(-2deg)",
+                  width: 90, height: 24,
+                  background: "linear-gradient(180deg, rgba(255,255,200,0.7) 0%, rgba(255,255,180,0.5) 100%)",
+                  border: "1px solid rgba(200,180,100,0.3)",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.15)",
+                }}/>
 
-          {/* Stains */}
-          <div style={{ position: "absolute", top: 30, right: 40, width: 80, height: 70, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(139,110,60,0.1) 0%, transparent 70%)", pointerEvents: "none" }} />
-
-          {/* Header */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24, borderBottom: "1px solid rgba(0,0,0,0.1)", paddingBottom: 12 }}>
-            <div>
-              <div style={{ fontSize: 11, color: "#888", letterSpacing: 1.5, textTransform: "uppercase", fontFamily: "Arial,sans-serif" }}>
-                Correspondencia personal
+                {/* Photo image */}
+                <div style={{
+                  width: "100%",
+                  aspectRatio: "1",
+                  background: "#1a1a1a",
+                  overflow: "hidden",
+                  position: "relative",
+                }}>
+                  <img
+                    src={photo.src}
+                    alt={photo.caption || "Foto"}
+                    style={{
+                      width: "100%", height: "100%", objectFit: "cover",
+                      filter: "contrast(1.05) saturate(0.92)",
+                    }}
+                  />
+                  {/* Print grain overlay */}
+                  <div style={{
+                    position: "absolute", inset: 0,
+                    background: "linear-gradient(135deg, rgba(255,200,150,0.04) 0%, transparent 50%, rgba(100,80,40,0.05) 100%)",
+                    pointerEvents: "none",
+                  }}/>
+                </div>
               </div>
-              <div style={{ fontSize: 14, color: "#666", marginTop: 2, fontStyle: "italic" }}>
-                Entregada por GO Postal &bull; Sin remitente
-              </div>
-            </div>
-            <div style={{ fontSize: 11, color: "#999", fontFamily: "Arial,sans-serif", textAlign: "right" }}>
-              Ref. GP-2026-0247
-            </div>
-          </div>
-
-          {/* Letter body - placeholder text */}
-          <div style={{ fontSize: 14, lineHeight: 1.8, textAlign: "justify", marginBottom: 24 }}>
-            <p style={{ marginBottom: 14 }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua.
-            </p>
-            <p style={{ marginBottom: 14 }}>
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-              ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
-            </p>
-          </div>
-
-          {/* Photos section */}
-          {PHOTOS.length > 0 ? (
-            <>
-              <div style={{
-                fontSize: 11, color: "#888", letterSpacing: 1, textTransform: "uppercase",
-                marginBottom: 24, fontFamily: "Arial,sans-serif",
-                borderTop: "1px solid rgba(0,0,0,0.1)", paddingTop: 16,
-              }}>
-                Fotografias adjuntas ({PHOTOS.length})
-              </div>
-              <div style={{
-                display: "flex", flexWrap: "wrap", gap: 30, justifyContent: "center",
-                padding: "10px 0 30px",
-              }}>
-                {PHOTOS.map((photo, idx) => {
-                  const rotation = idx === 0 ? -3.5 : 2.8;
-                  return (
-                    <div
-                      key={photo.id}
-                      onClick={() => setViewingPhoto(photo.src)}
-                      style={{
-                        position: "relative",
-                        background: "#fdfaf2",
-                        padding: "14px 14px 50px 14px",
-                        boxShadow: "0 8px 24px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.3)",
-                        cursor: "pointer",
-                        transition: "transform 0.3s, box-shadow 0.3s",
-                        transform: `rotate(${rotation}deg)`,
-                        width: 200,
-                        border: "1px solid rgba(0,0,0,0.05)",
-                      }}
-                      onMouseEnter={e => {
-                        e.currentTarget.style.transform = "scale(1.06) rotate(0deg)";
-                        e.currentTarget.style.boxShadow = "0 12px 32px rgba(0,0,0,0.5), 0 4px 8px rgba(0,0,0,0.3)";
-                        e.currentTarget.style.zIndex = "10";
-                      }}
-                      onMouseLeave={e => {
-                        e.currentTarget.style.transform = `rotate(${rotation}deg)`;
-                        e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.3)";
-                        e.currentTarget.style.zIndex = "1";
-                      }}
-                    >
-                      {/* Tape on top */}
-                      <div style={{
-                        position: "absolute", top: -8, left: "50%", transform: "translateX(-50%) rotate(-2deg)",
-                        width: 70, height: 20,
-                        background: "linear-gradient(180deg, rgba(255,255,200,0.7) 0%, rgba(255,255,180,0.5) 100%)",
-                        border: "1px solid rgba(200,180,100,0.3)",
-                        boxShadow: "0 1px 3px rgba(0,0,0,0.15)",
-                      }}/>
-
-                      {/* Photo image */}
-                      <div style={{
-                        width: "100%",
-                        aspectRatio: "1",
-                        background: "#1a1a1a",
-                        overflow: "hidden",
-                        position: "relative",
-                      }}>
-                        <img
-                          src={photo.src}
-                          alt={photo.caption || "Foto"}
-                          style={{
-                            width: "100%", height: "100%", objectFit: "cover",
-                            filter: "contrast(1.05) saturate(0.92)",
-                          }}
-                        />
-                        {/* Print grain overlay */}
-                        <div style={{
-                          position: "absolute", inset: 0,
-                          background: "linear-gradient(135deg, rgba(255,200,150,0.04) 0%, transparent 50%, rgba(100,80,40,0.05) 100%)",
-                          pointerEvents: "none",
-                        }}/>
-                      </div>
-
-                      {/* Caption area (handwritten) */}
-                      <div style={{
-                        position: "absolute", bottom: 12, left: 0, right: 0,
-                        textAlign: "center",
-                        fontFamily: "'Segoe Script','Comic Sans MS',cursive",
-                        fontSize: 13, color: "#3a3a4a",
-                      }}>
-                        {idx === 0 ? "—" : "—"}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </>
-          ) : (
-            <div style={{
-              border: "2px dashed rgba(120,100,60,0.3)",
-              borderRadius: 4, padding: "24px 16px",
-              textAlign: "center", marginTop: 20,
-              fontSize: 12, color: "#888", fontFamily: "Arial,sans-serif",
-              fontStyle: "italic",
-            }}>
-              [Espacio reservado para fotografias adjuntas]
-            </div>
-          )}
-
-          {/* Signature */}
-          <div style={{ marginTop: 30, textAlign: "right", borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 16 }}>
-            <div style={{ fontSize: 12, color: "#666" }}>Atentamente,</div>
-            <div style={{
-              fontFamily: "'Brush Script MT','Segoe Script',cursive",
-              fontSize: 28, color: "#1a3a6a", marginTop: 6,
-              transform: "rotate(-2deg)", display: "inline-block",
-            }}>
-              ___
-            </div>
-          </div>
+            );
+          })}
         </div>
       )}
 
