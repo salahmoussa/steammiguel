@@ -785,6 +785,8 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                       </div>
                       {[
                         "reservar habitacion The Royale",
+                        "agente desaparecido Puerto Rico",
+                        "SCW",
                       ].map((s, i) => (
                         <div
                           key={i}
