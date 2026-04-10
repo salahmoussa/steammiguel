@@ -32,7 +32,7 @@ interface SearchResult {
   title: string;
   url: string;
   desc: string;
-  target?: string; // if set, navigate here on click; otherwise show subconsciente
+  target?: "royale" | "scw" | "foro"; // page id to load inside phone, or "foro" navigates externally
 }
 
 const SEARCH_HISTORY = [
@@ -47,7 +47,7 @@ const SEARCHES: Record<string, SearchResult[]> = {
       title: "The Royale Hotel — Reservas y habitaciones",
       url: "theroyale.ls",
       desc: "Reserva tu habitacion en The Royale Hotel, el ultimo refugio de elegancia en Vinewood Boulevard. Suites desde $480/noche.",
-      target: "/the-royale",
+      target: "royale",
     },
     {
       title: "Hoteles de lujo en Los Santos | LS Travel Guide",
@@ -75,7 +75,7 @@ const SEARCHES: Record<string, SearchResult[]> = {
       title: "5chan /5ch/ — Foro anonimo de Los Santos",
       url: "5chan.org/5ch",
       desc: "Hilo destacado: SI DESAPAREZCO LEED ESTO. NO ES UN LARP. Discusion anonima, sin moderacion. Lo mas heavy del foro.",
-      target: "/foro",
+      target: "foro",
     },
     {
       title: "Weazel News - Investigacion en curso sobre desapariciones",
@@ -103,7 +103,7 @@ const SEARCHES: Record<string, SearchResult[]> = {
       title: "Stoner Cement Works — Cemento, hormigon y almacenaje",
       url: "scw.ls",
       desc: "Empresa lider en suministro de cemento y servicios de almacenaje industrial en San Andreas desde 1973. Sede en Murrieta Heights.",
-      target: "/scw",
+      target: "scw",
     },
     {
       title: "SCW Industrial Group - Resultados 2025",
@@ -149,6 +149,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
   const [browserSearchFocused, setBrowserSearchFocused] = useState(false);
   const [browserQuery, setBrowserQuery] = useState("");
   const [browserResults, setBrowserResults] = useState<string | null>(null);
+  const [browserPage, setBrowserPage] = useState<"royale" | "scw" | null>(null);
   const [browserSubconscious, setBrowserSubconscious] = useState(false);
 
   useEffect(() => {
@@ -816,7 +817,9 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
               }}>
                 <button
                   onClick={() => {
-                    if (browserResults) {
+                    if (browserPage) {
+                      setBrowserPage(null);
+                    } else if (browserResults) {
                       setBrowserResults(null);
                       setBrowserQuery("");
                     } else {
@@ -836,7 +839,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                 }}>
                   <span style={{ fontSize: 10, color: "#5f6368" }}>🔒</span>
                   <span style={{ fontSize: 9, color: "#5f6368", fontFamily: "Arial,sans-serif", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {browserResults ? `quack.com/?q=${encodeURIComponent(browserResults).slice(0, 20)}` : "quack.com"}
+                    {browserPage === "royale" ? "theroyale.ls" : browserPage === "scw" ? "scw.ls" : browserResults ? `quack.com/?q=...` : "quack.com"}
                   </span>
                 </div>
               </div>
@@ -856,8 +859,269 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                 </div>
               )}
 
+              {/* === LOADED PAGE: THE ROYALE === */}
+              {browserPage === "royale" && (
+                <div style={{ flex: 1, overflowY: "auto", background: "#0a0807", color: "#e8d8a8", fontFamily: "Georgia,serif" }}>
+                  {/* Header */}
+                  <div style={{
+                    padding: "14px 12px",
+                    borderBottom: "1px solid #2a2218",
+                    background: "rgba(0,0,0,0.6)",
+                    textAlign: "center",
+                  }}>
+                    <div style={{
+                      width: 28, height: 28, borderRadius: "50%",
+                      border: "2px solid #c8a058",
+                      display: "inline-flex", alignItems: "center", justifyContent: "center",
+                      color: "#c8a058", fontSize: 14, fontWeight: 700, marginBottom: 4,
+                    }}>R</div>
+                    <div style={{ fontSize: 14, color: "#c8a058", letterSpacing: 3, fontWeight: 600 }}>THE ROYALE</div>
+                    <div style={{ fontSize: 7, color: "#7a6a4a", letterSpacing: 1.5, fontFamily: "Arial,sans-serif" }}>HOTEL · LOS SANTOS</div>
+                  </div>
+
+                  {/* Hero */}
+                  <div style={{ padding: "30px 16px 20px", textAlign: "center" }}>
+                    <div style={{ fontSize: 9, color: "#c8a058", letterSpacing: 3, marginBottom: 10, fontFamily: "Arial,sans-serif" }}>
+                      ★ ★ ★ ★ ★
+                    </div>
+                    <div style={{ fontSize: 22, fontWeight: 300, color: "#f0e0b8", lineHeight: 1.2 }}>
+                      Donde Los Santos<br />se duerme.
+                    </div>
+                    <div style={{ fontSize: 10, color: "#9a8a6a", marginTop: 12, fontStyle: "italic", lineHeight: 1.5 }}>
+                      A pocos pasos de Vinewood Boulevard.
+                    </div>
+                    <button style={{
+                      marginTop: 20, padding: "8px 18px",
+                      background: "transparent",
+                      border: "1px solid #c8a058",
+                      color: "#c8a058",
+                      fontSize: 9, letterSpacing: 2,
+                      cursor: "pointer", fontFamily: "Arial,sans-serif",
+                    }}>
+                      RESERVAR
+                    </button>
+                  </div>
+
+                  {/* Rooms */}
+                  <div style={{ padding: "20px 14px", borderTop: "1px solid #2a2218" }}>
+                    <div style={{ fontSize: 8, color: "#7a6a4a", letterSpacing: 2, fontFamily: "Arial,sans-serif", textAlign: "center", marginBottom: 12 }}>
+                      NUESTRAS HABITACIONES
+                    </div>
+                    {[
+                      { name: "Vinewood Suite", price: "$1.200" },
+                      { name: "Penthouse Royale", price: "$3.500" },
+                      { name: "Standard Premium", price: "$480" },
+                    ].map((room, i) => (
+                      <div key={i} style={{
+                        background: "rgba(20,16,12,0.6)",
+                        border: "1px solid #2a2218",
+                        padding: "10px 12px",
+                        marginBottom: 8,
+                        display: "flex", justifyContent: "space-between", alignItems: "center",
+                      }}>
+                        <div>
+                          <div style={{ fontSize: 11, color: "#e8d8a8" }}>{room.name}</div>
+                          <div style={{ fontSize: 8, color: "#7a6a4a", fontFamily: "Arial,sans-serif" }}>por noche</div>
+                        </div>
+                        <div style={{ fontSize: 13, color: "#c8a058" }}>{room.price}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Booking lookup */}
+                  <div style={{
+                    background: "rgba(200,160,88,0.04)",
+                    borderTop: "1px solid #2a2218",
+                    padding: "20px 14px",
+                    textAlign: "center",
+                  }}>
+                    <div style={{ fontSize: 8, color: "#7a6a4a", letterSpacing: 2, fontFamily: "Arial,sans-serif", marginBottom: 6 }}>
+                      CONSULTA TU RESERVA
+                    </div>
+                    <div style={{ fontSize: 10, color: "#9a8a6a", fontFamily: "Arial,sans-serif", marginBottom: 12 }}>
+                      Introduzca el numero de confirmacion
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="N° de reserva"
+                      style={{
+                        background: "rgba(0,0,0,0.4)",
+                        border: "1px solid #3a3020",
+                        color: "#c8a058", padding: "6px 10px",
+                        fontSize: 10, fontFamily: "monospace", letterSpacing: 1,
+                        width: "100%", boxSizing: "border-box",
+                        marginBottom: 8,
+                      }}
+                    />
+                    <button style={{
+                      width: "100%",
+                      background: "#c8a058", border: "none",
+                      color: "#0a0807", padding: "7px 12px",
+                      fontSize: 9, fontWeight: 700, letterSpacing: 1.5,
+                      cursor: "pointer", fontFamily: "Arial,sans-serif",
+                    }}>
+                      CONSULTAR
+                    </button>
+                  </div>
+
+                  <div style={{
+                    textAlign: "center", padding: "16px 12px",
+                    fontSize: 8, color: "#4a4030", fontFamily: "Arial,sans-serif",
+                    letterSpacing: 0.5, lineHeight: 1.7,
+                  }}>
+                    745 VINEWOOD BLVD<br />
+                    LOS SANTOS, SA<br />
+                    +1 (213) 555-0188
+                  </div>
+                </div>
+              )}
+
+              {/* === LOADED PAGE: SCW === */}
+              {browserPage === "scw" && (
+                <div style={{ flex: 1, overflowY: "auto", background: "#f0f3f6", color: "#1a1a1a", fontFamily: "Arial,sans-serif" }}>
+                  {/* Top bar */}
+                  <div style={{ background: "#1a3a6a", color: "#fff", padding: "6px 12px", fontSize: 8 }}>
+                    +1 (213) 555-0247 · L-V 07:00-19:00
+                  </div>
+
+                  {/* Header */}
+                  <div style={{
+                    background: "#fff",
+                    borderBottom: "3px solid #c8a020",
+                    padding: "12px 14px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                  }}>
+                    <div style={{
+                      width: 36, height: 36,
+                      background: "linear-gradient(135deg, #2a4a7a 0%, #1a3a6a 100%)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      color: "#fff", fontSize: 12, fontWeight: 900,
+                      boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+                    }}>SCW</div>
+                    <div>
+                      <div style={{ fontSize: 12, fontWeight: 900, color: "#1a3a6a" }}>STONER CEMENT WORKS</div>
+                      <div style={{ fontSize: 7, color: "#666", letterSpacing: 0.5 }}>DESDE 1973</div>
+                    </div>
+                  </div>
+
+                  {/* Hero */}
+                  <div style={{
+                    background: "linear-gradient(135deg, #1a3a6a 0%, #2a4a7a 100%)",
+                    color: "#fff",
+                    padding: "24px 16px",
+                    textAlign: "center",
+                  }}>
+                    <div style={{ fontSize: 8, color: "#c8a020", letterSpacing: 2, marginBottom: 6, fontWeight: 700 }}>
+                      CALIDAD INDUSTRIAL
+                    </div>
+                    <div style={{ fontSize: 18, fontWeight: 900, lineHeight: 1.2 }}>
+                      CONSTRUIMOS<br />LOS SANTOS
+                    </div>
+                    <div style={{ fontSize: 9, color: "#aac4e0", marginTop: 8 }}>
+                      50+ años suministrando cemento, hormigon y almacenaje.
+                    </div>
+                  </div>
+
+                  {/* Services */}
+                  <div style={{ padding: "16px 14px" }}>
+                    {[
+                      { icon: "🏗️", title: "CEMENTO Y HORMIGON", desc: "Mezclas industriales para grandes proyectos" },
+                      { icon: "📦", title: "ALMACENAJE INDUSTRIAL", desc: "Modulos de alquiler por meses, 4-50m²" },
+                      { icon: "🚚", title: "TRANSPORTE", desc: "Flota propia, entregas en todo SA" },
+                    ].map((s, i) => (
+                      <div key={i} style={{
+                        background: "#fff",
+                        border: "1px solid #d8e0e8",
+                        borderTop: "2px solid #c8a020",
+                        padding: "10px 12px",
+                        marginBottom: 8,
+                      }}>
+                        <div style={{ fontSize: 18, marginBottom: 4 }}>{s.icon}</div>
+                        <div style={{ fontSize: 11, fontWeight: 900, color: "#1a3a6a", marginBottom: 3 }}>{s.title}</div>
+                        <div style={{ fontSize: 9, color: "#555", lineHeight: 1.4 }}>{s.desc}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Storage section */}
+                  <div style={{ background: "#1a3a6a", color: "#fff", padding: "20px 14px" }}>
+                    <div style={{ fontSize: 8, color: "#c8a020", letterSpacing: 2, marginBottom: 4, fontWeight: 700 }}>
+                      DESTACADO
+                    </div>
+                    <div style={{ fontSize: 14, fontWeight: 900, marginBottom: 8 }}>
+                      MODULOS DE ALMACENAJE
+                    </div>
+                    <div style={{ fontSize: 9, color: "#aac4e0", lineHeight: 1.5, marginBottom: 12 }}>
+                      Complejo Murrieta Heights. Acceso 24/7 con tarjeta. Vigilancia continua. Sin contratos largos.
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+                      {[
+                        { size: "S", area: "4 m²", price: "$120" },
+                        { size: "M", area: "12 m²", price: "$280" },
+                        { size: "L", area: "25 m²", price: "$520" },
+                        { size: "XL", area: "50 m²", price: "$890" },
+                      ].map((m, i) => (
+                        <div key={i} style={{
+                          background: "rgba(255,255,255,0.05)",
+                          border: "1px solid rgba(200,160,32,0.3)",
+                          padding: "8px 6px", textAlign: "center",
+                        }}>
+                          <div style={{ fontSize: 16, fontWeight: 900, color: "#c8a020" }}>{m.size}</div>
+                          <div style={{ fontSize: 7, color: "#aac4e0" }}>{m.area}</div>
+                          <div style={{ fontSize: 10, color: "#fff", marginTop: 4, fontWeight: 700 }}>{m.price}<span style={{ fontSize: 6 }}>/mes</span></div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Locations */}
+                  <div style={{ padding: "16px 14px" }}>
+                    <div style={{ fontSize: 8, color: "#888", letterSpacing: 2, marginBottom: 4, fontWeight: 700 }}>UBICACIONES</div>
+                    <div style={{ fontSize: 12, fontWeight: 900, color: "#1a3a6a", marginBottom: 10 }}>EN TODO SAN ANDREAS</div>
+                    {[
+                      { name: "MURRIETA HEIGHTS", addr: "Industrial Plaza 14, Los Santos", main: true },
+                      { name: "LA MESA", addr: "Popular St. 88, Los Santos", main: false },
+                      { name: "PALETO BAY", addr: "Cassidy Trail Rd 3", main: false },
+                    ].map((loc, i) => (
+                      <div key={i} style={{
+                        background: loc.main ? "#fff" : "#f8fafc",
+                        border: `2px solid ${loc.main ? "#c8a020" : "#d8e0e8"}`,
+                        padding: "10px 12px",
+                        marginBottom: 6,
+                        position: "relative",
+                      }}>
+                        {loc.main && (
+                          <div style={{
+                            position: "absolute", top: -7, right: 8,
+                            background: "#c8a020", color: "#fff",
+                            fontSize: 7, fontWeight: 900, padding: "2px 6px",
+                          }}>
+                            PRINCIPAL
+                          </div>
+                        )}
+                        <div style={{ fontSize: 11, fontWeight: 900, color: "#1a3a6a" }}>{loc.name}</div>
+                        <div style={{ fontSize: 9, color: "#555", marginTop: 2 }}>{loc.addr}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{
+                    background: "#0e2240",
+                    color: "#aac4e0",
+                    padding: "14px 12px",
+                    textAlign: "center",
+                    fontSize: 8,
+                    borderTop: "2px solid #c8a020",
+                  }}>
+                    SCW · DESDE 1973<br />© 2026
+                  </div>
+                </div>
+              )}
+
               {/* === SEARCH RESULTS === */}
-              {browserResults && SEARCHES[browserResults] && (
+              {!browserPage && browserResults && SEARCHES[browserResults] && (
                 <div style={{ flex: 1, overflowY: "auto", background: "#fff" }}>
                   {/* Search bar at top */}
                   <div style={{ padding: "12px 14px", borderBottom: "1px solid #ebebeb" }}>
@@ -883,8 +1147,10 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                       <div
                         key={idx}
                         onClick={() => {
-                          if (result.target) {
-                            window.location.href = result.target;
+                          if (result.target === "royale" || result.target === "scw") {
+                            setBrowserPage(result.target);
+                          } else if (result.target === "foro") {
+                            window.location.href = "/foro";
                           } else {
                             setBrowserSubconscious(true);
                             setTimeout(() => setBrowserSubconscious(false), 2200);
@@ -915,7 +1181,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
               )}
 
               {/* === HOME (no results yet) === */}
-              {!browserResults && (
+              {!browserPage && !browserResults && (
                 <div style={{
                   flex: 1, padding: "30px 16px 16px",
                   display: "flex", flexDirection: "column", alignItems: "center",
