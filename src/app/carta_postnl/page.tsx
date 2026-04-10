@@ -98,18 +98,38 @@ export default function CartaPostNLPage() {
             <div style={{ fontSize: 7, color: "#666", fontFamily: "Arial,sans-serif", marginTop: 2 }}>2026</div>
           </div>
 
+          {/* Sender area (anonymous) */}
+          <div style={{
+            position: "absolute", top: 110, left: 30,
+            fontSize: 10, color: "#888", fontFamily: "Arial,sans-serif",
+            fontStyle: "italic",
+          }}>
+            <div style={{ textTransform: "uppercase", letterSpacing: 1, fontStyle: "normal", marginBottom: 2 }}>Remitente</div>
+            <div style={{ color: "#aaa" }}>— Sin datos —</div>
+          </div>
+
           {/* Address area */}
           <div style={{
-            position: "absolute", top: 130, left: 30, right: 130,
-            background: "#fff", padding: "14px 18px",
+            position: "absolute", top: 160, left: 30, right: 130,
+            background: "#fff", padding: "12px 16px",
             borderRadius: 2,
             boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
             border: "1px solid #ddd",
           }}>
             <div style={{ fontSize: 9, color: "#888", textTransform: "uppercase", letterSpacing: 1, fontFamily: "Arial,sans-serif", marginBottom: 4 }}>Destinatario</div>
             <div style={{ fontSize: 14, color: "#1a1a1a", fontFamily: "Arial,sans-serif", fontWeight: 600 }}>Hector Ocasio</div>
-            <div style={{ fontSize: 12, color: "#444", fontFamily: "Arial,sans-serif", marginTop: 2 }}>Apartado de correos privado</div>
-            <div style={{ fontSize: 12, color: "#444", fontFamily: "Arial,sans-serif" }}>Los Santos, San Andreas</div>
+            <div style={{ fontSize: 11, color: "#444", fontFamily: "Arial,sans-serif", marginTop: 2 }}>Apartado de correos privado</div>
+            <div style={{ fontSize: 11, color: "#444", fontFamily: "Arial,sans-serif" }}>Los Santos, San Andreas</div>
+          </div>
+
+          {/* Mailbox origin badge */}
+          <div style={{
+            position: "absolute", bottom: 12, left: 30,
+            fontSize: 9, color: "#888", fontFamily: "Arial,sans-serif",
+            display: "flex", alignItems: "center", gap: 4,
+          }}>
+            <span style={{ fontSize: 11 }}>📮</span>
+            <span>Depositada en buzon publico &middot; Origen no registrado</span>
           </div>
 
           {/* Postmark */}
@@ -165,7 +185,7 @@ export default function CartaPostNLPage() {
                 Correspondencia personal
               </div>
               <div style={{ fontSize: 14, color: "#666", marginTop: 2, fontStyle: "italic" }}>
-                Entregada por GO Postal
+                Entregada por GO Postal &bull; Sin remitente
               </div>
             </div>
             <div style={{ fontSize: 11, color: "#999", fontFamily: "Arial,sans-serif", textAlign: "right" }}>
