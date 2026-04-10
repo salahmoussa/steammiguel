@@ -26,11 +26,6 @@ const APPS = [
 
 const PHOTOS = [
   { id: "p1", placeholder: false, src: "/photos/foto1.png" },
-  { id: "p2", placeholder: true, src: "" },
-  { id: "p3", placeholder: true, src: "" },
-  { id: "p4", placeholder: true, src: "" },
-  { id: "p5", placeholder: true, src: "" },
-  { id: "p6", placeholder: true, src: "" },
 ];
 
 export function Phone({ visible, onClose }: { visible: boolean; onClose: () => void }) {
@@ -446,7 +441,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                           background: "#ef4444", border: "2px solid #0c0a20",
                           display: "flex", alignItems: "center", justifyContent: "center",
                           fontSize: 9, color: "#fff", fontWeight: "bold",
-                        }}>6</div>
+                        }}>1</div>
                       )}
                       {app.id === "notes" && (
                         <div style={{
