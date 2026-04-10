@@ -479,7 +479,8 @@ export default function ContainerPage() {
           <div
             onClick={e => e.stopPropagation()}
             style={{
-              background: "linear-gradient(180deg, #faf5e8 0%, #f3ecd8 50%, #ebe2c8 100%)",
+              backgroundColor: "#faf5e8",
+              backgroundImage: "repeating-linear-gradient(180deg, transparent 0px, transparent 28px, rgba(60,80,140,0.18) 28px, rgba(60,80,140,0.18) 29px), linear-gradient(180deg, #faf5e8 0%, #f3ecd8 50%, #ebe2c8 100%)",
               padding: "40px 50px 50px 70px",
               width: 540,
               maxWidth: "94vw",
@@ -490,7 +491,6 @@ export default function ContainerPage() {
               fontFamily: "'Segoe Script','Comic Sans MS','Bradley Hand',cursive",
               color: "#1a1a2e",
               transform: "rotate(-0.4deg)",
-              backgroundImage: "repeating-linear-gradient(180deg, transparent 0px, transparent 28px, rgba(60,80,140,0.1) 28px, rgba(60,80,140,0.1) 29px)",
             }}
           >
             {/* Spiral binding holes (left) */}
