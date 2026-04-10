@@ -11,7 +11,7 @@ export default function ContainerPage() {
   const [showNotebook, setShowNotebook] = useState(false);
   const [notebookPage, setNotebookPage] = useState(1);
   const [showBadge, setShowBadge] = useState(false);
-  const TOTAL_PAGES = 2;
+  const TOTAL_PAGES = 5;
 
   function changeWheel(idx: number, delta: number) {
     if (unlocked) return;
@@ -591,6 +591,96 @@ export default function ContainerPage() {
                 </div>
 
                 {/* Bottom signature */}
+                <div style={{ textAlign: "right", marginTop: 10, fontSize: 14, color: "#5a5a7a", fontStyle: "italic" }}>
+                  — W.
+                </div>
+              </>
+            )}
+
+            {notebookPage === 3 && (
+              <>
+                <div style={{ marginBottom: 18, fontSize: 13, color: "#5a5a7a", fontStyle: "italic" }}>
+                  12 de junio
+                </div>
+                <div style={{ fontSize: 15, lineHeight: 1.85, textAlign: "justify" }}>
+                  <p style={{ marginBottom: 14 }}>
+                    Anoche me llamaron a las dos de la madrugada. Que tenia que ir al puerto, sin preguntas. Cogi el coche y baje. Habia un contenedor abierto y dos tipos esperandome. Me dijeron que cogiera lo que habia dentro y lo llevara a una direccion en La Mesa.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    No mire que era. No quise mirar. Pesaba poco. Demasiado poco para lo nervioso que estaba el de la barba mientras me daba las llaves del coche.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    Llegue, descargue, me dieron un sobre con dinero y me marche sin decir nada. Eso es lo que hacen las personas que no quieren saber.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    Pero hoy he visto las noticias. En Vinewood han encontrado a una chica muerta dentro de un Bravado negro. Y yo no puedo dejar de pensar si lo que llevaba anoche tenia algo que ver. Si yo soy parte de esto.
+                  </p>
+                  <p style={{ marginBottom: 18 }}>
+                    No soy capaz de mirarme al espejo.
+                  </p>
+                </div>
+                <div style={{ textAlign: "right", marginTop: 10, fontSize: 14, color: "#5a5a7a", fontStyle: "italic" }}>
+                  — W.
+                </div>
+              </>
+            )}
+
+            {notebookPage === 4 && (
+              <>
+                <div style={{ marginBottom: 18, fontSize: 13, color: "#5a5a7a", fontStyle: "italic" }}>
+                  18 de junio
+                </div>
+                <div style={{ fontSize: 15, lineHeight: 1.85, textAlign: "justify" }}>
+                  <p style={{ marginBottom: 14 }}>
+                    Llevo casi un año metido en esto y todavia no he visto al jefe. Al jefe de verdad. Al que da las ordenes que mueven todo lo demas. Solo conozco a los intermediarios. Y a los intermediarios de los intermediarios.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    Cada vez que pregunto algo me dicen lo mismo: tu haces tu trabajo, no preguntes mas. Pero hoy he oido algo que me ha dado esperanza. Uno de los nuevos hablo de una reunion. Una de las grandes. Y dijo mi nombre.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    Si es verdad, eso significa que pronto voy a tener delante al hombre al que llevo medio año intentando identificar. Voy a poder verle la cara por fin. Saber quien es. Saber a quien hay que cazar.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    No me llamaran de un dia para otro. Van a hacerme esperar, ponerme a prueba un par de veces mas, comprobar que no soy un riesgo. Pero esta vez no me equivoco. Lo siento. Esta cerca.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    Solo necesito aguantar un poco mas sin que me descubran. Solo un poco mas.
+                  </p>
+                  <p style={{ marginBottom: 18 }}>
+                    Cuando le vea la cara, todo esto habra valido la pena.
+                  </p>
+                </div>
+                <div style={{ textAlign: "right", marginTop: 10, fontSize: 14, color: "#5a5a7a", fontStyle: "italic" }}>
+                  — W.
+                </div>
+              </>
+            )}
+
+            {notebookPage === 5 && (
+              <>
+                <div style={{ marginBottom: 18, fontSize: 13, color: "#5a5a7a", fontStyle: "italic" }}>
+                  24 de junio
+                </div>
+                <div style={{ fontSize: 15, lineHeight: 1.85, textAlign: "justify" }}>
+                  <p style={{ marginBottom: 14 }}>
+                    Lo confirmaron esta mañana. Manana por la noche tengo que ir al sitio que ya saben. La reunion. Va a estar el. Va a estar el jefe.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    Llevo meses esperando este momento y ahora que lo tengo encima me tiemblan las manos. No por miedo. Bueno, tambien por miedo. Pero sobre todo porque solo tengo una oportunidad y no me puedo permitir fallarla.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    Necesito una foto. Una foto de su cara, lo mas clara posible. Sin eso no tengo nada y todo lo que he aguantado este año no habra servido para nada.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    He estado pensando como hacerlo. El movil es lo unico que voy a poder llevar encima. Pero no puedo sacarlo asi sin mas, si me ven sacando fotos en una reunion como esa me matan ahi mismo. Tengo que pensarlo bien. Quiza fingir que estoy mirando la hora. O que estoy contestando un mensaje. Algo discreto.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    Voy a dejarlo en silencio, sin flash, con la pantalla bajada al minimo. Y voy a esperar el momento en que este desprevenido. Solo necesito una. Una foto buena.
+                  </p>
+                  <p style={{ marginBottom: 18 }}>
+                    Si todo sale bien, manana esta noche tendre por fin la cara del hombre que estoy buscando. Si no sale bien, no habra mas paginas en esta libreta.
+                  </p>
+                </div>
                 <div style={{ textAlign: "right", marginTop: 10, fontSize: 14, color: "#5a5a7a", fontStyle: "italic" }}>
                   — W.
                 </div>
