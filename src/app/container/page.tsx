@@ -1,26 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const VALID_CODE = "2384";
+const VALID_CODE = [2, 3, 8, 4];
 
 export default function ContainerPage() {
-  const [showLockModal, setShowLockModal] = useState(false);
-  const [code, setCode] = useState("");
-  const [error, setError] = useState(false);
+  const [wheels, setWheels] = useState([0, 0, 0, 0]);
   const [unlocked, setUnlocked] = useState(false);
+  const [shake, setShake] = useState(false);
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (code === VALID_CODE) {
-      setUnlocked(true);
-      setError(false);
-      setShowLockModal(false);
-    } else {
-      setError(true);
-      setTimeout(() => setError(false), 600);
-    }
+  function changeWheel(idx: number, delta: number) {
+    if (unlocked) return;
+    setWheels(prev => {
+      const next = [...prev];
+      next[idx] = (next[idx] + delta + 10) % 10;
+      return next;
+    });
   }
+
+  // Auto-check when wheels change
+  useEffect(() => {
+    if (wheels.every((w, i) => w === VALID_CODE[i])) {
+      setTimeout(() => setUnlocked(true), 400);
+    }
+  }, [wheels]);
 
   return (
     <div style={{
@@ -98,19 +101,6 @@ export default function ContainerPage() {
           pointerEvents: "none",
         }} />
 
-        {/* Container ID stencil */}
-        <div style={{
-          position: "absolute", top: 70, left: "10%",
-          fontFamily: "'Courier New', monospace",
-          fontSize: 22, fontWeight: 900,
-          color: "rgba(255,255,255,0.25)",
-          letterSpacing: 4,
-          textShadow: "2px 2px 0 rgba(0,0,0,0.3)",
-          pointerEvents: "none",
-        }}>
-          SCW · 2384 · 47
-        </div>
-
         {/* Center vertical seam - the gap between two doors */}
         <div style={{
           position: "absolute", top: 0, bottom: 0, left: "50%", transform: "translateX(-50%)",
@@ -185,82 +175,140 @@ export default function ContainerPage() {
           }} />
         </div>
 
-        {/* PADLOCK - clickable */}
+        {/* PADLOCK with rotating wheels */}
         {!unlocked && (
           <div
-            onClick={() => setShowLockModal(true)}
             style={{
               position: "absolute", top: "50%", left: "50%",
-              transform: "translate(-50%, calc(-50% + 6px))",
-              cursor: "pointer",
-              transition: "transform 0.2s",
+              transform: `translate(-50%, calc(-50% + 6px))${shake ? "" : ""}`,
               zIndex: 5,
+              animation: shake ? "shake 0.4s" : "none",
             }}
-            onMouseEnter={e => { e.currentTarget.style.transform = "translate(-50%, calc(-50% + 6px)) scale(1.08)"; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = "translate(-50%, calc(-50% + 6px)) scale(1)"; }}
           >
             {/* Shackle (the U-shape on top) */}
             <div style={{
-              width: 50, height: 32,
-              border: "6px solid #b0b0b0",
+              width: 90, height: 38,
+              border: "8px solid #b0b0b0",
               borderBottom: "none",
-              borderRadius: "30px 30px 0 0",
+              borderRadius: "44px 44px 0 0",
               background: "transparent",
               boxShadow: "inset 0 1px 0 rgba(255,255,255,0.3), 0 2px 4px rgba(0,0,0,0.5)",
-              marginLeft: 8,
+              marginLeft: 24,
               position: "relative",
             }}>
-              {/* Shackle highlight */}
               <div style={{
-                position: "absolute", top: 4, left: 2, right: 2, height: 4,
+                position: "absolute", top: 6, left: 4, right: 4, height: 4,
                 background: "linear-gradient(180deg, rgba(255,255,255,0.4), transparent)",
-                borderRadius: "30px 30px 0 0",
+                borderRadius: "44px 44px 0 0",
               }} />
             </div>
-            {/* Body */}
+            {/* Body with wheels */}
             <div style={{
-              width: 66, height: 56,
+              width: 140, height: 110,
               background: "linear-gradient(180deg, #fbbc04 0%, #f59e0b 50%, #c87810 100%)",
-              borderRadius: 6,
+              borderRadius: 8,
               border: "2px solid #8a5a08",
-              boxShadow: "0 6px 16px rgba(0,0,0,0.7), inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -3px 6px rgba(0,0,0,0.3)",
+              boxShadow: "0 8px 24px rgba(0,0,0,0.8), inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -3px 6px rgba(0,0,0,0.3)",
               position: "relative",
               marginTop: -2,
+              padding: "14px 10px 10px",
             }}>
-              {/* Keyhole */}
+              {/* Brand */}
               <div style={{
-                position: "absolute", top: 16, left: "50%", transform: "translateX(-50%)",
-                width: 14, height: 18,
-                background: "#1a1a1a",
-                borderRadius: "50% 50% 0 0",
-                border: "1px solid #6a4a08",
+                textAlign: "center", fontSize: 8, color: "#6a4a08",
+                fontWeight: 900, letterSpacing: 1, marginBottom: 6,
               }}>
-                <div style={{
-                  position: "absolute", bottom: -4, left: "50%", transform: "translateX(-50%)",
-                  width: 4, height: 8,
-                  background: "#1a1a1a",
-                }} />
+                MASTER LOCK
               </div>
-              {/* Brand text */}
+
+              {/* 4 rotating wheels */}
               <div style={{
-                position: "absolute", bottom: 4, left: 0, right: 0,
-                textAlign: "center",
-                fontSize: 7, color: "#6a4a08", fontWeight: 900,
-                letterSpacing: 0.5,
+                display: "flex", gap: 6, justifyContent: "center",
+                background: "#0a0805",
+                padding: "6px 8px",
+                borderRadius: 4,
+                border: "1px solid #4a3008",
+                boxShadow: "inset 0 2px 6px rgba(0,0,0,0.8)",
               }}>
-                MASTER
+                {wheels.map((w, idx) => (
+                  <div key={idx} style={{
+                    width: 22, height: 50,
+                    background: "linear-gradient(180deg, #1a1a1a 0%, #3a3a3a 8%, #fff 35%, #fff 65%, #3a3a3a 92%, #1a1a1a 100%)",
+                    borderRadius: 2,
+                    border: "1px solid #2a2a2a",
+                    position: "relative",
+                    overflow: "hidden",
+                    boxShadow: "inset 0 0 4px rgba(0,0,0,0.5)",
+                  }}>
+                    {/* Up arrow zone */}
+                    <div
+                      onClick={() => changeWheel(idx, -1)}
+                      style={{
+                        position: "absolute", top: 0, left: 0, right: 0, height: "30%",
+                        cursor: "pointer", zIndex: 2,
+                      }}
+                    >
+                      <div style={{
+                        position: "absolute", top: 2, left: "50%", transform: "translateX(-50%)",
+                        fontSize: 8, color: "rgba(0,0,0,0.4)",
+                      }}>▲</div>
+                    </div>
+                    {/* Down arrow zone */}
+                    <div
+                      onClick={() => changeWheel(idx, 1)}
+                      style={{
+                        position: "absolute", bottom: 0, left: 0, right: 0, height: "30%",
+                        cursor: "pointer", zIndex: 2,
+                      }}
+                    >
+                      <div style={{
+                        position: "absolute", bottom: 2, left: "50%", transform: "translateX(-50%)",
+                        fontSize: 8, color: "rgba(0,0,0,0.4)",
+                      }}>▼</div>
+                    </div>
+
+                    {/* Number column - shows prev, current, next */}
+                    <div style={{
+                      position: "absolute", inset: 0,
+                      display: "flex", flexDirection: "column",
+                      alignItems: "center", justifyContent: "center",
+                      fontFamily: "'Courier New', monospace",
+                      fontWeight: 900,
+                    }}>
+                      <div style={{ fontSize: 9, color: "rgba(0,0,0,0.3)", lineHeight: 1, marginBottom: 1 }}>
+                        {(w + 9) % 10}
+                      </div>
+                      <div style={{
+                        fontSize: 18, color: "#0a0805", lineHeight: 1,
+                        textShadow: "0 1px 0 rgba(255,255,255,0.5)",
+                      }}>
+                        {w}
+                      </div>
+                      <div style={{ fontSize: 9, color: "rgba(0,0,0,0.3)", lineHeight: 1, marginTop: 1 }}>
+                        {(w + 1) % 10}
+                      </div>
+                    </div>
+
+                    {/* Center indicator notch */}
+                    <div style={{
+                      position: "absolute", top: "50%", left: -2, transform: "translateY(-50%)",
+                      width: 0, height: 0,
+                      borderTop: "3px solid transparent",
+                      borderBottom: "3px solid transparent",
+                      borderLeft: "3px solid #c8a020",
+                      pointerEvents: "none",
+                    }} />
+                    <div style={{
+                      position: "absolute", top: "50%", right: -2, transform: "translateY(-50%)",
+                      width: 0, height: 0,
+                      borderTop: "3px solid transparent",
+                      borderBottom: "3px solid transparent",
+                      borderRight: "3px solid #c8a020",
+                      pointerEvents: "none",
+                    }} />
+                  </div>
+                ))}
               </div>
-            </div>
-            {/* Click hint */}
-            <div style={{
-              position: "absolute", top: "100%", left: "50%", transform: "translateX(-50%)",
-              marginTop: 16, whiteSpace: "nowrap",
-              fontSize: 11, color: "rgba(255,255,255,0.6)",
-              textShadow: "0 1px 3px rgba(0,0,0,0.8)",
-              fontFamily: "Arial,sans-serif",
-              letterSpacing: 1,
-            }}>
-              Click para introducir el codigo
             </div>
           </div>
         )}
@@ -286,105 +334,6 @@ export default function ContainerPage() {
           </div>
         )}
       </div>
-
-      {/* Lock combination modal */}
-      {showLockModal && !unlocked && (
-        <div
-          onClick={() => { setShowLockModal(false); setCode(""); setError(false); }}
-          style={{
-            position: "fixed", inset: 0,
-            background: "rgba(0,0,0,0.85)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            zIndex: 9999, padding: 20,
-            animation: "fadeIn 0.2s ease-out",
-          }}
-        >
-          <div
-            onClick={e => e.stopPropagation()}
-            style={{
-              background: "linear-gradient(180deg, #1a1510 0%, #0a0805 100%)",
-              border: "2px solid #5a4a20",
-              borderRadius: 8,
-              padding: "32px 36px",
-              minWidth: 320,
-              boxShadow: "0 20px 60px rgba(0,0,0,0.8)",
-              animation: error ? "shake 0.4s" : "none",
-            }}
-          >
-            <div style={{ textAlign: "center", marginBottom: 20 }}>
-              <div style={{ fontSize: 32, marginBottom: 8 }}>🔒</div>
-              <div style={{ color: "#e8d8a8", fontSize: 16, fontWeight: 700, letterSpacing: 1 }}>
-                CODIGO DE COMBINACION
-              </div>
-              <div style={{ color: "#7a6a4a", fontSize: 11, marginTop: 4 }}>
-                Introduce los 4 digitos
-              </div>
-            </div>
-
-            <form onSubmit={handleSubmit}>
-              <input
-                type="text"
-                inputMode="numeric"
-                value={code}
-                onChange={e => setCode(e.target.value.replace(/\D/g, "").slice(0, 4))}
-                autoFocus
-                placeholder="• • • •"
-                style={{
-                  width: "100%",
-                  padding: "14px",
-                  background: "#0a0805",
-                  border: `2px solid ${error ? "#ef4444" : "#3a2a10"}`,
-                  borderRadius: 6,
-                  color: error ? "#ef4444" : "#e8d8a8",
-                  fontSize: 28,
-                  textAlign: "center",
-                  letterSpacing: 12,
-                  fontFamily: "monospace",
-                  outline: "none",
-                  boxSizing: "border-box",
-                }}
-              />
-              {error && (
-                <div style={{ color: "#ef4444", fontSize: 11, textAlign: "center", marginTop: 8, fontFamily: "Arial,sans-serif" }}>
-                  Codigo incorrecto
-                </div>
-              )}
-              <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
-                <button
-                  type="button"
-                  onClick={() => { setShowLockModal(false); setCode(""); setError(false); }}
-                  style={{
-                    flex: 1, padding: "10px",
-                    background: "transparent",
-                    border: "1px solid #3a2a10",
-                    borderRadius: 4,
-                    color: "#7a6a4a",
-                    fontSize: 12, cursor: "pointer",
-                    fontFamily: "Arial,sans-serif", letterSpacing: 1,
-                  }}
-                >
-                  CANCELAR
-                </button>
-                <button
-                  type="submit"
-                  disabled={code.length !== 4}
-                  style={{
-                    flex: 1, padding: "10px",
-                    background: code.length === 4 ? "#c8a020" : "#3a2a10",
-                    border: "none",
-                    borderRadius: 4,
-                    color: code.length === 4 ? "#0a0805" : "#5a4a20",
-                    fontSize: 12, fontWeight: 700, cursor: code.length === 4 ? "pointer" : "not-allowed",
-                    fontFamily: "Arial,sans-serif", letterSpacing: 1,
-                  }}
-                >
-                  ABRIR
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
