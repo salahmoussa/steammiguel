@@ -102,7 +102,7 @@ const SEARCHES: Record<string, SearchResult[]> = {
     {
       title: "Stoner Cement Works — Cemento, hormigon y almacenaje",
       url: "scw.ls",
-      desc: "Empresa lider en suministro de cemento y servicios de almacenaje industrial en San Andreas desde 1973. Sede en Murrieta Heights.",
+      desc: "Empresa lider en suministro de cemento y servicios de almacenaje industrial en San Andreas desde 1973. Sede en Joshua Road, Harmony.",
       target: "scw",
     },
     {
@@ -113,7 +113,7 @@ const SEARCHES: Record<string, SearchResult[]> = {
     {
       title: "Wikipedia - Stoner Cement Works",
       url: "wiki.lossantos.com/scw",
-      desc: "Stoner Cement Works (SCW) es una empresa de cemento fundada en 1973 por Harold Stoner en Murrieta Heights...",
+      desc: "Stoner Cement Works (SCW) es una empresa de cemento fundada en 1973 por Harold Stoner con sede en Joshua Road, Harmony...",
     },
     {
       title: "OpenCorporates: SCW Holdings Ltd.",
@@ -1054,7 +1054,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                       MODULOS DE ALMACENAJE
                     </div>
                     <div style={{ fontSize: 9, color: "#aac4e0", lineHeight: 1.5, marginBottom: 12 }}>
-                      Complejo Murrieta Heights. Acceso 24/7 con tarjeta. Vigilancia continua. Sin contratos largos.
+                      Complejo de Harmony, Joshua Road. Acceso 24/7 con tarjeta. Vigilancia continua. Sin contratos largos.
                     </div>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
                       {[
@@ -1081,7 +1081,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                     <div style={{ fontSize: 8, color: "#888", letterSpacing: 2, marginBottom: 4, fontWeight: 700 }}>UBICACIONES</div>
                     <div style={{ fontSize: 12, fontWeight: 900, color: "#1a3a6a", marginBottom: 10 }}>EN TODO SAN ANDREAS</div>
                     {[
-                      { name: "MURRIETA HEIGHTS", addr: "Industrial Plaza 14, Los Santos", main: true },
+                      { name: "HARMONY", addr: "Joshua Road, Harmony, Blaine County", main: true },
                       { name: "LA MESA", addr: "Popular St. 88, Los Santos", main: false },
                       { name: "PALETO BAY", addr: "Cassidy Trail Rd 3", main: false },
                     ].map((loc, i) => (
