@@ -364,7 +364,7 @@ export default function WalletPage() {
 
       {/* Withdraw modal */}
       {showWithdraw && (
-        <div onClick={() => { setShowWithdraw(false); setWithdrawError(""); setSeedWords(Array(12).fill("")); setSeedStatus(prev => { const n = prev.map(s => s === "correct" ? "correct" : "idle") as Array<"idle"|"correct"|"wrong">; seedStatusRef.current = n; return n; }); }} style={{
+        <div onClick={() => { setShowWithdraw(false); setWithdrawError(""); setSeedWords(Array(12).fill("")); setSeedStatus(() => { const n = Array(12).fill("idle") as Array<"idle"|"correct"|"wrong">; seedStatusRef.current = n; return n; }); }} style={{
           position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
           background: "rgba(0,0,0,0.7)", zIndex: 9999,
           display: "flex", alignItems: "center", justifyContent: "center", padding: 20,
@@ -423,7 +423,7 @@ export default function WalletPage() {
               </div>
 
               <div style={{ display: "flex", gap: 10 }}>
-                <button type="button" onClick={() => { setShowWithdraw(false); setWithdrawError(""); setSeedWords(Array(12).fill("")); setSeedStatus(prev => { const n = prev.map(s => s === "correct" ? "correct" : "idle") as Array<"idle"|"correct"|"wrong">; seedStatusRef.current = n; return n; }); }} style={{
+                <button type="button" onClick={() => { setShowWithdraw(false); setWithdrawError(""); setSeedWords(Array(12).fill("")); setSeedStatus(() => { const n = Array(12).fill("idle") as Array<"idle"|"correct"|"wrong">; seedStatusRef.current = n; return n; }); }} style={{
                   flex: 1, padding: "10px", background: "#1f2937", border: "1px solid #374151",
                   borderRadius: 8, color: "#fff", fontSize: 14, cursor: "pointer", fontFamily: "inherit",
                 }}>
