@@ -48,7 +48,7 @@ export default function CartaPostNLPage() {
         <div
           onClick={() => setOpened(true)}
           style={{
-            width: 460, maxWidth: "92vw", height: 280,
+            width: 620, maxWidth: "94vw", height: 380,
             background: "linear-gradient(180deg, #f5f0e0 0%, #e8e0c8 100%)",
             borderRadius: 4,
             boxShadow: "0 20px 60px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.4)",
@@ -62,21 +62,21 @@ export default function CartaPostNLPage() {
         >
           {/* GO Postal logo */}
           <div style={{
-            position: "absolute", top: 18, left: 22,
-            display: "flex", alignItems: "center", gap: 6,
+            position: "absolute", top: 24, left: 30,
+            display: "flex", alignItems: "center", gap: 8,
           }}>
             <div style={{
-              background: "#5a2d8a", color: "#fff",
-              padding: "6px 10px", borderRadius: 3,
-              fontFamily: "Arial,sans-serif", fontWeight: 900, fontSize: 18,
+              background: "#c8262c", color: "#fff",
+              padding: "8px 14px", borderRadius: 3,
+              fontFamily: "Arial,sans-serif", fontWeight: 900, fontSize: 22,
               letterSpacing: -0.5,
-              boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.25)",
             }}>
               GO
             </div>
             <div style={{
-              fontFamily: "Arial,sans-serif", fontWeight: 800, fontSize: 16,
-              color: "#5a2d8a", letterSpacing: 0,
+              fontFamily: "Arial,sans-serif", fontWeight: 800, fontSize: 20,
+              color: "#1a4a8a", letterSpacing: 0,
             }}>
               POSTAL
             </div>
@@ -84,77 +84,77 @@ export default function CartaPostNLPage() {
 
           {/* Stamp */}
           <div style={{
-            position: "absolute", top: 18, right: 22,
-            width: 76, height: 86,
+            position: "absolute", top: 24, right: 30,
+            width: 92, height: 104,
             background: "linear-gradient(135deg, #fff 0%, #f0e8d8 100%)",
             border: "2px dashed #d8c8a8",
             display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
             boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
             transform: "rotate(3deg)",
-            padding: 4,
+            padding: 6,
           }}>
-            <div style={{ fontSize: 18, fontWeight: 900, color: "#5a2d8a", fontFamily: "Arial,sans-serif" }}>$3</div>
-            <div style={{ fontSize: 8, color: "#5a2d8a", fontWeight: 700, marginTop: 4, fontFamily: "Arial,sans-serif", textAlign: "center" }}>SAN ANDREAS<br/>POSTAL SVC</div>
-            <div style={{ fontSize: 7, color: "#666", fontFamily: "Arial,sans-serif", marginTop: 2 }}>2026</div>
+            <div style={{ fontSize: 22, fontWeight: 900, color: "#c8262c", fontFamily: "Arial,sans-serif" }}>$3</div>
+            <div style={{ fontSize: 9, color: "#1a4a8a", fontWeight: 700, marginTop: 6, fontFamily: "Arial,sans-serif", textAlign: "center", lineHeight: 1.3 }}>SAN ANDREAS<br/>POSTAL SVC</div>
+            <div style={{ fontSize: 8, color: "#666", fontFamily: "Arial,sans-serif", marginTop: 4 }}>2026</div>
           </div>
 
           {/* Sender area (anonymous) */}
           <div style={{
-            position: "absolute", top: 110, left: 30,
-            fontSize: 10, color: "#888", fontFamily: "Arial,sans-serif",
-            fontStyle: "italic",
+            position: "absolute", top: 150, left: 30,
+            fontSize: 11, color: "#888", fontFamily: "Arial,sans-serif",
           }}>
-            <div style={{ textTransform: "uppercase", letterSpacing: 1, fontStyle: "normal", marginBottom: 2 }}>Remitente</div>
-            <div style={{ color: "#aaa" }}>— Sin datos —</div>
+            <div style={{ textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 4, fontSize: 10 }}>Remitente</div>
+            <div style={{ color: "#bbb", fontStyle: "italic" }}>— Sin datos —</div>
           </div>
 
           {/* Address area */}
           <div style={{
-            position: "absolute", top: 160, left: 30, right: 130,
-            background: "#fff", padding: "12px 16px",
+            position: "absolute", top: 200, left: 30, right: 30,
+            background: "#fff", padding: "16px 22px",
             borderRadius: 2,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+            boxShadow: "0 3px 10px rgba(0,0,0,0.18)",
             border: "1px solid #ddd",
           }}>
-            <div style={{ fontSize: 9, color: "#888", textTransform: "uppercase", letterSpacing: 1, fontFamily: "Arial,sans-serif", marginBottom: 4 }}>Destinatario</div>
-            <div style={{ fontSize: 14, color: "#1a1a1a", fontFamily: "Arial,sans-serif", fontWeight: 600 }}>Hector Ocasio</div>
-            <div style={{ fontSize: 11, color: "#444", fontFamily: "Arial,sans-serif", marginTop: 2 }}>Apartado de correos privado</div>
-            <div style={{ fontSize: 11, color: "#444", fontFamily: "Arial,sans-serif" }}>Los Santos, San Andreas</div>
+            <div style={{ fontSize: 10, color: "#888", textTransform: "uppercase", letterSpacing: 1.2, fontFamily: "Arial,sans-serif", marginBottom: 6 }}>Destinatario</div>
+            <div style={{ fontSize: 17, color: "#1a1a1a", fontFamily: "Arial,sans-serif", fontWeight: 700 }}>Theodore Ocasio</div>
+            <div style={{ fontSize: 13, color: "#444", fontFamily: "Arial,sans-serif", marginTop: 4 }}>Apartado de correos privado</div>
+            <div style={{ fontSize: 13, color: "#444", fontFamily: "Arial,sans-serif" }}>Los Santos, San Andreas</div>
           </div>
 
           {/* Mailbox origin badge */}
           <div style={{
-            position: "absolute", bottom: 12, left: 30,
-            fontSize: 9, color: "#888", fontFamily: "Arial,sans-serif",
-            display: "flex", alignItems: "center", gap: 4,
+            position: "absolute", bottom: 18, left: 30,
+            fontSize: 11, color: "#888", fontFamily: "Arial,sans-serif",
+            display: "flex", alignItems: "center", gap: 6,
           }}>
-            <span style={{ fontSize: 11 }}>📮</span>
+            <span style={{ fontSize: 14 }}>📮</span>
             <span>Depositada en buzon publico &middot; Origen no registrado</span>
           </div>
 
           {/* Postmark */}
           <div style={{
-            position: "absolute", bottom: 24, right: 32,
-            width: 70, height: 70, borderRadius: "50%",
-            border: "2px solid rgba(90,45,138,0.3)",
+            position: "absolute", bottom: 18, right: 30,
+            width: 80, height: 80, borderRadius: "50%",
+            border: "2px solid rgba(26,74,138,0.4)",
             display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
             transform: "rotate(-12deg)",
-            color: "rgba(90,45,138,0.45)",
+            color: "rgba(26,74,138,0.55)",
             fontFamily: "Arial,sans-serif",
           }}>
-            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: 1 }}>LOS SANTOS</div>
-            <div style={{ fontSize: 14, fontWeight: 700, margin: "2px 0" }}>04</div>
-            <div style={{ fontSize: 8, letterSpacing: 1 }}>2026</div>
+            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: 1 }}>LOS SANTOS</div>
+            <div style={{ fontSize: 16, fontWeight: 700, margin: "3px 0" }}>04</div>
+            <div style={{ fontSize: 9, letterSpacing: 1 }}>2026</div>
           </div>
+        </div>
+      )}
 
-          {/* "Click to open" hint */}
-          <div style={{
-            position: "absolute", bottom: 14, left: 30,
-            fontSize: 11, color: "rgba(255,255,255,0.7)", fontFamily: "Arial,sans-serif",
-            letterSpacing: 0.5,
-          }}>
-            Click para abrir
-          </div>
+      {/* Click hint outside */}
+      {!opened && (
+        <div style={{
+          marginTop: 16, fontSize: 12, color: "#665544", letterSpacing: 0.5,
+          fontFamily: "Arial,sans-serif",
+        }}>
+          Click en el sobre para abrir
         </div>
       )}
 
