@@ -479,23 +479,55 @@ export default function ContainerPage() {
           <div
             onClick={e => e.stopPropagation()}
             style={{
-              background: "linear-gradient(135deg, #5a3a1a 0%, #3a2208 100%)",
-              padding: "60px 50px",
-              borderRadius: 6,
-              minWidth: 380,
-              minHeight: 480,
-              boxShadow: "0 20px 60px rgba(0,0,0,0.9)",
-              border: "1px solid #2a1808",
-              textAlign: "center",
+              background: "linear-gradient(180deg, #faf5e8 0%, #f3ecd8 50%, #ebe2c8 100%)",
+              padding: "44px 50px 40px",
+              width: 480,
+              maxWidth: "92vw",
+              minHeight: 560,
+              boxShadow: "0 20px 60px rgba(0,0,0,0.9), inset 0 0 80px rgba(139,119,80,0.1)",
               position: "relative",
+              fontFamily: "'Segoe Script','Comic Sans MS','Bradley Hand',cursive",
+              color: "#1a1a2e",
+              transform: "rotate(-0.4deg)",
+              backgroundImage: "repeating-linear-gradient(180deg, transparent 0px, transparent 31px, rgba(60,80,140,0.1) 31px, rgba(60,80,140,0.1) 32px)",
             }}
           >
-            <div style={{ fontSize: 48, marginBottom: 20, opacity: 0.5 }}>📓</div>
-            <div style={{ color: "#c8a058", fontSize: 18, fontWeight: 700, letterSpacing: 2, fontFamily: "'Times New Roman',serif" }}>
-              LIBRETA DE NOTAS
+            {/* Spiral binding holes (left) */}
+            <div style={{ position: "absolute", left: 14, top: 0, bottom: 0, display: "flex", flexDirection: "column", justifyContent: "space-around", paddingTop: 30, paddingBottom: 30 }}>
+              {Array.from({ length: 14 }).map((_, i) => (
+                <div key={i} style={{ width: 7, height: 7, borderRadius: "50%", background: "#c8b890", border: "1px solid #a89868" }}/>
+              ))}
             </div>
-            <div style={{ color: "rgba(200,170,100,0.5)", fontSize: 12, marginTop: 14, fontFamily: "Arial,sans-serif", fontStyle: "italic" }}>
-              Contenido pendiente de catalogar
+
+            {/* Red margin line */}
+            <div style={{ position: "absolute", left: 38, top: 0, bottom: 0, width: 1, background: "rgba(200,60,60,0.25)", pointerEvents: "none" }}/>
+
+            {/* Stains */}
+            <div style={{ position: "absolute", top: 30, right: 30, width: 70, height: 60, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(139,110,60,0.1) 0%, transparent 70%)", pointerEvents: "none" }}/>
+            <div style={{ position: "absolute", bottom: 60, left: 60, width: 50, height: 40, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(100,90,60,0.08) 0%, transparent 70%)", pointerEvents: "none" }}/>
+
+            {/* Page number */}
+            <div style={{ position: "absolute", top: 14, right: 24, fontSize: 11, color: "#a09870", fontFamily: "Arial,sans-serif" }}>
+              — 1 —
+            </div>
+
+            {/* Content */}
+            <div style={{ paddingLeft: 14, fontSize: 16, lineHeight: 2 }}>
+              <p style={{ marginBottom: 6 }}>Ahora todo es silencio en esta habitacion.</p>
+              <p style={{ marginBottom: 6 }}>Falta poco para que se acabe.</p>
+              <p style={{ marginBottom: 6 }}>Tengo la sensacion de que nadie va a venir.</p>
+              <p style={{ marginBottom: 6 }}>El miedo es mas grande que la rabia.</p>
+              <p style={{ marginBottom: 22 }}>Recuerdo a mi madre, a mi padre, a todo lo que deje atras.</p>
+
+              <p style={{ marginBottom: 6 }}>Estos dias no sale el sol, solo cae lluvia.</p>
+              <p style={{ marginBottom: 6 }}>Las calles estan vacias, parece pleno invierno.</p>
+              <p style={{ marginBottom: 6 }}>Por las noches tiemblo, esto esta lleno de frio.</p>
+              <p style={{ marginBottom: 6 }}>Y el tiempo se ha vuelto una espera eterna.</p>
+            </div>
+
+            {/* Bottom signature */}
+            <div style={{ position: "absolute", bottom: 18, right: 30, fontSize: 12, color: "#5a5a7a", fontStyle: "italic" }}>
+              W.
             </div>
           </div>
         </div>
