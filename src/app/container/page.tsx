@@ -480,54 +480,73 @@ export default function ContainerPage() {
             onClick={e => e.stopPropagation()}
             style={{
               background: "linear-gradient(180deg, #faf5e8 0%, #f3ecd8 50%, #ebe2c8 100%)",
-              padding: "44px 50px 40px",
-              width: 480,
-              maxWidth: "92vw",
-              minHeight: 560,
+              padding: "40px 50px 50px 70px",
+              width: 540,
+              maxWidth: "94vw",
+              maxHeight: "92vh",
+              overflowY: "auto",
               boxShadow: "0 20px 60px rgba(0,0,0,0.9), inset 0 0 80px rgba(139,119,80,0.1)",
               position: "relative",
               fontFamily: "'Segoe Script','Comic Sans MS','Bradley Hand',cursive",
               color: "#1a1a2e",
               transform: "rotate(-0.4deg)",
-              backgroundImage: "repeating-linear-gradient(180deg, transparent 0px, transparent 31px, rgba(60,80,140,0.1) 31px, rgba(60,80,140,0.1) 32px)",
+              backgroundImage: "repeating-linear-gradient(180deg, transparent 0px, transparent 28px, rgba(60,80,140,0.1) 28px, rgba(60,80,140,0.1) 29px)",
             }}
           >
             {/* Spiral binding holes (left) */}
             <div style={{ position: "absolute", left: 14, top: 0, bottom: 0, display: "flex", flexDirection: "column", justifyContent: "space-around", paddingTop: 30, paddingBottom: 30 }}>
-              {Array.from({ length: 14 }).map((_, i) => (
+              {Array.from({ length: 18 }).map((_, i) => (
                 <div key={i} style={{ width: 7, height: 7, borderRadius: "50%", background: "#c8b890", border: "1px solid #a89868" }}/>
               ))}
             </div>
 
             {/* Red margin line */}
-            <div style={{ position: "absolute", left: 38, top: 0, bottom: 0, width: 1, background: "rgba(200,60,60,0.25)", pointerEvents: "none" }}/>
+            <div style={{ position: "absolute", left: 50, top: 0, bottom: 0, width: 1, background: "rgba(200,60,60,0.25)", pointerEvents: "none" }}/>
 
             {/* Stains */}
             <div style={{ position: "absolute", top: 30, right: 30, width: 70, height: 60, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(139,110,60,0.1) 0%, transparent 70%)", pointerEvents: "none" }}/>
-            <div style={{ position: "absolute", bottom: 60, left: 60, width: 50, height: 40, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(100,90,60,0.08) 0%, transparent 70%)", pointerEvents: "none" }}/>
+            <div style={{ position: "absolute", bottom: 60, left: 80, width: 50, height: 40, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(100,90,60,0.08) 0%, transparent 70%)", pointerEvents: "none" }}/>
 
-            {/* Page number */}
-            <div style={{ position: "absolute", top: 14, right: 24, fontSize: 11, color: "#a09870", fontFamily: "Arial,sans-serif" }}>
-              — 1 —
+            {/* Date header */}
+            <div style={{ marginBottom: 18, fontSize: 13, color: "#5a5a7a", fontStyle: "italic" }}>
+              5 de junio
             </div>
 
             {/* Content */}
-            <div style={{ paddingLeft: 14, fontSize: 16, lineHeight: 2 }}>
-              <p style={{ marginBottom: 6 }}>Ahora todo es silencio en esta habitacion.</p>
-              <p style={{ marginBottom: 6 }}>Falta poco para que se acabe.</p>
-              <p style={{ marginBottom: 6 }}>Tengo la sensacion de que nadie va a venir.</p>
-              <p style={{ marginBottom: 6 }}>El miedo es mas grande que la rabia.</p>
-              <p style={{ marginBottom: 22 }}>Recuerdo a mi madre, a mi padre, a todo lo que deje atras.</p>
+            <div style={{ fontSize: 15, lineHeight: 1.85, textAlign: "justify" }}>
+              <p style={{ marginBottom: 14 }}>
+                Ayer fue un dia raro. No conseguia concentrarme en nada. Solo pensaba en cosas que ya no tienen vuelta atras.
+              </p>
+              <p style={{ marginBottom: 14 }}>
+                Fui a comprar algo de comer al 24/7 de la esquina. El tipo del mostrador me miro raro. O eso me parecio. Lo mismo me lo estoy inventando todo.
+              </p>
+              <p style={{ marginBottom: 14 }}>
+                Tengo la sensacion de que cada dia que pasa estoy mas cerca del final. No de manera dramatica, simplemente lo siento. Como cuando notas que algo malo va a ocurrir y no sabes el que.
+              </p>
+              <p style={{ marginBottom: 14 }}>
+                Esta noche me acorde de mi madre. De cuando vivia con ella en la casa pequeña. Hace tantisimo tiempo de aquello que ya no se si lo recuerdo o me lo invento.
+              </p>
+              <p style={{ marginBottom: 22 }}>
+                Recuerdo que de niño me daban miedo los pasillos largos. Sigo igual.
+              </p>
 
-              <p style={{ marginBottom: 6 }}>Estos dias no sale el sol, solo cae lluvia.</p>
-              <p style={{ marginBottom: 6 }}>Las calles estan vacias, parece pleno invierno.</p>
-              <p style={{ marginBottom: 6 }}>Por las noches tiemblo, esto esta lleno de frio.</p>
-              <p style={{ marginBottom: 6 }}>Y el tiempo se ha vuelto una espera eterna.</p>
+              <p style={{ marginBottom: 14 }}>
+                He vuelto a tener el sueño raro. El de la habitacion sin ventanas. Esta vez habia alguien sentado al fondo, y cuando me giraba para mirarlo me despertaba con un sobresalto general.
+              </p>
+              <p style={{ marginBottom: 14 }}>
+                Me he pasado toda la mañana mirando por la mirilla de la puerta. No habia nadie pero sentia que si.
+              </p>
+              <p style={{ marginBottom: 14 }}>
+                He pasado por delante del club de golf donde solia ir antes de meterme en este lio. Sigue cerrado. Las pistas vacias, las banderas tiradas en el cesped. Ya no juega nadie al golf.
+              </p>
+              <p style={{ marginBottom: 18 }}>
+                Manana intentare salir un rato. Aunque sea hasta el portal. Necesito airearme antes de que vuelva la noche.
+              </p>
             </div>
 
             {/* Bottom signature */}
-            <div style={{ position: "absolute", bottom: 18, right: 30, fontSize: 12, color: "#5a5a7a", fontStyle: "italic" }}>
-              W.
+            <div style={{ textAlign: "right", marginTop: 10, fontSize: 14, color: "#5a5a7a", fontStyle: "italic" }}>
+              — W.
             </div>
           </div>
         </div>
