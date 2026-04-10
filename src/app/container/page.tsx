@@ -8,6 +8,8 @@ export default function ContainerPage() {
   const [wheels, setWheels] = useState([0, 0, 0, 0]);
   const [unlocked, setUnlocked] = useState(false);
   const [shake, setShake] = useState(false);
+  const [showNotebook, setShowNotebook] = useState(false);
+  const [showBadge, setShowBadge] = useState(false);
 
   function changeWheel(idx: number, delta: number) {
     if (unlocked) return;
@@ -313,27 +315,290 @@ export default function ContainerPage() {
           </div>
         )}
 
-        {/* Unlocked state - placeholder */}
+        {/* Unlocked state - dim the doors and show contents */}
         {unlocked && (
-          <div style={{
-            position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
-            zIndex: 5,
-            background: "rgba(0,0,0,0.85)",
-            border: "2px solid #22c55e",
-            borderRadius: 12, padding: "30px 40px",
-            textAlign: "center",
-            animation: "fadeIn 0.4s ease-out",
-          }}>
-            <div style={{ fontSize: 36, marginBottom: 12 }}>🔓</div>
-            <div style={{ color: "#22c55e", fontSize: 18, fontWeight: 700, letterSpacing: 1 }}>
-              CONTAINER ABIERTO
+          <>
+            {/* Dark overlay over the container doors */}
+            <div style={{
+              position: "absolute", inset: 0,
+              background: "rgba(0,0,0,0.65)",
+              animation: "fadeIn 0.6s ease-out",
+              pointerEvents: "none",
+            }}/>
+
+            {/* Container interior label */}
+            <div style={{
+              position: "absolute", top: 40, left: "50%", transform: "translateX(-50%)",
+              fontSize: 11, color: "#22c55e", letterSpacing: 3, fontFamily: "Arial,sans-serif",
+              fontWeight: 700,
+              animation: "fadeIn 0.8s ease-out",
+              zIndex: 5,
+            }}>
+              CONTAINER ABIERTO · INVENTARIO
             </div>
-            <div style={{ color: "#888", fontSize: 12, marginTop: 8 }}>
-              Contenido pendiente...
+
+            {/* Items inside the container */}
+            <div style={{
+              position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+              display: "flex", gap: 60, alignItems: "center", justifyContent: "center",
+              zIndex: 5,
+              animation: "fadeIn 1s ease-out",
+            }}>
+
+              {/* Notebook */}
+              <div
+                onClick={() => setShowNotebook(true)}
+                style={{
+                  display: "flex", flexDirection: "column", alignItems: "center", gap: 14,
+                  cursor: "pointer",
+                  transition: "transform 0.2s",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.06)"; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; }}
+              >
+                {/* Leather notebook */}
+                <div style={{
+                  width: 110, height: 140,
+                  background: "linear-gradient(135deg, #5a3a1a 0%, #4a2e10 50%, #3a2208 100%)",
+                  borderRadius: "3px 8px 8px 3px",
+                  boxShadow: "0 8px 20px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.1), inset 2px 0 0 rgba(0,0,0,0.5)",
+                  position: "relative",
+                  border: "1px solid #2a1808",
+                }}>
+                  {/* Spine */}
+                  <div style={{
+                    position: "absolute", left: 0, top: 0, bottom: 0, width: 6,
+                    background: "linear-gradient(90deg, #2a1808, #3a2208)",
+                    borderRadius: "3px 0 0 3px",
+                  }}/>
+                  {/* Elastic band */}
+                  <div style={{
+                    position: "absolute", right: -2, top: 0, bottom: 0, width: 5,
+                    background: "linear-gradient(90deg, #1a1a1a, #3a3a3a)",
+                    boxShadow: "0 1px 2px rgba(0,0,0,0.5)",
+                  }}/>
+                  {/* Embossed text */}
+                  <div style={{
+                    position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%) rotate(-90deg)",
+                    fontSize: 9, color: "rgba(200,170,100,0.4)",
+                    fontFamily: "'Times New Roman',serif", letterSpacing: 2, fontWeight: 700,
+                    whiteSpace: "nowrap",
+                  }}>
+                    NOTAS
+                  </div>
+                  {/* Worn edges */}
+                  <div style={{
+                    position: "absolute", top: 4, right: 4, width: 12, height: 12,
+                    background: "radial-gradient(circle, rgba(80,50,20,0.6) 0%, transparent 70%)",
+                  }}/>
+                </div>
+                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.7)", fontFamily: "Arial,sans-serif", letterSpacing: 0.5 }}>
+                  Libreta
+                </div>
+              </div>
+
+              {/* Police ID */}
+              <div
+                onClick={() => setShowBadge(true)}
+                style={{
+                  display: "flex", flexDirection: "column", alignItems: "center", gap: 14,
+                  cursor: "pointer",
+                  transition: "transform 0.2s",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.06)"; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; }}
+              >
+                {/* ID card */}
+                <div style={{
+                  width: 130, height: 90,
+                  background: "linear-gradient(135deg, #1a3a6a 0%, #0e2240 100%)",
+                  borderRadius: 6,
+                  boxShadow: "0 8px 20px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.15)",
+                  border: "1px solid #0a1a30",
+                  position: "relative",
+                  padding: 8,
+                  fontFamily: "Arial,sans-serif",
+                }}>
+                  {/* Header bar */}
+                  <div style={{
+                    background: "rgba(0,0,0,0.4)",
+                    padding: "2px 6px", borderRadius: 2,
+                    fontSize: 7, color: "#c8a020", fontWeight: 900, letterSpacing: 0.5,
+                    textAlign: "center",
+                  }}>
+                    LSPD · OFFICIAL
+                  </div>
+                  {/* Photo placeholder */}
+                  <div style={{
+                    width: 36, height: 44,
+                    background: "linear-gradient(135deg, #4a5a6a, #2a3a4a)",
+                    border: "1px solid #c8a020",
+                    margin: "6px 0",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 18, color: "rgba(255,255,255,0.4)",
+                  }}>👤</div>
+                  {/* Lines */}
+                  <div style={{
+                    position: "absolute", top: 28, left: 50, right: 8,
+                    fontSize: 6, color: "#aac4e0", lineHeight: 1.6,
+                  }}>
+                    <div style={{ color: "#c8a020" }}>NAME</div>
+                    <div style={{ background: "rgba(255,255,255,0.15)", height: 5, marginBottom: 3 }}/>
+                    <div style={{ color: "#c8a020" }}>BADGE #</div>
+                    <div style={{ background: "rgba(255,255,255,0.15)", height: 5, marginBottom: 3 }}/>
+                    <div style={{ color: "#c8a020" }}>DEPT</div>
+                    <div style={{ background: "rgba(255,255,255,0.15)", height: 5 }}/>
+                  </div>
+                  {/* Bottom strip */}
+                  <div style={{
+                    position: "absolute", bottom: 0, left: 0, right: 0, height: 4,
+                    background: "linear-gradient(90deg, #c8a020 0%, #8a6a08 100%)",
+                  }}/>
+                </div>
+                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.7)", fontFamily: "Arial,sans-serif", letterSpacing: 0.5 }}>
+                  Identificacion
+                </div>
+              </div>
             </div>
-          </div>
+          </>
         )}
       </div>
+
+      {/* Notebook modal */}
+      {showNotebook && (
+        <div
+          onClick={() => setShowNotebook(false)}
+          style={{
+            position: "fixed", inset: 0,
+            background: "rgba(0,0,0,0.92)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            zIndex: 9999, padding: 20,
+            animation: "fadeIn 0.3s ease-out",
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              background: "linear-gradient(135deg, #5a3a1a 0%, #3a2208 100%)",
+              padding: "60px 50px",
+              borderRadius: 6,
+              minWidth: 380,
+              minHeight: 480,
+              boxShadow: "0 20px 60px rgba(0,0,0,0.9)",
+              border: "1px solid #2a1808",
+              textAlign: "center",
+              position: "relative",
+            }}
+          >
+            <div style={{ fontSize: 48, marginBottom: 20, opacity: 0.5 }}>📓</div>
+            <div style={{ color: "#c8a058", fontSize: 18, fontWeight: 700, letterSpacing: 2, fontFamily: "'Times New Roman',serif" }}>
+              LIBRETA DE NOTAS
+            </div>
+            <div style={{ color: "rgba(200,170,100,0.5)", fontSize: 12, marginTop: 14, fontFamily: "Arial,sans-serif", fontStyle: "italic" }}>
+              Contenido pendiente de catalogar
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Police badge modal */}
+      {showBadge && (
+        <div
+          onClick={() => setShowBadge(false)}
+          style={{
+            position: "fixed", inset: 0,
+            background: "rgba(0,0,0,0.92)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            zIndex: 9999, padding: 20,
+            animation: "fadeIn 0.3s ease-out",
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              width: 380, height: 240,
+              background: "linear-gradient(135deg, #1a3a6a 0%, #0e2240 100%)",
+              borderRadius: 12,
+              boxShadow: "0 20px 60px rgba(0,0,0,0.9), inset 0 2px 4px rgba(255,255,255,0.15)",
+              border: "1px solid #c8a020",
+              padding: "20px 24px",
+              fontFamily: "Arial,sans-serif",
+              color: "#fff",
+              position: "relative",
+            }}
+          >
+            {/* Header */}
+            <div style={{
+              display: "flex", justifyContent: "space-between", alignItems: "center",
+              borderBottom: "1px solid rgba(200,160,32,0.4)", paddingBottom: 8, marginBottom: 12,
+            }}>
+              <div>
+                <div style={{ fontSize: 8, color: "#c8a020", letterSpacing: 1.5, fontWeight: 700 }}>
+                  LOS SANTOS POLICE DEPARTMENT
+                </div>
+                <div style={{ fontSize: 6, color: "#aac4e0", letterSpacing: 1 }}>
+                  OFFICIAL IDENTIFICATION CARD
+                </div>
+              </div>
+              {/* LSPD badge icon */}
+              <div style={{
+                width: 32, height: 32, borderRadius: "50%",
+                background: "radial-gradient(circle, #c8a020 30%, #8a6a08 70%)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                color: "#0e2240", fontSize: 12, fontWeight: 900,
+                border: "1px solid #c8a020",
+                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.4)",
+              }}>★</div>
+            </div>
+
+            {/* Body */}
+            <div style={{ display: "flex", gap: 14 }}>
+              {/* Photo */}
+              <div style={{
+                width: 80, height: 100,
+                background: "linear-gradient(135deg, #4a5a6a, #2a3a4a)",
+                border: "2px solid #c8a020",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: 36, color: "rgba(255,255,255,0.4)",
+                flexShrink: 0,
+              }}>👤</div>
+
+              {/* Data */}
+              <div style={{ flex: 1, fontSize: 10, lineHeight: 1.7 }}>
+                <Field label="NOMBRE" value="JAMES R. WHITFIELD" />
+                <Field label="PLACA #" value="4471" mono />
+                <Field label="RANGO" value="DETECTIVE" />
+                <Field label="DIVISION" value="CRIMEN ORGANIZADO" />
+                <Field label="EXPEDICION" value="12/08/2013" mono />
+                <Field label="CADUCIDAD" value="12/08/2018" mono />
+              </div>
+            </div>
+
+            {/* Bottom strip */}
+            <div style={{
+              position: "absolute", bottom: 0, left: 0, right: 0, height: 8,
+              background: "linear-gradient(90deg, #c8a020 0%, #8a6a08 50%, #c8a020 100%)",
+              borderRadius: "0 0 12px 12px",
+            }}/>
+
+            {/* Watermark */}
+            <div style={{
+              position: "absolute", top: "50%", right: 30, transform: "translateY(-50%) rotate(-15deg)",
+              fontSize: 32, color: "rgba(200,160,32,0.06)", fontWeight: 900,
+              pointerEvents: "none",
+            }}>LSPD</div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Field({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
+  return (
+    <div style={{ display: "flex", gap: 6, marginBottom: 1 }}>
+      <span style={{ color: "#c8a020", width: 70, flexShrink: 0, fontSize: 8, fontWeight: 700 }}>{label}</span>
+      <span style={{ color: "#fff", fontFamily: mono ? "monospace" : "Arial,sans-serif" }}>{value}</span>
     </div>
   );
 }
