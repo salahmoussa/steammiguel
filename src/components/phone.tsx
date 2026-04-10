@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-type PhoneState = "off" | "nobattery" | "charging" | "charged" | "lockscreen" | "home" | "photos" | "notes";
+type PhoneState = "off" | "nobattery" | "charging" | "charged" | "lockscreen" | "home" | "photos" | "notes" | "browser";
 
 const CORRECT_PIN = "1051";
 const CACHE_KEY = "sm_phone_charged";
@@ -20,7 +20,7 @@ const APPS = [
   { id: "calculator", name: "Calc", icon: "🔢", color: "#8b5cf6" },
   { id: "clock", name: "Reloj", icon: "🕐", color: "#f43f5e" },
   { id: "settings", name: "Ajustes", icon: "⚙️", color: "#6b7280" },
-  { id: "browser", name: "Internet", icon: "🌐", color: "#2563eb" },
+  { id: "browser", name: "Internet", icon: "🌐", color: "#2563eb", action: true },
   { id: "music", name: "Musica", icon: "🎵", color: "#ec4899" },
 ];
 
@@ -46,6 +46,8 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
   const [viewingPhoto, setViewingPhoto] = useState<string | null>(null);
   const [photosViewed, setPhotosViewed] = useState(false);
   const [showNotesBlock, setShowNotesBlock] = useState(false);
+  const [browserSearchFocused, setBrowserSearchFocused] = useState(false);
+  const [browserQuery, setBrowserQuery] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -131,6 +133,8 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
       } else {
         setState("notes");
       }
+    } else if (appId === "browser") {
+      setState("browser");
     } else {
       setShowAppError(appId);
       setTimeout(() => setShowAppError(null), 1500);
@@ -693,6 +697,122 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
             </div>
           )}
 
+          {/* === BROWSER === */}
+          {state === "browser" && (
+            <div style={{
+              width: "100%", height: "100%",
+              background: "#fff",
+              display: "flex", flexDirection: "column",
+              color: "#1a1a1a",
+            }}>
+              {/* URL bar header */}
+              <div style={{
+                padding: "32px 12px 8px",
+                background: "#f1f3f4",
+                borderBottom: "1px solid #dadce0",
+                display: "flex", alignItems: "center", gap: 8,
+              }}>
+                <button
+                  onClick={() => { setState("home"); setBrowserSearchFocused(false); setBrowserQuery(""); }}
+                  style={{ background: "none", border: "none", color: "#5f6368", fontSize: 18, cursor: "pointer", padding: 4 }}
+                >
+                  ←
+                </button>
+                <div style={{
+                  flex: 1, background: "#fff", borderRadius: 16,
+                  padding: "6px 12px", display: "flex", alignItems: "center", gap: 6,
+                  border: "1px solid #dadce0",
+                }}>
+                  <span style={{ fontSize: 11, color: "#5f6368" }}>🔒</span>
+                  <span style={{ fontSize: 10, color: "#5f6368", fontFamily: "Arial,sans-serif" }}>quack.com</span>
+                </div>
+              </div>
+
+              {/* Browser body */}
+              <div style={{
+                flex: 1, padding: "30px 16px 16px",
+                display: "flex", flexDirection: "column", alignItems: "center",
+                position: "relative",
+              }}>
+                {/* Logo */}
+                <div style={{
+                  fontSize: 28, fontWeight: 800, marginBottom: 24,
+                  fontFamily: "Arial,sans-serif",
+                  color: "#1a1a1a",
+                }}>
+                  <span style={{ color: "#ea4335" }}>Q</span>
+                  <span style={{ color: "#fbbc04" }}>u</span>
+                  <span style={{ color: "#34a853" }}>a</span>
+                  <span style={{ color: "#4285f4" }}>c</span>
+                  <span style={{ color: "#ea4335" }}>k</span>
+                </div>
+
+                {/* Search bar */}
+                <div style={{ width: "100%", position: "relative" }}>
+                  <input
+                    type="text"
+                    value={browserQuery}
+                    onChange={e => setBrowserQuery(e.target.value)}
+                    onFocus={() => setBrowserSearchFocused(true)}
+                    onBlur={() => setTimeout(() => setBrowserSearchFocused(false), 200)}
+                    placeholder="Buscar en Quack..."
+                    style={{
+                      width: "100%", padding: "10px 14px",
+                      background: "#fff",
+                      border: "1px solid #dadce0",
+                      borderRadius: browserSearchFocused ? "20px 20px 0 0" : 20,
+                      borderBottom: browserSearchFocused ? "1px solid #e8eaed" : "1px solid #dadce0",
+                      fontSize: 12, outline: "none", boxSizing: "border-box",
+                      fontFamily: "Arial,sans-serif",
+                      color: "#1a1a1a",
+                      boxShadow: browserSearchFocused ? "0 1px 6px rgba(32,33,36,0.18)" : "none",
+                    }}
+                  />
+                  {/* Search history dropdown */}
+                  {browserSearchFocused && (
+                    <div style={{
+                      position: "absolute", top: "100%", left: 0, right: 0,
+                      background: "#fff",
+                      border: "1px solid #dadce0", borderTop: "none",
+                      borderRadius: "0 0 20px 20px",
+                      boxShadow: "0 4px 6px rgba(32,33,36,0.18)",
+                      paddingBottom: 8,
+                      maxHeight: 200,
+                      overflowY: "auto",
+                    }}>
+                      <div style={{ fontSize: 9, color: "#70757a", padding: "6px 14px 4px", textTransform: "uppercase", letterSpacing: 0.5, fontFamily: "Arial,sans-serif" }}>
+                        Recientes
+                      </div>
+                      {[
+                        "reservar habitacion The Royale",
+                      ].map((s, i) => (
+                        <div
+                          key={i}
+                          onClick={() => { setBrowserQuery(s); setBrowserSearchFocused(false); }}
+                          style={{
+                            padding: "8px 14px",
+                            fontSize: 12, color: "#202124", fontFamily: "Arial,sans-serif",
+                            cursor: "pointer", display: "flex", alignItems: "center", gap: 8,
+                          }}
+                          onMouseEnter={e => { e.currentTarget.style.background = "#f1f3f4"; }}
+                          onMouseLeave={e => { e.currentTarget.style.background = "transparent"; }}
+                        >
+                          <span style={{ fontSize: 11, color: "#70757a" }}>🕐</span>
+                          <span>{s}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Bottom hint */}
+                <div style={{ marginTop: 30, fontSize: 10, color: "#9aa0a6", fontFamily: "Arial,sans-serif", textAlign: "center" }}>
+                  Modo offline &middot; Mostrando historial guardado
+                </div>
+              </div>
+            </div>
+          )}
+
         </div>
 
         {/* Home button */}
@@ -700,10 +820,10 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
           height: 24, display: "flex", alignItems: "center", justifyContent: "center", paddingBottom: 6,
         }}>
           <div
-            onClick={() => { if (state === "photos" || state === "notes") setState("home"); }}
+            onClick={() => { if (state === "photos" || state === "notes" || state === "browser") setState("home"); }}
             style={{
               width: 100, height: 4, borderRadius: 2, background: "#444",
-              cursor: (state === "photos" || state === "notes") ? "pointer" : "default",
+              cursor: (state === "photos" || state === "notes" || state === "browser") ? "pointer" : "default",
             }}
           />
         </div>
