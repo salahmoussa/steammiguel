@@ -39,6 +39,11 @@ const SEARCH_HISTORY = [
   "reservar habitacion The Royale",
   "agente desaparecido Puerto Rico",
   "SCW",
+  "cambio de aceite Karin Sultan",
+  "presion correcta neumaticos invierno",
+  "ruido extrano motor V8 ralenti",
+  "reparar correa distribucion sin manual",
+  "luz check engine que significa",
 ];
 
 const SEARCHES: Record<string, SearchResult[]> = {
@@ -151,6 +156,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
   const [browserResults, setBrowserResults] = useState<string | null>(null);
   const [browserPage, setBrowserPage] = useState<"royale" | "scw" | null>(null);
   const [browserSubconscious, setBrowserSubconscious] = useState(false);
+  const [browserSubconsciousMsg, setBrowserSubconsciousMsg] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -853,7 +859,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                   <div style={{ textAlign: "center" }}>
                     <div style={{ color: "#22c55e", fontSize: 11, letterSpacing: 2, marginBottom: 8, fontFamily: "Arial,sans-serif" }}>/subconsciente</div>
                     <div style={{ fontSize: 13, color: "#94a3b8", fontStyle: "italic", fontFamily: "Arial,sans-serif", lineHeight: 1.6 }}>
-                      No creo que haya algo interesante aqui.
+                      {browserSubconsciousMsg}
                     </div>
                   </div>
                 </div>
@@ -1152,6 +1158,7 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                           } else if (result.target === "foro") {
                             window.location.href = "/foro";
                           } else {
+                            setBrowserSubconsciousMsg("No creo que haya algo interesante aqui.");
                             setBrowserSubconscious(true);
                             setTimeout(() => setBrowserSubconscious(false), 2200);
                           }
@@ -1239,7 +1246,17 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
                         {SEARCH_HISTORY.map((s, i) => (
                           <div
                             key={i}
-                            onClick={() => { setBrowserQuery(s); setBrowserSearchFocused(false); setBrowserResults(s); }}
+                            onClick={() => {
+                              setBrowserSearchFocused(false);
+                              if (SEARCHES[s]) {
+                                setBrowserQuery(s);
+                                setBrowserResults(s);
+                              } else {
+                                setBrowserSubconsciousMsg("Hmmm, una busqueda irrelevante.");
+                                setBrowserSubconscious(true);
+                                setTimeout(() => setBrowserSubconscious(false), 2200);
+                              }
+                            }}
                             style={{
                               padding: "8px 14px",
                               fontSize: 12, color: "#202124", fontFamily: "Arial,sans-serif",
