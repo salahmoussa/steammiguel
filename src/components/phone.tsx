@@ -28,6 +28,106 @@ const PHOTOS = [
   { id: "p1", placeholder: false, src: "/photos/foto1.png" },
 ];
 
+interface SearchResult {
+  title: string;
+  url: string;
+  desc: string;
+  target?: string; // if set, navigate here on click; otherwise show subconsciente
+}
+
+const SEARCH_HISTORY = [
+  "reservar habitacion The Royale",
+  "agente desaparecido Puerto Rico",
+  "SCW",
+];
+
+const SEARCHES: Record<string, SearchResult[]> = {
+  "reservar habitacion The Royale": [
+    {
+      title: "The Royale Hotel — Reservas y habitaciones",
+      url: "theroyale.ls",
+      desc: "Reserva tu habitacion en The Royale Hotel, el ultimo refugio de elegancia en Vinewood Boulevard. Suites desde $480/noche.",
+      target: "/the-royale",
+    },
+    {
+      title: "Hoteles de lujo en Los Santos | LS Travel Guide",
+      url: "lstravelguide.com/hoteles-lujo",
+      desc: "Listado completo de hoteles 5 estrellas en Los Santos. Comparativa de precios, opiniones y disponibilidad.",
+    },
+    {
+      title: "The Royale - Wikipedia (Los Santos)",
+      url: "wiki.lossantos.com/the-royale",
+      desc: "The Royale es un hotel de lujo situado en Vinewood Boulevard, Los Santos. Inaugurado en 1962, ha sido escenario de...",
+    },
+    {
+      title: "Reservas online - LSBooking",
+      url: "lsbooking.com/the-royale",
+      desc: "Encuentra las mejores ofertas para The Royale. Cancelacion gratuita, pago seguro, mejor precio garantizado.",
+    },
+    {
+      title: "TripExplorer: Opiniones de The Royale Hotel",
+      url: "tripexplorer.com/los-santos/the-royale",
+      desc: "287 opiniones reales. Puntuacion media: 8.4/10. Lo mejor: ubicacion. Lo peor: aparcamiento.",
+    },
+  ],
+  "agente desaparecido Puerto Rico": [
+    {
+      title: "5chan /5ch/ — Foro anonimo de Los Santos",
+      url: "5chan.org/5ch",
+      desc: "Hilo destacado: SI DESAPAREZCO LEED ESTO. NO ES UN LARP. Discusion anonima, sin moderacion. Lo mas heavy del foro.",
+      target: "/foro",
+    },
+    {
+      title: "Weazel News - Investigacion en curso sobre desapariciones",
+      url: "weazelnews.com/investigacion",
+      desc: "La policia de Puerto Rico no ofrece detalles sobre el caso. Familiares denuncian falta de informacion oficial.",
+    },
+    {
+      title: "Foro PuertoRicoReal - Casos abiertos",
+      url: "puertoricoreal.com/foro/casos",
+      desc: "Comunidad dedicada a documentar casos sin resolver en Puerto Rico. Mas de 12.000 hilos activos.",
+    },
+    {
+      title: "Departamento de Policia de PR - Personas en busqueda",
+      url: "policia.pr.gov/desaparecidos",
+      desc: "Listado oficial de personas reportadas como desaparecidas en el ultimo año. Actualizado semanalmente.",
+    },
+    {
+      title: "Reddit /r/UnresolvedMysteries: Puerto Rico cases",
+      url: "reddit.com/r/UnresolvedMysteries",
+      desc: "1.2k posts sobre casos de Puerto Rico. Discusion comunitaria, teorias y nuevas evidencias.",
+    },
+  ],
+  "SCW": [
+    {
+      title: "Stoner Cement Works — Cemento, hormigon y almacenaje",
+      url: "scw.ls",
+      desc: "Empresa lider en suministro de cemento y servicios de almacenaje industrial en San Andreas desde 1973. Sede en Murrieta Heights.",
+      target: "/scw",
+    },
+    {
+      title: "SCW Industrial Group - Resultados 2025",
+      url: "scwindustrial.com/resultados",
+      desc: "Informe anual de Stoner Cement Works. Crecimiento del 12% interanual. Expansion en Paleto Bay confirmada.",
+    },
+    {
+      title: "Wikipedia - Stoner Cement Works",
+      url: "wiki.lossantos.com/scw",
+      desc: "Stoner Cement Works (SCW) es una empresa de cemento fundada en 1973 por Harold Stoner en Murrieta Heights...",
+    },
+    {
+      title: "OpenCorporates: SCW Holdings Ltd.",
+      url: "opencorporates.com/companies/sa/scw",
+      desc: "Datos publicos de la empresa. Registrada en San Andreas. CIF SA-447128-K. Empleados: 247.",
+    },
+    {
+      title: "LinkedIn - Empleados de Stoner Cement Works",
+      url: "linkedin.com/company/scw",
+      desc: "247 empleados en LinkedIn. Sector: Construccion. Sede: Los Santos, San Andreas.",
+    },
+  ],
+};
+
 export function Phone({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const [state, setState] = useState<PhoneState>(() => {
     if (typeof window !== "undefined" && localStorage.getItem(CACHE_KEY) === "true") return "lockscreen";
@@ -48,6 +148,8 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
   const [showNotesBlock, setShowNotesBlock] = useState(false);
   const [browserSearchFocused, setBrowserSearchFocused] = useState(false);
   const [browserQuery, setBrowserQuery] = useState("");
+  const [browserResults, setBrowserResults] = useState<string | null>(null);
+  const [browserSubconscious, setBrowserSubconscious] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -707,111 +809,193 @@ export function Phone({ visible, onClose }: { visible: boolean; onClose: () => v
             }}>
               {/* URL bar header */}
               <div style={{
-                padding: "32px 12px 8px",
+                padding: "32px 10px 8px",
                 background: "#f1f3f4",
                 borderBottom: "1px solid #dadce0",
-                display: "flex", alignItems: "center", gap: 8,
+                display: "flex", alignItems: "center", gap: 6,
               }}>
                 <button
-                  onClick={() => { setState("home"); setBrowserSearchFocused(false); setBrowserQuery(""); }}
+                  onClick={() => {
+                    if (browserResults) {
+                      setBrowserResults(null);
+                      setBrowserQuery("");
+                    } else {
+                      setState("home");
+                      setBrowserSearchFocused(false);
+                      setBrowserQuery("");
+                    }
+                  }}
                   style={{ background: "none", border: "none", color: "#5f6368", fontSize: 18, cursor: "pointer", padding: 4 }}
                 >
                   ←
                 </button>
                 <div style={{
                   flex: 1, background: "#fff", borderRadius: 16,
-                  padding: "6px 12px", display: "flex", alignItems: "center", gap: 6,
+                  padding: "5px 10px", display: "flex", alignItems: "center", gap: 5,
                   border: "1px solid #dadce0",
                 }}>
-                  <span style={{ fontSize: 11, color: "#5f6368" }}>🔒</span>
-                  <span style={{ fontSize: 10, color: "#5f6368", fontFamily: "Arial,sans-serif" }}>quack.com</span>
+                  <span style={{ fontSize: 10, color: "#5f6368" }}>🔒</span>
+                  <span style={{ fontSize: 9, color: "#5f6368", fontFamily: "Arial,sans-serif", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {browserResults ? `quack.com/?q=${encodeURIComponent(browserResults).slice(0, 20)}` : "quack.com"}
+                  </span>
                 </div>
               </div>
 
-              {/* Browser body */}
-              <div style={{
-                flex: 1, padding: "30px 16px 16px",
-                display: "flex", flexDirection: "column", alignItems: "center",
-                position: "relative",
-              }}>
-                {/* Logo */}
+              {/* Subconscious overlay */}
+              {browserSubconscious && (
                 <div style={{
-                  fontSize: 28, fontWeight: 800, marginBottom: 24,
-                  fontFamily: "Arial,sans-serif",
-                  color: "#1a1a1a",
+                  position: "absolute", inset: 0, background: "rgba(0,0,0,0.92)", zIndex: 30,
+                  display: "flex", alignItems: "center", justifyContent: "center", padding: 20,
                 }}>
-                  <span style={{ color: "#ea4335" }}>Q</span>
-                  <span style={{ color: "#fbbc04" }}>u</span>
-                  <span style={{ color: "#34a853" }}>a</span>
-                  <span style={{ color: "#4285f4" }}>c</span>
-                  <span style={{ color: "#ea4335" }}>k</span>
-                </div>
-
-                {/* Search bar */}
-                <div style={{ width: "100%", position: "relative" }}>
-                  <input
-                    type="text"
-                    value={browserQuery}
-                    onChange={e => setBrowserQuery(e.target.value)}
-                    onFocus={() => setBrowserSearchFocused(true)}
-                    onBlur={() => setTimeout(() => setBrowserSearchFocused(false), 200)}
-                    placeholder="Buscar en Quack..."
-                    style={{
-                      width: "100%", padding: "10px 14px",
-                      background: "#fff",
-                      border: "1px solid #dadce0",
-                      borderRadius: browserSearchFocused ? "20px 20px 0 0" : 20,
-                      borderBottom: browserSearchFocused ? "1px solid #e8eaed" : "1px solid #dadce0",
-                      fontSize: 12, outline: "none", boxSizing: "border-box",
-                      fontFamily: "Arial,sans-serif",
-                      color: "#1a1a1a",
-                      boxShadow: browserSearchFocused ? "0 1px 6px rgba(32,33,36,0.18)" : "none",
-                    }}
-                  />
-                  {/* Search history dropdown */}
-                  {browserSearchFocused && (
-                    <div style={{
-                      position: "absolute", top: "100%", left: 0, right: 0,
-                      background: "#fff",
-                      border: "1px solid #dadce0", borderTop: "none",
-                      borderRadius: "0 0 20px 20px",
-                      boxShadow: "0 4px 6px rgba(32,33,36,0.18)",
-                      paddingBottom: 8,
-                      maxHeight: 200,
-                      overflowY: "auto",
-                    }}>
-                      <div style={{ fontSize: 9, color: "#70757a", padding: "6px 14px 4px", textTransform: "uppercase", letterSpacing: 0.5, fontFamily: "Arial,sans-serif" }}>
-                        Recientes
-                      </div>
-                      {[
-                        "reservar habitacion The Royale",
-                        "agente desaparecido Puerto Rico",
-                        "SCW",
-                      ].map((s, i) => (
-                        <div
-                          key={i}
-                          onClick={() => { setBrowserQuery(s); setBrowserSearchFocused(false); }}
-                          style={{
-                            padding: "8px 14px",
-                            fontSize: 12, color: "#202124", fontFamily: "Arial,sans-serif",
-                            cursor: "pointer", display: "flex", alignItems: "center", gap: 8,
-                          }}
-                          onMouseEnter={e => { e.currentTarget.style.background = "#f1f3f4"; }}
-                          onMouseLeave={e => { e.currentTarget.style.background = "transparent"; }}
-                        >
-                          <span style={{ fontSize: 11, color: "#70757a" }}>🕐</span>
-                          <span>{s}</span>
-                        </div>
-                      ))}
+                  <div style={{ textAlign: "center" }}>
+                    <div style={{ color: "#22c55e", fontSize: 11, letterSpacing: 2, marginBottom: 8, fontFamily: "Arial,sans-serif" }}>/subconsciente</div>
+                    <div style={{ fontSize: 13, color: "#94a3b8", fontStyle: "italic", fontFamily: "Arial,sans-serif", lineHeight: 1.6 }}>
+                      No creo que haya algo interesante aqui.
                     </div>
-                  )}
+                  </div>
                 </div>
+              )}
 
-                {/* Bottom hint */}
-                <div style={{ marginTop: 30, fontSize: 10, color: "#9aa0a6", fontFamily: "Arial,sans-serif", textAlign: "center" }}>
-                  Modo offline &middot; Mostrando historial guardado
+              {/* === SEARCH RESULTS === */}
+              {browserResults && SEARCHES[browserResults] && (
+                <div style={{ flex: 1, overflowY: "auto", background: "#fff" }}>
+                  {/* Search bar at top */}
+                  <div style={{ padding: "12px 14px", borderBottom: "1px solid #ebebeb" }}>
+                    <div style={{
+                      background: "#fff", borderRadius: 18,
+                      padding: "8px 12px", display: "flex", alignItems: "center", gap: 8,
+                      border: "1px solid #dadce0",
+                      boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+                    }}>
+                      <span style={{ fontSize: 12, color: "#5f6368" }}>🔍</span>
+                      <span style={{ fontSize: 12, color: "#202124", fontFamily: "Arial,sans-serif", flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        {browserResults}
+                      </span>
+                    </div>
+                  </div>
+                  {/* Result count */}
+                  <div style={{ padding: "8px 14px 4px", fontSize: 10, color: "#70757a", fontFamily: "Arial,sans-serif" }}>
+                    Aproximadamente 5 resultados
+                  </div>
+                  {/* Results list */}
+                  <div style={{ padding: "0 14px 16px" }}>
+                    {SEARCHES[browserResults].map((result, idx) => (
+                      <div
+                        key={idx}
+                        onClick={() => {
+                          if (result.target) {
+                            window.location.href = result.target;
+                          } else {
+                            setBrowserSubconscious(true);
+                            setTimeout(() => setBrowserSubconscious(false), 2200);
+                          }
+                        }}
+                        style={{
+                          padding: "12px 0",
+                          borderBottom: idx < SEARCHES[browserResults].length - 1 ? "1px solid #f0f0f0" : "none",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <div style={{ fontSize: 9, color: "#202124", fontFamily: "Arial,sans-serif", marginBottom: 2, display: "flex", alignItems: "center", gap: 4 }}>
+                          <div style={{ width: 14, height: 14, borderRadius: "50%", background: "#f1f3f4", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 8, color: "#5f6368" }}>
+                            🌐
+                          </div>
+                          <span style={{ color: "#202124" }}>{result.url}</span>
+                        </div>
+                        <div style={{ fontSize: 13, color: "#1a0dab", fontFamily: "Arial,sans-serif", lineHeight: 1.3, marginTop: 2 }}>
+                          {result.title}
+                        </div>
+                        <div style={{ fontSize: 11, color: "#4d5156", fontFamily: "Arial,sans-serif", lineHeight: 1.4, marginTop: 4 }}>
+                          {result.desc}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {/* === HOME (no results yet) === */}
+              {!browserResults && (
+                <div style={{
+                  flex: 1, padding: "30px 16px 16px",
+                  display: "flex", flexDirection: "column", alignItems: "center",
+                  position: "relative",
+                }}>
+                  {/* Logo */}
+                  <div style={{
+                    fontSize: 28, fontWeight: 800, marginBottom: 24,
+                    fontFamily: "Arial,sans-serif",
+                    color: "#1a1a1a",
+                  }}>
+                    <span style={{ color: "#ea4335" }}>Q</span>
+                    <span style={{ color: "#fbbc04" }}>u</span>
+                    <span style={{ color: "#34a853" }}>a</span>
+                    <span style={{ color: "#4285f4" }}>c</span>
+                    <span style={{ color: "#ea4335" }}>k</span>
+                  </div>
+
+                  {/* Search bar */}
+                  <div style={{ width: "100%", position: "relative" }}>
+                    <input
+                      type="text"
+                      value={browserQuery}
+                      onChange={e => setBrowserQuery(e.target.value)}
+                      onFocus={() => setBrowserSearchFocused(true)}
+                      onBlur={() => setTimeout(() => setBrowserSearchFocused(false), 200)}
+                      placeholder="Buscar en Quack..."
+                      style={{
+                        width: "100%", padding: "10px 14px",
+                        background: "#fff",
+                        border: "1px solid #dadce0",
+                        borderRadius: browserSearchFocused ? "20px 20px 0 0" : 20,
+                        borderBottom: browserSearchFocused ? "1px solid #e8eaed" : "1px solid #dadce0",
+                        fontSize: 12, outline: "none", boxSizing: "border-box",
+                        fontFamily: "Arial,sans-serif",
+                        color: "#1a1a1a",
+                        boxShadow: browserSearchFocused ? "0 1px 6px rgba(32,33,36,0.18)" : "none",
+                      }}
+                    />
+                    {/* Search history dropdown */}
+                    {browserSearchFocused && (
+                      <div style={{
+                        position: "absolute", top: "100%", left: 0, right: 0,
+                        background: "#fff",
+                        border: "1px solid #dadce0", borderTop: "none",
+                        borderRadius: "0 0 20px 20px",
+                        boxShadow: "0 4px 6px rgba(32,33,36,0.18)",
+                        paddingBottom: 8,
+                        maxHeight: 220,
+                        overflowY: "auto",
+                      }}>
+                        <div style={{ fontSize: 9, color: "#70757a", padding: "6px 14px 4px", textTransform: "uppercase", letterSpacing: 0.5, fontFamily: "Arial,sans-serif" }}>
+                          Recientes
+                        </div>
+                        {SEARCH_HISTORY.map((s, i) => (
+                          <div
+                            key={i}
+                            onClick={() => { setBrowserQuery(s); setBrowserSearchFocused(false); setBrowserResults(s); }}
+                            style={{
+                              padding: "8px 14px",
+                              fontSize: 12, color: "#202124", fontFamily: "Arial,sans-serif",
+                              cursor: "pointer", display: "flex", alignItems: "center", gap: 8,
+                            }}
+                            onMouseEnter={e => { e.currentTarget.style.background = "#f1f3f4"; }}
+                            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; }}
+                          >
+                            <span style={{ fontSize: 11, color: "#70757a" }}>🕐</span>
+                            <span>{s}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Bottom hint */}
+                  <div style={{ marginTop: 30, fontSize: 10, color: "#9aa0a6", fontFamily: "Arial,sans-serif", textAlign: "center" }}>
+                    Modo offline &middot; Mostrando historial guardado
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
