@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 
-// Las fotos se rellenaran cuando el usuario las proporcione
 const PHOTOS: { id: string; src: string; caption?: string }[] = [
-  // { id: "1", src: "/postnl/foto1.jpg", caption: "" },
+  { id: "1", src: "/carta/fotocarta1.png" },
+  { id: "2", src: "/carta/fotocarta2.png" },
 ];
 
 export default function CartaPostNLPage() {
@@ -210,34 +210,88 @@ export default function CartaPostNLPage() {
             <>
               <div style={{
                 fontSize: 11, color: "#888", letterSpacing: 1, textTransform: "uppercase",
-                marginBottom: 12, fontFamily: "Arial,sans-serif",
+                marginBottom: 24, fontFamily: "Arial,sans-serif",
                 borderTop: "1px solid rgba(0,0,0,0.1)", paddingTop: 16,
               }}>
                 Fotografias adjuntas ({PHOTOS.length})
               </div>
               <div style={{
-                display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10,
+                display: "flex", flexWrap: "wrap", gap: 30, justifyContent: "center",
+                padding: "10px 0 30px",
               }}>
-                {PHOTOS.map(photo => (
-                  <div
-                    key={photo.id}
-                    onClick={() => setViewingPhoto(photo.src)}
-                    style={{
-                      aspectRatio: "1",
-                      background: "#fff",
-                      padding: 6,
-                      boxShadow: "0 3px 10px rgba(0,0,0,0.25)",
-                      cursor: "pointer",
-                      transition: "transform 0.2s",
-                      transform: `rotate(${(photo.id.charCodeAt(0) % 5) - 2}deg)`,
-                      overflow: "hidden",
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.transform = `scale(1.05) rotate(0deg)`; }}
-                    onMouseLeave={e => { e.currentTarget.style.transform = `rotate(${(photo.id.charCodeAt(0) % 5) - 2}deg)`; }}
-                  >
-                    <img src={photo.src} alt={photo.caption || "Foto"} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  </div>
-                ))}
+                {PHOTOS.map((photo, idx) => {
+                  const rotation = idx === 0 ? -3.5 : 2.8;
+                  return (
+                    <div
+                      key={photo.id}
+                      onClick={() => setViewingPhoto(photo.src)}
+                      style={{
+                        position: "relative",
+                        background: "#fdfaf2",
+                        padding: "14px 14px 50px 14px",
+                        boxShadow: "0 8px 24px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.3)",
+                        cursor: "pointer",
+                        transition: "transform 0.3s, box-shadow 0.3s",
+                        transform: `rotate(${rotation}deg)`,
+                        width: 200,
+                        border: "1px solid rgba(0,0,0,0.05)",
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.transform = "scale(1.06) rotate(0deg)";
+                        e.currentTarget.style.boxShadow = "0 12px 32px rgba(0,0,0,0.5), 0 4px 8px rgba(0,0,0,0.3)";
+                        e.currentTarget.style.zIndex = "10";
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.transform = `rotate(${rotation}deg)`;
+                        e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.3)";
+                        e.currentTarget.style.zIndex = "1";
+                      }}
+                    >
+                      {/* Tape on top */}
+                      <div style={{
+                        position: "absolute", top: -8, left: "50%", transform: "translateX(-50%) rotate(-2deg)",
+                        width: 70, height: 20,
+                        background: "linear-gradient(180deg, rgba(255,255,200,0.7) 0%, rgba(255,255,180,0.5) 100%)",
+                        border: "1px solid rgba(200,180,100,0.3)",
+                        boxShadow: "0 1px 3px rgba(0,0,0,0.15)",
+                      }}/>
+
+                      {/* Photo image */}
+                      <div style={{
+                        width: "100%",
+                        aspectRatio: "1",
+                        background: "#1a1a1a",
+                        overflow: "hidden",
+                        position: "relative",
+                      }}>
+                        <img
+                          src={photo.src}
+                          alt={photo.caption || "Foto"}
+                          style={{
+                            width: "100%", height: "100%", objectFit: "cover",
+                            filter: "contrast(1.05) saturate(0.92)",
+                          }}
+                        />
+                        {/* Print grain overlay */}
+                        <div style={{
+                          position: "absolute", inset: 0,
+                          background: "linear-gradient(135deg, rgba(255,200,150,0.04) 0%, transparent 50%, rgba(100,80,40,0.05) 100%)",
+                          pointerEvents: "none",
+                        }}/>
+                      </div>
+
+                      {/* Caption area (handwritten) */}
+                      <div style={{
+                        position: "absolute", bottom: 12, left: 0, right: 0,
+                        textAlign: "center",
+                        fontFamily: "'Segoe Script','Comic Sans MS',cursive",
+                        fontSize: 13, color: "#3a3a4a",
+                      }}>
+                        {idx === 0 ? "—" : "—"}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </>
           ) : (
