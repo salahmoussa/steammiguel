@@ -49,48 +49,62 @@ export default function CartaPostNLPage() {
           onClick={() => setOpened(true)}
           style={{
             width: 460, maxWidth: "92vw", height: 280,
-            background: "linear-gradient(180deg, #ff6900 0%, #e85d00 100%)",
+            background: "linear-gradient(180deg, #f5f0e0 0%, #e8e0c8 100%)",
             borderRadius: 4,
-            boxShadow: "0 20px 60px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.15)",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.4)",
             position: "relative", cursor: "pointer",
             transition: "transform 0.3s",
             overflow: "hidden",
+            border: "1px solid #d8d0b8",
           }}
           onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.02) rotate(-0.5deg)"; }}
           onMouseLeave={e => { e.currentTarget.style.transform = "scale(1) rotate(0deg)"; }}
         >
-          {/* PostNL logo */}
+          {/* GO Postal logo */}
           <div style={{
             position: "absolute", top: 18, left: 22,
-            background: "#fff", padding: "6px 14px", borderRadius: 2,
-            fontFamily: "Arial,sans-serif", fontWeight: 900, fontSize: 18,
-            color: "#ff6900", letterSpacing: -0.5,
-            boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+            display: "flex", alignItems: "center", gap: 6,
           }}>
-            <span style={{ color: "#003082" }}>Post</span>NL
+            <div style={{
+              background: "#5a2d8a", color: "#fff",
+              padding: "6px 10px", borderRadius: 3,
+              fontFamily: "Arial,sans-serif", fontWeight: 900, fontSize: 18,
+              letterSpacing: -0.5,
+              boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+            }}>
+              GO
+            </div>
+            <div style={{
+              fontFamily: "Arial,sans-serif", fontWeight: 800, fontSize: 16,
+              color: "#5a2d8a", letterSpacing: 0,
+            }}>
+              POSTAL
+            </div>
           </div>
 
           {/* Stamp */}
           <div style={{
             position: "absolute", top: 18, right: 22,
-            width: 70, height: 80,
+            width: 76, height: 86,
             background: "linear-gradient(135deg, #fff 0%, #f0e8d8 100%)",
             border: "2px dashed #d8c8a8",
             display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
             boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
             transform: "rotate(3deg)",
+            padding: 4,
           }}>
-            <div style={{ fontSize: 22 }}>🇳🇱</div>
-            <div style={{ fontSize: 9, color: "#003082", fontWeight: 700, marginTop: 2, fontFamily: "Arial,sans-serif" }}>NEDERLAND</div>
-            <div style={{ fontSize: 7, color: "#666", fontFamily: "Arial,sans-serif" }}>2,15 €</div>
+            <div style={{ fontSize: 18, fontWeight: 900, color: "#5a2d8a", fontFamily: "Arial,sans-serif" }}>$3</div>
+            <div style={{ fontSize: 8, color: "#5a2d8a", fontWeight: 700, marginTop: 4, fontFamily: "Arial,sans-serif", textAlign: "center" }}>SAN ANDREAS<br/>POSTAL SVC</div>
+            <div style={{ fontSize: 7, color: "#666", fontFamily: "Arial,sans-serif", marginTop: 2 }}>2026</div>
           </div>
 
           {/* Address area */}
           <div style={{
             position: "absolute", top: 130, left: 30, right: 130,
-            background: "rgba(255,255,255,0.96)", padding: "14px 18px",
+            background: "#fff", padding: "14px 18px",
             borderRadius: 2,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+            border: "1px solid #ddd",
           }}>
             <div style={{ fontSize: 9, color: "#888", textTransform: "uppercase", letterSpacing: 1, fontFamily: "Arial,sans-serif", marginBottom: 4 }}>Destinatario</div>
             <div style={{ fontSize: 14, color: "#1a1a1a", fontFamily: "Arial,sans-serif", fontWeight: 600 }}>Hector Ocasio</div>
@@ -102,14 +116,14 @@ export default function CartaPostNLPage() {
           <div style={{
             position: "absolute", bottom: 24, right: 32,
             width: 70, height: 70, borderRadius: "50%",
-            border: "2px solid rgba(255,255,255,0.4)",
+            border: "2px solid rgba(90,45,138,0.3)",
             display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
             transform: "rotate(-12deg)",
-            color: "rgba(255,255,255,0.5)",
+            color: "rgba(90,45,138,0.45)",
             fontFamily: "Arial,sans-serif",
           }}>
-            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: 1 }}>AMSTERDAM</div>
-            <div style={{ fontSize: 14, fontWeight: 700, margin: "2px 0" }}>02</div>
+            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: 1 }}>LOS SANTOS</div>
+            <div style={{ fontSize: 14, fontWeight: 700, margin: "2px 0" }}>04</div>
             <div style={{ fontSize: 8, letterSpacing: 1 }}>2026</div>
           </div>
 
@@ -151,11 +165,11 @@ export default function CartaPostNLPage() {
                 Correspondencia personal
               </div>
               <div style={{ fontSize: 14, color: "#666", marginTop: 2, fontStyle: "italic" }}>
-                Recibida desde Amsterdam
+                Entregada por GO Postal
               </div>
             </div>
             <div style={{ fontSize: 11, color: "#999", fontFamily: "Arial,sans-serif", textAlign: "right" }}>
-              Ref. NL-2026-0247
+              Ref. GP-2026-0247
             </div>
           </div>
 
