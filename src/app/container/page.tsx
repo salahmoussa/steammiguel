@@ -9,7 +9,9 @@ export default function ContainerPage() {
   const [unlocked, setUnlocked] = useState(false);
   const [shake, setShake] = useState(false);
   const [showNotebook, setShowNotebook] = useState(false);
+  const [notebookPage, setNotebookPage] = useState(1);
   const [showBadge, setShowBadge] = useState(false);
+  const TOTAL_PAGES = 2;
 
   function changeWheel(idx: number, delta: number) {
     if (unlocked) return;
@@ -467,11 +469,11 @@ export default function ContainerPage() {
       {/* Notebook modal */}
       {showNotebook && (
         <div
-          onClick={() => setShowNotebook(false)}
+          onClick={() => { setShowNotebook(false); setNotebookPage(1); }}
           style={{
             position: "fixed", inset: 0,
             background: "rgba(0,0,0,0.92)",
-            display: "flex", alignItems: "center", justifyContent: "center",
+            display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
             zIndex: 9999, padding: 20,
             animation: "fadeIn 0.3s ease-out",
           }}
@@ -484,7 +486,7 @@ export default function ContainerPage() {
               padding: "40px 50px 50px 70px",
               width: 540,
               maxWidth: "94vw",
-              maxHeight: "92vh",
+              maxHeight: "82vh",
               overflowY: "auto",
               boxShadow: "0 20px 60px rgba(0,0,0,0.9), inset 0 0 80px rgba(139,119,80,0.1)",
               position: "relative",
@@ -507,47 +509,134 @@ export default function ContainerPage() {
             <div style={{ position: "absolute", top: 30, right: 30, width: 70, height: 60, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(139,110,60,0.1) 0%, transparent 70%)", pointerEvents: "none" }}/>
             <div style={{ position: "absolute", bottom: 60, left: 80, width: 50, height: 40, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(100,90,60,0.08) 0%, transparent 70%)", pointerEvents: "none" }}/>
 
-            {/* Date header */}
-            <div style={{ marginBottom: 18, fontSize: 13, color: "#5a5a7a", fontStyle: "italic" }}>
-              5 de junio
-            </div>
+            {notebookPage === 1 && (
+              <>
+                {/* Date header */}
+                <div style={{ marginBottom: 18, fontSize: 13, color: "#5a5a7a", fontStyle: "italic" }}>
+                  5 de junio
+                </div>
 
-            {/* Content */}
-            <div style={{ fontSize: 15, lineHeight: 1.85, textAlign: "justify" }}>
-              <p style={{ marginBottom: 14 }}>
-                Ayer fue un dia raro. No conseguia concentrarme en nada. Solo pensaba en cosas que ya no tienen vuelta atras.
-              </p>
-              <p style={{ marginBottom: 14 }}>
-                Fui a comprar algo de comer al 24/7 de la esquina. El tipo del mostrador me miro raro. O eso me parecio. Lo mismo me lo estoy inventando todo.
-              </p>
-              <p style={{ marginBottom: 14 }}>
-                Tengo la sensacion de que cada dia que pasa estoy mas cerca del final. No de manera dramatica, simplemente lo siento. Como cuando notas que algo malo va a ocurrir y no sabes el que.
-              </p>
-              <p style={{ marginBottom: 14 }}>
-                Esta noche me acorde de mi madre. De cuando vivia con ella en la casa pequeña. Hace tantisimo tiempo de aquello que ya no se si lo recuerdo o me lo invento.
-              </p>
-              <p style={{ marginBottom: 22 }}>
-                Recuerdo que de niño me daban miedo los pasillos largos. Sigo igual.
-              </p>
+                {/* Content */}
+                <div style={{ fontSize: 15, lineHeight: 1.85, textAlign: "justify" }}>
+                  <p style={{ marginBottom: 14 }}>
+                    Ayer fue un dia raro. No conseguia concentrarme en nada. Solo pensaba en cosas que ya no tienen vuelta atras.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    Fui a comprar algo de comer al 24/7 de la esquina. El tipo del mostrador me miro raro. O eso me parecio. Lo mismo me lo estoy inventando todo.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    Tengo la sensacion de que cada dia que pasa estoy mas cerca del final. No de manera dramatica, simplemente lo siento. Como cuando notas que algo malo va a ocurrir y no sabes el que.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    Esta noche me acorde de mi madre. De cuando vivia con ella en la casa pequeña. Hace tantisimo tiempo de aquello que ya no se si lo recuerdo o me lo invento.
+                  </p>
+                  <p style={{ marginBottom: 22 }}>
+                    Recuerdo que de niño me daban miedo los pasillos largos. Sigo igual.
+                  </p>
 
-              <p style={{ marginBottom: 14 }}>
-                He vuelto a tener el sueño raro. El de la habitacion sin ventanas. Esta vez habia alguien sentado al fondo, y cuando me giraba para mirarlo me despertaba con un sobresalto genera<span style={{ fontWeight: 700 }}>L</span>.
-              </p>
-              <p style={{ marginBottom: 14 }}>
-                Me he pasado toda la mañana mirando por la mirilla de la puerta. No habia nadie pero sentia que s<span style={{ fontWeight: 700 }}>I</span>.
-              </p>
-              <p style={{ marginBottom: 14 }}>
-                He pasado por delante del club de golf donde solia ir antes de meterme en este lio. Sigue cerrado. Las pistas vacias, las banderas tiradas en el cesped. Ya no juega nadie al gol<span style={{ fontWeight: 700 }}>F</span>.
-              </p>
-              <p style={{ marginBottom: 18 }}>
-                Manana intentare salir un rato. Aunque sea hasta el portal. Necesito airearme antes de que vuelva la noch<span style={{ fontWeight: 700 }}>E</span>.
-              </p>
-            </div>
+                  <p style={{ marginBottom: 14 }}>
+                    He vuelto a tener el sueño raro. El de la habitacion sin ventanas. Esta vez habia alguien sentado al fondo, y cuando me giraba para mirarlo me despertaba con un sobresalto genera<span style={{ fontWeight: 700 }}>L</span>.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    Me he pasado toda la mañana mirando por la mirilla de la puerta. No habia nadie pero sentia que s<span style={{ fontWeight: 700 }}>I</span>.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    He pasado por delante del club de golf donde solia ir antes de meterme en este lio. Sigue cerrado. Las pistas vacias, las banderas tiradas en el cesped. Ya no juega nadie al gol<span style={{ fontWeight: 700 }}>F</span>.
+                  </p>
+                  <p style={{ marginBottom: 18 }}>
+                    Manana intentare salir un rato. Aunque sea hasta el portal. Necesito airearme antes de que vuelva la noch<span style={{ fontWeight: 700 }}>E</span>.
+                  </p>
+                </div>
 
-            {/* Bottom signature */}
-            <div style={{ textAlign: "right", marginTop: 10, fontSize: 14, color: "#5a5a7a", fontStyle: "italic" }}>
-              — W.
-            </div>
+                {/* Bottom signature */}
+                <div style={{ textAlign: "right", marginTop: 10, fontSize: 14, color: "#5a5a7a", fontStyle: "italic" }}>
+                  — W.
+                </div>
+              </>
+            )}
+
+            {notebookPage === 2 && (
+              <>
+                {/* Date header */}
+                <div style={{ marginBottom: 18, fontSize: 13, color: "#5a5a7a", fontStyle: "italic" }}>
+                  7 de junio
+                </div>
+
+                {/* Content */}
+                <div style={{ fontSize: 15, lineHeight: 1.85, textAlign: "justify" }}>
+                  <p style={{ marginBottom: 14 }}>
+                    No me gusta como me ha mirado hoy. Hunter siempre ha sido un tipo serio, pero hay algo distinto. Lo conozco desde hace casi diez años, hemos trabajado juntos en mas casos de los que puedo recordar, y sin embargo desde hace un par de meses siento que cuando hablamos no me esta diciendo todo.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    No tengo pruebas. Solo intuicion. Pero la intuicion en este trabajo es lo unico que te mantiene vivo.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    La semana pasada mencione delante de el un detalle de la operacion que solo yo conocia. Dos dias despues uno de los nuestros aparecio muerto. Puede ser casualidad. Puede que no.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    Cuando le pregunte que pensaba sobre lo que habia pasado, cambio de tema demasiado rapido. Otra vez.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    Lo peor es que si esta vendiendome, no voy a darme cuenta hasta que sea tarde. Hunter sabe donde vivo, sabe en que coche me muevo, sabe los puntos donde hago las recogidas. Si me ha vendido a esta gente, soy hombre muerto y no voy a poder hacer nada por evitarlo.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    He pensado en hablarlo con asuntos internos pero no tengo nada solido. Solo paranoias. Y si me equivoco, me cargo la carrera de un tipo que lleva casi diez años de servicio limpio.
+                  </p>
+                  <p style={{ marginBottom: 14 }}>
+                    Quiza estoy viendo cosas donde no las hay. Quiza el silencio de Hunter es solo cansancio. Quiza el que se esta volviendo loco soy yo, encerrado aqui dentro mirando las paredes.
+                  </p>
+                  <p style={{ marginBottom: 18 }}>
+                    Pero algo dentro de mi me dice que confie en el instinto. Y mi instinto me dice que Hunter West esta al otro lado.
+                  </p>
+                </div>
+
+                {/* Bottom signature */}
+                <div style={{ textAlign: "right", marginTop: 10, fontSize: 14, color: "#5a5a7a", fontStyle: "italic" }}>
+                  — W.
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Page navigation */}
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              marginTop: 16, display: "flex", alignItems: "center", gap: 18,
+              fontFamily: "Arial,sans-serif",
+            }}
+          >
+            <button
+              onClick={() => setNotebookPage(p => Math.max(1, p - 1))}
+              disabled={notebookPage === 1}
+              style={{
+                background: "transparent",
+                border: "1px solid #5a5a7a",
+                color: notebookPage === 1 ? "#3a3a4a" : "#aac4e0",
+                padding: "6px 14px", fontSize: 12, cursor: notebookPage === 1 ? "not-allowed" : "pointer",
+                fontFamily: "Arial,sans-serif",
+                opacity: notebookPage === 1 ? 0.3 : 1,
+              }}
+            >
+              ← ANTERIOR
+            </button>
+            <span style={{ fontSize: 12, color: "#7a7a8a", letterSpacing: 1 }}>
+              Pagina {notebookPage} / {TOTAL_PAGES}
+            </span>
+            <button
+              onClick={() => setNotebookPage(p => Math.min(TOTAL_PAGES, p + 1))}
+              disabled={notebookPage === TOTAL_PAGES}
+              style={{
+                background: "transparent",
+                border: "1px solid #5a5a7a",
+                color: notebookPage === TOTAL_PAGES ? "#3a3a4a" : "#aac4e0",
+                padding: "6px 14px", fontSize: 12, cursor: notebookPage === TOTAL_PAGES ? "not-allowed" : "pointer",
+                fontFamily: "Arial,sans-serif",
+                opacity: notebookPage === TOTAL_PAGES ? 0.3 : 1,
+              }}
+            >
+              SIGUIENTE →
+            </button>
           </div>
         </div>
       )}

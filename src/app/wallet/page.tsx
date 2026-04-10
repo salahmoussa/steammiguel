@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 
 const VALID_USER = "4827163";
 const VALID_PASS = "perroNegro_33!";
-const VALID_SEED_WORDS = ["canal", "benefactor"];
+const VALID_SEED_WORDS = ["canal", "benefactor", "afterlife"];
 
 interface Crypto {
   id: string;
