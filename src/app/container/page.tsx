@@ -531,16 +531,16 @@ export default function ContainerPage() {
               </p>
 
               <p style={{ marginBottom: 14 }}>
-                He vuelto a tener el sueño raro. El de la habitacion sin ventanas. Esta vez habia alguien sentado al fondo, y cuando me giraba para mirarlo me despertaba con un sobresalto general.
+                He vuelto a tener el sueño raro. El de la habitacion sin ventanas. Esta vez habia alguien sentado al fondo, y cuando me giraba para mirarlo me despertaba con un sobresalto genera<span style={{ fontWeight: 700 }}>L</span>.
               </p>
               <p style={{ marginBottom: 14 }}>
-                Me he pasado toda la mañana mirando por la mirilla de la puerta. No habia nadie pero sentia que si.
+                Me he pasado toda la mañana mirando por la mirilla de la puerta. No habia nadie pero sentia que s<span style={{ fontWeight: 700 }}>I</span>.
               </p>
               <p style={{ marginBottom: 14 }}>
-                He pasado por delante del club de golf donde solia ir antes de meterme en este lio. Sigue cerrado. Las pistas vacias, las banderas tiradas en el cesped. Ya no juega nadie al golf.
+                He pasado por delante del club de golf donde solia ir antes de meterme en este lio. Sigue cerrado. Las pistas vacias, las banderas tiradas en el cesped. Ya no juega nadie al gol<span style={{ fontWeight: 700 }}>F</span>.
               </p>
               <p style={{ marginBottom: 18 }}>
-                Manana intentare salir un rato. Aunque sea hasta el portal. Necesito airearme antes de que vuelva la noche.
+                Manana intentare salir un rato. Aunque sea hasta el portal. Necesito airearme antes de que vuelva la noch<span style={{ fontWeight: 700 }}>E</span>.
               </p>
             </div>
 
