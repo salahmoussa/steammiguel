@@ -20,7 +20,7 @@ const APPS = [
   { id: "calculator", name: "Calc", icon: "🔢", color: "#8b5cf6" },
   { id: "clock", name: "Reloj", icon: "🕐", color: "#f43f5e" },
   { id: "settings", name: "Ajustes", icon: "⚙️", color: "#6b7280" },
-  { id: "browser", name: "Internet", icon: "🌐", color: "#2563eb", action: true },
+  { id: "browser", name: "Internet", icon: "🌐", color: "#2563eb" },
   { id: "music", name: "Musica", icon: "🎵", color: "#ec4899" },
 ];
 
